@@ -1,5 +1,8 @@
 package View;
 import java.util.Scanner;  // Import the Scanner class
+
+import javax.lang.model.util.ElementScanner14;
+
 import Controller.*;
 
 
@@ -36,6 +39,8 @@ public class ViewCore {
             role = "Landlord";
         } else if(message.compareTo("Manager")==0){
             controller.setManager();
+        } else if (message.compareTo("Renter")==0){
+            controller.setRenter();
         }
 
         if(role == "Landlord"){
