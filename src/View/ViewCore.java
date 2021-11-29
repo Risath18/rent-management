@@ -40,7 +40,7 @@ public class ViewCore {
         } else if(message.compareTo("Manager")==0){
             controller.setManager();
         } else if (message.compareTo("Renter")==0){
-            controller.setRenter();
+           // controller.setRenter();
         }
 
         if(role == "Landlord"){
