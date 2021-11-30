@@ -3,12 +3,11 @@ package View.Pages.LoginPage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+
+
 
 public class UnRegLoginPage extends JFrame {
-    public static void main (String args[]) {
-        UnRegLoginPage instance=new UnRegLoginPage();
-        instance.Login();
-    }
         public UnRegLoginPage(){}
         static final long serialVersionUID = 1L;
         private JTextField nameInput;
@@ -17,6 +16,7 @@ public class UnRegLoginPage extends JFrame {
         private JPasswordField password;
 
         public void Login () {
+
             setSize(518, 209);
             getContentPane().setBackground(new Color(230, 230, 250));
             setTitle("Login");
@@ -76,4 +76,10 @@ public class UnRegLoginPage extends JFrame {
             return String.copyValueOf(password.getPassword());
         }
 
+    public static void main(String args[]) {
+        UnRegLoginPage instance = new UnRegLoginPage();
+        instance.Login();
+        instance.setVisible(true);
+        instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 }
