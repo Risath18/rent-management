@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 
 
-public class UnRegLoginPage extends JFrame {
+public class UnRegLoginPage extends JFrame implements LoginPage{
         public UnRegLoginPage(){}
         static final long serialVersionUID = 1L;
         private JTextField nameInput;
@@ -76,10 +76,10 @@ public class UnRegLoginPage extends JFrame {
             return String.copyValueOf(password.getPassword());
         }
 
-    public static void main(String args[]) {
-        UnRegLoginPage instance = new UnRegLoginPage();
-        instance.Login();
-        instance.setVisible(true);
-        instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+//    public static void main(String args[]) {
+//        UnRegLoginPage instance = new UnRegLoginPage();
+//        instance.Login();
+//        instance.setVisible(true);
+//        instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    }
 }
