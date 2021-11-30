@@ -1,5 +1,13 @@
 package View.Pages.Listing;
 
-public interface ListingPage {
+import Controller.*;
 
+import java.util.ArrayList;
+
+public interface ListingPage {
+    ArrayList<String> propertyList = new ArrayList<String>();
+    ControllerCore controller=new ControllerCore();
+
+    public void generateListing();
+    boolean addListings();
 }
