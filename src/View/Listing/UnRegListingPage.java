@@ -1,4 +1,4 @@
-package View.View.Listing;
+package View.Listing;
 
 public class UnRegListingPage implements ListingPage{
 }

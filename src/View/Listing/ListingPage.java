@@ -1,4 +1,4 @@
-package View.View.Listing;
+package View.Listing;
 
 public interface ListingPage {
 }

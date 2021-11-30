@@ -1,4 +1,4 @@
-package View.View.Admin;
+package View.Admin;
 
 public class ManAdminPage implements AdminPage {
 }

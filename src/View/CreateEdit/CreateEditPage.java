@@ -1,4 +1,4 @@
-package View.View.CreateEdit;
+package View.CreateEdit;
 
 public interface CreateEditPage {
 }
