@@ -14,4 +14,6 @@ public class Property {
     public String getAddress(){
         return this.address;
     }
+    public String getName(){return this.name;}
+    public String getListing(){return  this.listing;}
 }
