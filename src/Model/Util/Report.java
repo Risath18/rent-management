@@ -1,5 +1,4 @@
 package Model.Util;
-import Model.Property.*;
 
 public class Report {
     private Period period;

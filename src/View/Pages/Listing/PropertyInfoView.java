@@ -1,7 +1,5 @@
 package View.Pages.Listing;
 
-import Model.Property;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

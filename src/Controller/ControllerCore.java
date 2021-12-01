@@ -1,8 +1,7 @@
 package Controller;
 
 import java.util.*;
-import Model.*;
-import Model.Property.Property;
+
 import Model.Role.Landlord;
 import Model.Role.Manager;
 import Model.Role.Person;

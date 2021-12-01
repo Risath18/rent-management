@@ -1,6 +1,6 @@
 package View.Pages.Listing;
 
-import Model.Property;
+import Model.Property.Property;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

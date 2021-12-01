@@ -1,7 +1,5 @@
 package View.Pages.Listing;
 
-import Model.Property;
-
 import java.util.ArrayList;
 
 public class LandListingPage implements ListingPage{

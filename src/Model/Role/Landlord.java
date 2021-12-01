@@ -1,8 +1,5 @@
 package Model.Role;
 
-import java.util.ArrayList;
-
-import Model.Property.*;
 import Model.Util.*;
 
 public class Landlord implements Person{
