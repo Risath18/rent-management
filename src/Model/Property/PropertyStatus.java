@@ -20,8 +20,8 @@ public enum PropertyStatus{
     }
 
     /**
-     * @param input
-     * @return
+     * @param input String to be converted to a PropertyStatus object
+     * @return returns a PropertyStatus object
      * @throws IllegalPropertyStatusException
      */
     public static PropertyStatus fromString(String input) throws IllegalPropertyStatusException {

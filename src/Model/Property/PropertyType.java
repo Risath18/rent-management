@@ -20,8 +20,8 @@ public enum PropertyType{
     }
 
     /**
-     * @param input
-     * @return
+     * @param input String to be converted to a PropertyType object
+     * @return returns a PropertyType object
      * @throws IllegalPropertyTypeException
      */
     public static PropertyType fromString(String input) throws IllegalPropertyTypeException {
