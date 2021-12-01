@@ -19,6 +19,8 @@ public enum CityQuadrant{
         return this.name();
     }
     public CityQuadrant fromString(String quadrant) throws IllegalClassFormatException {
+
+    public CityQuadrant fromString(String quadrant) throws IllegalClassFormatException{
         switch (quadrant){
             case "NW":
                 return NW;
@@ -34,4 +36,6 @@ public enum CityQuadrant{
 
     }
 
+        
+    }
 }
