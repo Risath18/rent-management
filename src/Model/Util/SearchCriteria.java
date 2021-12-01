@@ -1,7 +1,5 @@
 package Model.Util;
 
-import Model.Property.*;
-
 public class SearchCriteria {
     private PropertyType propertyType;
     private int numOfBed;
