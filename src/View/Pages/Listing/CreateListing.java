@@ -3,18 +3,23 @@ package View.Pages.Listing;
 import javax.swing.*;
 import java.awt.*;
 import Model.Property.*;
+
+import java.lang.instrument.IllegalClassFormatException;
 import java.text.*;
+import java.util.Objects;
 
 public class CreateListing extends JFrame{
     private static final long serialVersionUID = 1L;
     private String [] propertyType={"Apartment", "Attached", "Townhouse ", "Other"};
     private String []cityQuadrant={"SW","NW","SE","NE"};
     private String[] numbers={"1","2","3","4","5"};
+    private String[] furnish={"Furnished","Not Furnished"};
 
     private JComboBox typeBox=new JComboBox(propertyType);
     private JComboBox bedBox=new JComboBox(numbers);
     private JComboBox bathBox = new JComboBox(numbers);
     private JComboBox quadrantBox= new JComboBox(cityQuadrant);
+    private JComboBox furnished=new JComboBox(furnish);
     private JRadioButton proceed=new JRadioButton("Proceed");
     private JRadioButton cancel=new JRadioButton("Cancel");
     private JButton submit=new JButton("Submit");
@@ -78,8 +83,11 @@ public class CreateListing extends JFrame{
         bathBox.setBounds(157, 88, 36, 26);
         getContentPane().add(bathBox);
 
-        quadrantBox.setBounds(157, 160, 56, 26);
+        quadrantBox.setBounds(157, 115, 56, 26);
         getContentPane().add(quadrantBox);
+
+        furnished.setBounds(157, 160, 56, 26);
+        getContentPane().add(furnished);
 
         proceed.setBounds(152, 123, 61, 29);
         getContentPane().add(proceed);
@@ -150,9 +158,28 @@ public class CreateListing extends JFrame{
         getContentPane().add(monthEx);
 
     }
-    public Address getAddress(){
-        CityQuadrant quad=(CityQuadrant) quadrantBox.getSelectedItem();
+    public Address getAddress() throws IllegalClassFormatException {
+        CityQuadrant quad = null;
+        quad.fromString((String) Objects.requireNonNull(quadrantBox.getSelectedItem()));
         Address toReturn= new Address(street.getText(),quad,Integer.parseInt(houseNumberLal.getText()));
         return toReturn;
     }
+
+    public int getBeds(){
+        return Integer.parseInt((String)bedBox.getSelectedItem());
+    }
+
+    public int getBaths(){
+        return Integer.parseInt((String) bathBox.getSelectedItem());
+    }
+
+   public boolean isFurnished(){
+        return Boolean.parseBoolean((String) furnished.getSelectedItem());
+   }
+   
+   public PropertyStatus getStatus(){
+        PropertyStatus toReturn=null;
+        toReturn=PropertyStatus.fromString("ACTIVE");
+        return toReturn;
+   }
 }

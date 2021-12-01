@@ -1,5 +1,8 @@
 package Model.Util;
 
+import Model.Property.CityQuadrant;
+import Model.Property.PropertyType;
+
 public class SearchCriteria {
     private PropertyType propertyType; //type of property from enum
     private int numOfBed; //number of bedrooms
