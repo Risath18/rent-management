@@ -32,4 +32,5 @@ public enum PropertyStatus{
         }
         throw new IllegalPropertyStatusException();
     }
+
 }

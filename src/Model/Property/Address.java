@@ -6,7 +6,6 @@ public class Address {
     private int houseNumber;
 
     public Address(){
-        
     }
 
 	public Address(String street, CityQuadrant cityQuadrant, int houseNumber) {

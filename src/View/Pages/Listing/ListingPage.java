@@ -1,5 +1,7 @@
 package View.Pages.Listing;
 
+import Model.Property.Property;
+
 import java.util.ArrayList;
 
 public interface ListingPage {

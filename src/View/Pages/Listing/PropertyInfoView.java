@@ -1,51 +1,86 @@
 package View.Pages.Listing;
 
+import Model.Property.Property;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class PropertyInfoView extends JFrame {
-    private static final long serialUID=1L;
-    private JButton emailButton=new JButton("Click to send an email");
-    private JTextArea name=new JTextArea();
-    private JTextArea address=new JTextArea();
-    private JTextArea listing=new JTextArea();
+    private static final long serialVersionUID = 1L;
+    private JButton emailButton = new JButton("Click to send email to landlord");
+    private JTextArea ID = new JTextArea();
+    private JTextArea address = new JTextArea();
+    private JTextArea numOfBeds = new JTextArea();
+    private JTextArea numOfBaths = new JTextArea();
+    private JTextArea furnished = new JTextArea();
+    private JTextArea status = new JTextArea();
     private Property property;
 
     public PropertyInfoView(Property ptr){
-        property=ptr;
-        setSize(500,400);
+        property = ptr;
+        setSize(456, 335);
         getContentPane().setBackground(new Color(230, 230, 250));
         setTitle("Property View");
         getContentPane().setLayout(null);
-        JLabel nameLabel = new JLabel("Name");
-        nameLabel.setBounds(15, 50, 69, 20);
-        getContentPane().add(nameLabel);
+
         JLabel addressLbl = new JLabel("Address");
         addressLbl.setBounds(15, 50, 69, 20);
         getContentPane().add(addressLbl);
-        JLabel listingLabel = new JLabel("Listing");
-        listingLabel.setBounds(15, 50, 69, 20);
-        getContentPane().add(listingLabel);
 
-        emailButton.setBounds(81,239,247,29);
+        JLabel idLbl = new JLabel("ID");
+        idLbl.setBounds(15, 16, 69, 20);
+        getContentPane().add(idLbl);
+
+        JLabel bedLbl = new JLabel("Number of bedrooms");
+        bedLbl.setBounds(15, 86, 152, 20);
+        getContentPane().add(bedLbl);
+
+        JLabel bathLbl = new JLabel("Number of bathrooms");
+        bathLbl.setBounds(15, 122, 162, 20);
+        getContentPane().add(bathLbl);
+
+        JLabel furnishedLbl = new JLabel("Furnished");
+        furnishedLbl.setBounds(15, 158, 69, 20);
+        getContentPane().add(furnishedLbl);
+
+        JLabel quadLbl = new JLabel("City Quadrant");
+        quadLbl.setBounds(15, 191, 98, 20);
+        getContentPane().add(quadLbl);
+
+        emailButton.setBounds(81, 239, 247, 29);
         getContentPane().add(emailButton);
 
-        name.setEditable(false);
-        name.setBounds(99, 50, 314, 24);
-        getContentPane().add(name);
+        ID.setEditable(false);
+        ID.setBounds(99, 16, 118, 24);
+        getContentPane().add(ID);
 
         address.setEditable(false);
         address.setBounds(99, 50, 314, 24);
         getContentPane().add(address);
 
-        listing.setEditable(false);
-        listing.setBounds(99, 50, 314, 24);
-        getContentPane().add(listing);
+        numOfBeds.setEditable(false);
+        numOfBeds.setBounds(182, 86, 35, 24);
+        getContentPane().add(numOfBeds);
 
-        setName();
-        setAddress();
-        setListingStatus();
+        numOfBaths.setEditable(false);
+        numOfBaths.setBounds(182, 122, 35, 24);
+        getContentPane().add(numOfBaths);
+
+        furnished.setEditable(false);
+        furnished.setBounds(115, 158, 52, 24);
+        getContentPane().add(furnished);
+
+        status.setEditable(false);
+        status.setBounds(125, 191, 52, 24);
+        getContentPane().add(status);
+
+        setIDField();
+        setAddressField();
+        setNumOfBedField();
+        setNumOfBathField();
+        setFurnished();
+        setStatus();
     }
     public void addingSendEmailListener(ActionListener a)
     {
@@ -53,15 +88,27 @@ public class PropertyInfoView extends JFrame {
         emailButton.setActionCommand("email");
     }
 
-    public void setName(){
-        name.setText(property.getName());
-    }
+   public void setIDField(){
+        ID.setText(Integer.toString(property.getPropertyId()));
+   }
 
-    public void setAddress(){
-        address.setText(property.getAddress());
-    }
+   public void setAddressField(){
+        address.setText(property.getAddress().getFormattedAddress());
+   }
 
-    public void setListingStatus(){
-        listing.setText(property.getListing());
-    }
+   public void setNumOfBedField(){
+        numOfBeds.setText(Integer.toString(property.getNumOfBed()));
+   }
+
+   public void setStatus(){
+        status.setText(property.getPropertyStatus().toString());
+   }
+
+   public void setNumOfBathField(){
+        numOfBaths.setText(Integer.toString(property.getNumOfBath()));
+   }
+
+   public void setFurnished(){
+        furnished.setText(Boolean.toString(property.isFurnished()));
+   }
 }
