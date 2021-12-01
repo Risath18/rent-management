@@ -2,6 +2,8 @@ package Controller;
 
 import java.util.*;
 
+import Model.Property.Address;
+import Model.Property.Property;
 import Model.Role.Landlord;
 import Model.Role.Manager;
 import Model.Role.Person;
@@ -31,7 +33,7 @@ public class ControllerCore {
         properties.add(newProperty);
     }
 
-    public String getPropertyAddress() {
+    public Address getPropertyAddress() {
        return properties.get(properties.size()-1).getAddress();
     }
     

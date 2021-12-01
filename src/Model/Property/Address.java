@@ -9,7 +9,6 @@ public class Address {
      * Default constructor for address
      */
     public Address(){
-        
     }
 
     /**

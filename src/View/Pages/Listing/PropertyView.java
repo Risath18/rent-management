@@ -8,13 +8,14 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public abstract class PropertyView implements ActionListener {
-        String[] columns ={"Name", "Address","Listing Status"};
+        String[] columns ={"Property Type", "Beds","Baths","Furnished","Status","Address"};
         protected JFrame frame;
-        protected String [][]tableData;
+       // protected String [][]tableData;
         protected ArrayList<Property> properties=new ArrayList<Property>();
         protected PropertyInfoView propInfo;
         private JTable table;
@@ -26,6 +27,8 @@ public abstract class PropertyView implements ActionListener {
                 frame.setSize(1000,2000);
                 setTable(new JTable(addToTable, columns));
                 JScrollPane scrollPane=new JScrollPane(getTable());
+
+
 
                 scrollPane.setPreferredSize(dim);
                 scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -45,12 +48,12 @@ public abstract class PropertyView implements ActionListener {
 
                 getTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 //The following is mouse UI which is to be added later
-//                getTable().addMouseListener(new MouseAdapter() {
-//                        @Override
-//                        public void mouseClicked(MouseEvent e){
-//                                      actionMouse(e);
-//                        }
-//                });
+                getTable().addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e){
+                                      actionMouse(e);
+                        }
+                });
         }
 
         public void setTable(JTable table) {
@@ -68,5 +71,9 @@ public abstract class PropertyView implements ActionListener {
         public abstract void actionMouse(MouseEvent e);
 
         public abstract void action(ActionEvent e);
+
+        public void setDisplay(ArrayList<Property> prop){
+                properties=prop;
+        }
 
 }
