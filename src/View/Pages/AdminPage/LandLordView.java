@@ -10,6 +10,9 @@ public class LandLordView extends JFrame {
     private JButton createBtn = new JButton("Create Listing");
     private JButton exitBtn = new JButton("Exit Program");
 
+    /**
+     * Default constructor for LandLordView, initializing frame and buttons.
+     * */
     public LandLordView(){
         setSize(448, 318);
         getContentPane().setBackground(new Color(230, 230, 250));
@@ -26,16 +29,28 @@ public class LandLordView extends JFrame {
         getContentPane().add(exitBtn);
     }
 
+    /**
+     * Setting listener property to editing the property.
+     * @param al ActionListener to be set.
+     * */
     public void editListener(ActionListener al){
         editBtn.addActionListener(al);
         editBtn.setActionCommand("editProperty");
     }
 
+    /**
+     * Setting listener to create a property
+     * @param al ActionListener to be set
+     * */
     public void createListener(ActionListener al){
         createBtn.addActionListener(al);
         createBtn.setActionCommand("createProperty");
     }
 
+    /**
+     * Setting listener to exit
+     * @param al ActionListener to exit
+     * */
     public void exitListner(ActionListener al){
         exitBtn.addActionListener(al);
         exitBtn.setActionCommand("exit");

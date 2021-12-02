@@ -13,6 +13,9 @@ public class UnRegRenterView extends JFrame {
     private JPasswordField password;
     private JButton submit = new JButton("submit");
 
+    /**
+     * Default constructor for unregistered renter view
+     * */
     public UnRegRenterView(){
         setSize(303, 295);
         getContentPane().setBackground(new Color(230, 230, 250));
@@ -66,27 +69,52 @@ public class UnRegRenterView extends JFrame {
         password.setBounds(116, 121, 146, 26);
         getContentPane().add(password);
     }
+
+    /**
+     * Setter for action listener for submission
+     * @param al action listener for submition action
+     * */
     public void submitListener(ActionListener al){
         submit.addActionListener(al);
         submit.setActionCommand("submit");
     }
 
+    /**
+     * Getter for first name
+     * @return first name
+     * */
     public String getFName(){
         return fName.getText();
     }
 
+    /**
+     * Getter for last name
+     * @return last name
+     * */
     public String getLName(){
         return lName.getText();
     }
 
+    /**
+     * Getter for password
+     * @return password
+     * */
     public String getPassword(){
         return String.copyValueOf(password.getPassword());
     }
 
+    /**
+     * Getter for username
+     * @return username
+     * */
     public String getUName(){
         return uName.getText();
     }
 
+    /**
+     * Getter for email address
+     * @return email address
+     * */
     public String getEmail(){
         return email.getText();
     }
