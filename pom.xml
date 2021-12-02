@@ -25,6 +25,11 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.14</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -43,6 +48,15 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
+          <configuration>
+              <DB_DRIVER>${env.DB_DRIVER}</DB_DRIVER>
+              <DB_HOST>${env.DB_HOST}</DB_HOST>
+              <DB_NAME>${env.DB_NAME}</DB_NAME>
+              <DB_PASS>${env.DB_PASS}</DB_PASS>
+              <DB_USER>${env.DB_USER}</DB_USER>
+              <DB_PORT>${env.DB_PORT}</DB_PORT>
+
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.rent.management.app.AppTest" time="0.028" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.rent.management.app.AppTest" time="0.015" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -7,7 +7,7 @@
     <property name="java.specification.version" value="1.8"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\test-classes;C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\classes;C:\Users\radar\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\radar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.class.path" value="C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\test-classes;C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\classes;C:\Users\radar\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\radar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\radar\.m2\repository\org\postgresql\postgresql\42.2.14\postgresql-42.2.14.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -18,8 +18,8 @@
     <property name="user.country" value="CA"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\radar\AppData\Local\Temp\surefire1449517345507312645\surefirebooter8232511696748563883.jar C:\Users\radar\AppData\Local\Temp\surefire1449517345507312645 2021-12-02T10-15-08_685-jvmRun1 surefire5564978650462228198tmp surefire_08740628634288783537tmp"/>
-    <property name="surefire.test.class.path" value="C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\test-classes;C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\classes;C:\Users\radar\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\radar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="sun.java.command" value="C:\Users\radar\AppData\Local\Temp\surefire225156349007757752\surefirebooter131901022775277426.jar C:\Users\radar\AppData\Local\Temp\surefire225156349007757752 2021-12-02T11-30-56_004-jvmRun1 surefire3450669438473468401tmp surefire_05105459469150907716tmp"/>
+    <property name="surefire.test.class.path" value="C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\test-classes;C:\Users\radar\OneDrive\Documents\ENSF480Final_Project\rent-management\target\classes;C:\Users\radar\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\radar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\radar\.m2\repository\org\postgresql\postgresql\42.2.14\postgresql-42.2.14.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\radar"/>
     <property name="user.language" value="en"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\radar\AppData\Local\Temp\surefire1449517345507312645\surefirebooter8232511696748563883.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\radar\AppData\Local\Temp\surefire225156349007757752\surefirebooter131901022775277426.jar"/>
     <property name="sun.boot.class.path" value="C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\lib\resources.jar;C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\lib\rt.jar;C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\lib\sunrsasign.jar;C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\lib\jsse.jar;C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\lib\jce.jar;C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\lib\charsets.jar;C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\lib\jfr.jar;C:\Program Files\OpenJDK\openjdk-8u292-b10\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
