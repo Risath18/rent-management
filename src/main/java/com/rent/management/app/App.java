@@ -2,6 +2,8 @@ package com.rent.management.app;
 
 import java.sql.*;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 /**
  * Hello world!
  *
@@ -21,11 +23,13 @@ public class App
 
     public void createConnection(){
         Connection dbConnect = null;
-        String DB_HOST = System.getenv("DB_HOST");
-        String DB_PORT = System.getenv("DB_PORT");
-        String DB_NAME = System.getenv("DB_NAME");
-        String DB_USER = System.getenv("DB_USER");
-        String DB_PASS = System.getenv("DB_PASS");
+
+        Dotenv env = Dotenv.load();
+        String DB_HOST = env.get("DB_HOST");
+        String DB_PORT = env.get("DB_PORT");
+        String DB_NAME = env.get("DB_NAME");
+        String DB_USER = env.get("DB_USER");
+        String DB_PASS = env.get("DB_PASS");
 
         String DBURL = "jdbc:postgresql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
         

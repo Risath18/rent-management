@@ -14,8 +14,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -29,6 +29,11 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>42.2.14</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cdimascio</groupId>
+      <artifactId>dotenv-java</artifactId>
+      <version>2.2.0</version>
     </dependency>
   </dependencies>
 
@@ -48,15 +53,6 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
-          <configuration>
-              <DB_DRIVER>${env.DB_DRIVER}</DB_DRIVER>
-              <DB_HOST>${env.DB_HOST}</DB_HOST>
-              <DB_NAME>${env.DB_NAME}</DB_NAME>
-              <DB_PASS>${env.DB_PASS}</DB_PASS>
-              <DB_USER>${env.DB_USER}</DB_USER>
-              <DB_PORT>${env.DB_PORT}</DB_PORT>
-
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
