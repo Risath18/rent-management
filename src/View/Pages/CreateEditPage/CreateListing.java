@@ -1,4 +1,4 @@
-package View.Pages.Listing;
+package View.Pages.CreateEditPage;
 
 import javax.swing.*;
 import java.awt.*;

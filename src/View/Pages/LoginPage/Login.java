@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 
 
 
-public class UnRegLoginPage extends JFrame implements LoginPage{
-        public UnRegLoginPage(){}
+public class Login extends JFrame implements LoginPage{
+        public Login(){}
         static final long serialVersionUID = 1L;
         private JTextField nameInput;
         private JButton login = new JButton("login");
