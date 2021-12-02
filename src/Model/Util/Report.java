@@ -1,5 +1,7 @@
 package Model.Util;
 
+import Model.Property.Period;
+
 public class Report {
     private Period period; //period of report
     private int totalHousesListed; //total number of houses listed

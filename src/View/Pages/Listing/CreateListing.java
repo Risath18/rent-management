@@ -176,7 +176,7 @@ public class CreateListing extends JFrame{
    public boolean isFurnished(){
         return Boolean.parseBoolean((String) furnished.getSelectedItem());
    }
-   
+
    public PropertyStatus getStatus(){
         PropertyStatus toReturn=null;
         toReturn=PropertyStatus.fromString("ACTIVE");
