@@ -1,6 +1,7 @@
 package View.Pages.Listing;
 
 import Model.Property.Property;
+import View.Pages.CreateEditPage.EditPropertyView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -19,6 +20,7 @@ public abstract class PropertyView implements ActionListener {
         protected ArrayList<Property> properties=new ArrayList<Property>();
         protected PropertyInfoView propInfo;
         private JTable table;
+        protected EditPropertyView editView;
 
         public PropertyView(String [][]addToTable){
                 Dimension dim=new Dimension(1000,200);
@@ -70,7 +72,7 @@ public abstract class PropertyView implements ActionListener {
 
         public abstract void actionMouse(MouseEvent e);
 
-        public abstract void action(ActionEvent e);
+        public abstract void actionPerformed(ActionEvent e);
 
         public void setDisplay(ArrayList<Property> prop){
                 properties=prop;
