@@ -41,7 +41,9 @@ public class CreateListing extends JFrame{
     private final JComboBox yearEx = new JComboBox(year);
     private final JComboBox monthEx = new JComboBox(month);
 
-
+    /**
+     * Default constructor to initialize the create listing view including initializing all panes and buttons.
+     * */
     public CreateListing(){
         setSize(450, 543);
         cvv.setBounds(176, 404, 61, 26);
@@ -158,6 +160,12 @@ public class CreateListing extends JFrame{
         getContentPane().add(monthEx);
 
     }
+
+    /**
+     * Getter method for Address
+     * @throws IllegalClassFormatException
+     * @return address value as Address class
+     * */
     public Address getAddress() throws IllegalClassFormatException {
         CityQuadrant quad = null;
         quad.fromString((String) Objects.requireNonNull(quadrantBox.getSelectedItem()));
@@ -165,21 +173,37 @@ public class CreateListing extends JFrame{
         return toReturn;
     }
 
+    /**
+     * Getter function for bed type
+     * @return int bed number
+     * */
     public int getBeds(){
         return Integer.parseInt((String)bedBox.getSelectedItem());
     }
 
+    /**
+     * Getter funciton for number of baths
+     * @return number of baths as an int
+     * */
     public int getBaths(){
         return Integer.parseInt((String) bathBox.getSelectedItem());
     }
 
-   public boolean isFurnished(){
+    /**
+     * Getter function for furnished status
+     * @return boolean value of furnished status
+     * */
+    public boolean isFurnished(){
         return Boolean.parseBoolean((String) furnished.getSelectedItem());
    }
 
-   public PropertyStatus getStatus(){
+    /**
+     * Getter for property status
+     * @return PropertyStatus type of property status
+     * */
+    public PropertyStatus getStatus(){
         PropertyStatus toReturn=null;
         toReturn=PropertyStatus.fromString("ACTIVE");
         return toReturn;
-   }
+    }
 }

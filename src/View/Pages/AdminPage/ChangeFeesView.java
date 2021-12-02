@@ -14,6 +14,9 @@ public class ChangeFeesView extends JFrame {
     private JTextField changePeriod;
     private JButton submit = new JButton("submit");
 
+    /**
+     * Default constructor for ChangeFeesView initializing the GUI for managers changing fees.
+     * */
     public ChangeFeesView() {
         getContentPane().setBackground(new Color(230, 230, 250));
         setTitle("Change Fee");
@@ -66,25 +69,44 @@ public class ChangeFeesView extends JFrame {
         getContentPane().add(submit);
     }
 
+    /**
+     * Adding an action listener for the class
+     * @param a ActionListener for the class passed by a controller
+     * */
     public void addSubmitListener(ActionListener al)  {
         submit.addActionListener(al);
         submit.setActionCommand("submitFee");
     }
 
+    /**
+     * Setting a new fee
+     * @param fee double with new fee
+     */
     public void setFee(double fee){
         currentFee.setText(Double.toString(fee));
     }
 
+    /**
+     * Getter for fees
+     * @return a double which holds the current fee value
+     * */
     public double getChangedFees(){
         return Double.parseDouble(changeFee.getText());
     }
 
+    /**
+     * Setter for period
+     * @param p integer for period
+     * */
     public void setPeriod(int p){
         currentPeriod.setText(Integer.toString(p));
     }
 
+    /**
+     * Getter for period
+     * @return returning an integer value of the current period.
+     * */
     public int getChangedPeriod(){
         return Integer.parseInt(currentPeriod.getText());
     }
-
 }

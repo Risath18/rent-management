@@ -17,6 +17,10 @@ public class PropertyInfoView extends JFrame {
     private JTextArea status = new JTextArea();
     private Property property;
 
+    /**
+     * Constructor for property information view
+     * @param ptr property pointer to view
+     * */
     public PropertyInfoView(Property ptr){
         property = ptr;
         setSize(456, 335);
@@ -82,33 +86,56 @@ public class PropertyInfoView extends JFrame {
         setFurnished();
         setStatus();
     }
+
+    /**
+     * Setter for sending an email listener
+     * @param a Action listener to listen for emails
+     * */
     public void addingSendEmailListener(ActionListener a)
     {
         emailButton.addActionListener(a);
         emailButton.setActionCommand("email");
     }
 
-   public void setIDField(){
+    /**
+     * Setter for ID from property id
+     * */
+    public void setIDField(){
         ID.setText(Integer.toString(property.getPropertyId()));
    }
 
-   public void setAddressField(){
+    /**
+     * Setter for address field from property address
+     * */
+    public void setAddressField(){
         address.setText(property.getAddress().getFormattedAddress());
    }
 
-   public void setNumOfBedField(){
+    /**
+     * Setter of beds from property beds
+     * */
+    public void setNumOfBedField(){
         numOfBeds.setText(Integer.toString(property.getNumOfBed()));
    }
 
-   public void setStatus(){
+    /**
+     * Setter of property status from property status
+     * */
+    public void setStatus(){
         status.setText(property.getPropertyStatus().toString());
    }
 
-   public void setNumOfBathField(){
+    /**
+     * Setter for number of baths from property bath count
+     * */
+    public void setNumOfBathField(){
         numOfBaths.setText(Integer.toString(property.getNumOfBath()));
    }
 
-   public void setFurnished(){
+    /**
+     * Setter of furnished status from property furnished status
+     * */
+    public void setFurnished(){
         furnished.setText(Boolean.toString(property.isFurnished()));
    }
 }

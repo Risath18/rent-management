@@ -9,6 +9,9 @@ public class ViewMain  extends JFrame {
     private JButton renter = new JButton("Renter");
     private JButton manager = new JButton("Manager");
 
+    /**
+     * Default constructor for main view
+     * */
     public ViewMain(){
         getContentPane().setBackground(new Color(230, 230, 250));
         setTitle("Main Menu");
@@ -35,14 +38,26 @@ public class ViewMain  extends JFrame {
         getContentPane().add(exitLbl);
     }
 
+    /**
+     * Setter for action listener for adding a landlord event
+     * @param al action listener to trigger adding a landlord
+     * */
     public void addLandLord(ActionListener al){
         landlord.addActionListener(al);
     }
 
+    /**
+     * Setter for action listener for adding a renter event
+     * @param al action listener to trigger adding a renter
+     * */
     public void addRenter(ActionListener al){
         renter.addActionListener(al);
     }
 
+    /**
+     * Setter for action listener for adding a manager event
+     * @param al action listener to trigger adding a manager
+     * */
     public void addManager(ActionListener al){
         manager.addActionListener(al);
     }
