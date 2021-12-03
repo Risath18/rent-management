@@ -12,11 +12,20 @@ public class LandLordProperty extends PropertyView {
     //Implement Controller methods later
     //private LandLordController landController;
 
+    /**
+     * Constructor for LandLordProperty View
+     * @param addToTable A double array of strings containing the data to render to the GUI
+     * @param prop Array list of current properties that might be edited.
+     * */
     public LandLordProperty(String[][] addToTable, ArrayList<Property>prop) {
         super(addToTable);
         this.setDisplay(prop);
     }
 
+    /**
+     * Mouse action listener override
+     * @param e MouseEvent to be passed by controller
+     * */
     @Override
     public void actionMouse(MouseEvent e) {
         int index=getTable().getSelectedRow();
@@ -32,6 +41,10 @@ public class LandLordProperty extends PropertyView {
         editView.setVisible(true);
     }
 
+    /**
+     * Action performed override
+     * @param e ActionEvent.
+     * */
     @Override
     public void actionPerformed(ActionEvent e) {
         Property temp=editView.getSelectedProperty();

@@ -13,6 +13,11 @@ public class EditPropertyView extends JFrame {
     private JTextArea id=new JTextArea();
     private JComboBox comb=new JComboBox(status);
     private Property property=null;
+
+    /**
+     * Constructor for editing a property
+     * @param ptr Property type of property to be edited.
+     * */
     public EditPropertyView(Property ptr){
         property=ptr;
 
@@ -40,24 +45,43 @@ public class EditPropertyView extends JFrame {
         id.setBounds(124, 16, 117, 24);
         getContentPane().add(id);
     }
+
+    /**
+     * Setter for save action listener
+     * @param al action listener to trigger saving property
+     * */
     public void saveListener(ActionListener al){
         saveButton.addActionListener(al);
         saveButton.setActionCommand("saveEditedProperty");
 
     }
 
+    /**
+     * Setter for property ID using getPropertyID
+     * */
     public void setID(){
         id.setText(Integer.toString(property.getPropertyId()));
     }
 
+    /**
+     * Setter of property status using getPropertyStatus
+     * */
     public void setStatus(){
         comb.setSelectedItem(property.getPropertyStatus().toString());
     }
 
+    /**
+     * Getter of property status
+     * @return PropertyStatus type of property status
+     * */
     public PropertyStatus getStatus(){
         return PropertyStatus.fromString((String) comb.getSelectedItem());
     }
 
+    /**
+     * Getter of property for editing
+     * @return selected property as type Property
+     * */
     public Property getSelectedProperty(){
         return property;
     }
