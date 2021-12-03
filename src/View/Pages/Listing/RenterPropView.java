@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class RenterPropView extends PropertyView{
-    //This code is mostly controller so i ll comlete this
+    //This code is mostly controller so i ll complete this
     //After controller
     public RenterPropView(String[][] addToTable) {
         super(addToTable);
