@@ -1,6 +1,6 @@
-package Model.Role;
+package com.rent.management.app.Model.Role;
 
-import Model.Util.*;
+import com.rent.management.app.Model.Util.*;
 
 public interface Person {
     public Name name(); //name of a Person

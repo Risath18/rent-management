@@ -1,4 +1,4 @@
-package Model.Util;
+package com.rent.management.app.Model.Util;
 
 import Model.Property.CityQuadrant;
 import Model.Property.PropertyType;

@@ -1,3 +1,4 @@
+package com.rent.management.app.Exceptions;
 package Exceptions;
 
 public class IllegalDateException extends IllegalArgumentException{

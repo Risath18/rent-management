@@ -1,6 +1,6 @@
-package Model.Role;
+package com.rent.management.app.Model.Role;
 
-import Model.Util.*;
+import com.rent.management.app.Model.Util.*;
 
 public class Renter implements Person{
     private Date loginDate; //Date object for date of login

@@ -1,6 +1,6 @@
-package Model.Role;
+package com.rent.management.app.Model.Role;
 
-import Model.Util.*;
+import com.rent.management.app.Model.Util.*;
 
 public class Landlord implements Person{
     private Name name; //landlord name from Person

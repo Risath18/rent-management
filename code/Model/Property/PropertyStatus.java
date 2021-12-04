@@ -1,6 +1,6 @@
-package Model.Property;
+package  main.java.com.rent.management.app.Model.Property;
 
-import Exceptions.IllegalPropertyStatusException;
+import  main.java.com.rent.management.app.Exceptions.IllegalPropertyStatusException;
 
 /**
  * Types enum includes Property Status

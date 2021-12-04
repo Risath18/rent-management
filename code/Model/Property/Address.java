@@ -1,4 +1,4 @@
-package Model.Property;
+package com.rent.management.app.Model.Property;
 
 public class Address {
     private String street; //street address
@@ -91,3 +91,4 @@ public class Address {
     }
     
 }
+

@@ -1,4 +1,4 @@
-package Model.Util;
+package com.rent.management.app.Model.Util;
 
 public class Payment {
     private Date listingExpiryDate; //date that listing expires

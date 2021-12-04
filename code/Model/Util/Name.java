@@ -1,4 +1,4 @@
-package Model.Util;
+package com.rent.management.app.Model.Util;
 
 public class Name {
     private String fName; //first name

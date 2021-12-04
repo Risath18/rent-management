@@ -1,4 +1,4 @@
-package Model.Property;
+package   com.rent.management.app.Model.Property;
 
 import java.lang.instrument.IllegalClassFormatException;
 

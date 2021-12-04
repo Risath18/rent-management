@@ -1,4 +1,4 @@
-package Model.Property;
+package com.rent.management.app.Model.Property;
 
 public class Property {
     private int propertyId; //unique ID for property
