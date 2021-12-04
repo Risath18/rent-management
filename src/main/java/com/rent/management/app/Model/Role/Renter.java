@@ -1,12 +1,31 @@
-package Model.Role;
+package com.rent.management.app.Model.Role;
 
-import Model.Util.*;
+import com.rent.management.app.Model.Util.*;
 
 public class Renter implements Person{
     private Date loginDate; //Date object for date of login
     private boolean notificationsOn; //boolean for whether notifications are on (true) or not
     private Name name; //Name object for renter's name
     private String email; //renter's email
+    private SearchCriteria searchCriteria;
+
+    
+    /**
+     * default constructor
+     */
+    public Renter(){}
+
+    /**
+     * constructor for Landlord
+     * @param name Name object to be stored
+     * @param email String for email to be stored
+     */
+    public Renter(Name name, String email, boolean notificationsOn, SearchCriteria searchCriteria){
+        setName(name);
+        setEmail(email);
+        setNotificationsOn(notificationsOn);
+        setSearchCriteria(searchCriteria);
+    }
 
     /**
      * getter for login date
@@ -30,6 +49,22 @@ public class Renter implements Person{
      */
     public void setNotificationsOn(boolean notificationsOn) {
         this.notificationsOn = notificationsOn;
+    }
+
+        /**
+     * getter for SearchCriteria
+     * @return SearchCriteria
+     */
+    public SearchCriteria getSearchCriteria() {
+        return searchCriteria;
+    }
+
+    /**
+     * setter for search criteria
+     * @param searchCriteria status to be set
+     */
+    public void setSearchCriteria(SearchCriteria searchCriteria) {
+        this.searchCriteria = searchCriteria;
     }
 
     /**
@@ -78,5 +113,11 @@ public class Renter implements Person{
      */
     public void setEmail(String email){
         this.email = email;
+    }
+
+    @Override
+    public Name name() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

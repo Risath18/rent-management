@@ -1,6 +1,6 @@
-package Model.Property;
+package com.rent.management.app.Model.Property;
 
-import Exceptions.IllegalPropertyStatusException;
+import com.rent.management.app.Exceptions.IllegalPropertyStatusException;
 
 /**
  * Types enum includes Property Status

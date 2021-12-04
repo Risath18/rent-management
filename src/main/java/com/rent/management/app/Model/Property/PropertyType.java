@@ -1,6 +1,6 @@
-package Model.Property;
+package com.rent.management.app.Model.Property;
 
-import Exceptions.IllegalPropertyTypeException;
+import com.rent.management.app.Exceptions.IllegalPropertyTypeException;
 
 /**
  * Types enum includes Property Type

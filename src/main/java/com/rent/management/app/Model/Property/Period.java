@@ -1,6 +1,6 @@
-package Model.Property;
+package com.rent.management.app.Model.Property;
 
-import Model.Util.*;
+import com.rent.management.app.Model.Util.Date;
 
 public class Period {
     private Date startDate; //start date of period

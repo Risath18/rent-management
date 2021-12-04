@@ -1,7 +1,6 @@
-package Model.Util;
+package com.rent.management.app.Model.Util;
 
-import Exceptions.*;
-
+import com.rent.management.app.Exceptions.TimeException;
 
 public class Time{
     int minute;

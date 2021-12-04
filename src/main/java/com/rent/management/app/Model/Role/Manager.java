@@ -1,11 +1,27 @@
-package Model.Role;
+package com.rent.management.app.Model.Role;
 
-import Model.Util.*;
+import com.rent.management.app.Model.Util.*;
 
 public class Manager implements Person{
     private Name name; //manager name from Person
     private String email; //manager email from Person
     private Report report; //Report object
+
+
+    /**
+     * default constructor
+     */
+    public Manager(){}
+
+    /**
+     * constructor for Landlord
+     * @param name Name object to be stored
+     * @param email String for email to be stored
+     */
+    public Manager(Name name, String email){
+        setName(name);
+        setEmail(email);
+    }
 
     /**
      * getter for report
@@ -71,5 +87,11 @@ public class Manager implements Person{
      */
     public void setEmail(String email){
         this.email = email;
+    }
+
+    @Override
+    public Name name() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -1,6 +1,7 @@
-package Model.Role;
+package com.rent.management.app.Model.Role;
 
-import Model.Util.*;
+import com.rent.management.app.Model.Property.*;
+import com.rent.management.app.Model.Util.Name;
 
 public class Landlord implements Person{
     private Name name; //landlord name from Person
@@ -42,6 +43,7 @@ public class Landlord implements Person{
      * getter for landlord name
      * @return returns Name object
      */
+    @Override
     public Name getName(){
         return this.name;
     }
@@ -58,6 +60,7 @@ public class Landlord implements Person{
      * setter for landlord name
      * @param name Name object to be stored
      */
+    @Override
     public void setName(Name name){
         this.name = name;
     }
@@ -68,6 +71,12 @@ public class Landlord implements Person{
      */
     public void setEmail(String email){
         this.email = email;
+    }
+
+    @Override
+    public Name name() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
     /**

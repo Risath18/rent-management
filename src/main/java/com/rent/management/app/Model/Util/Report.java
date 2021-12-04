@@ -1,6 +1,6 @@
-package Model.Util;
+package com.rent.management.app.Model.Util;
 
-import Model.Property.Period;
+import com.rent.management.app.Model.Property.Period;
 
 public class Report {
     private Period period; //period of report
