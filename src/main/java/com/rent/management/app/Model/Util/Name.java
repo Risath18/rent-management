@@ -1,5 +1,6 @@
 package com.rent.management.app.Model.Util;
 
+
 public class Name {
     private String fName; //first name
     private String mName; //middle name
@@ -73,3 +74,4 @@ public class Name {
         return fName + ":" + mName + ":" + lName;
     }
 }
+

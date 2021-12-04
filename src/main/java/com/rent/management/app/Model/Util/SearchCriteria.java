@@ -1,7 +1,7 @@
 package com.rent.management.app.Model.Util;
 
-import Model.Property.CityQuadrant;
-import Model.Property.PropertyType;
+import com.rent.management.app.Model.Property.CityQuadrant;
+import com.rent.management.app.Model.Property.PropertyType;
 
 public class SearchCriteria {
     private PropertyType propertyType; //type of property from enum
