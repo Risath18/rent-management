@@ -172,20 +172,19 @@ public class DBCore {
 
     public boolean updateProperty(String pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
         try{
-            String query = "UPDATE Property WHERE PID = '" + pid + "' VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String query = "UPDATE Property SET L_Email = ?, Type = ?,  Num_Bed = ?, Num_Bath = ?, Furnished = ?, Quadrant = ?, Address = ?, Fee_Paid = ?, Status = ?, Active_Date = ?, End_Date = ? WHERE PID = '" + pid + "'";
             PreparedStatement stmt = dbConnect.prepareStatement(query);
-            stmt.setString(1, pid);
-            stmt.setString(2, lEmail);
-            stmt.setString(3, type);
-            stmt.setInt(4, numBed);
-            stmt.setInt(5, numBath);
-            stmt.setString(6, furnished);
-            stmt.setString(7, quadrant);
-            stmt.setString(8, address);
-            stmt.setInt(9, feePaid);
-            stmt.setString(10, status);
-            stmt.setString(11, start);
-            stmt.setString(12, end);
+            stmt.setString(1, lEmail);
+            stmt.setString(2, type);
+            stmt.setInt(3, numBed);
+            stmt.setInt(4, numBath);
+            stmt.setString(5, furnished);
+            stmt.setString(6, quadrant);
+            stmt.setString(7, address);
+            stmt.setInt(8, feePaid);
+            stmt.setString(9, status);
+            stmt.setString(10, start);
+            stmt.setString(11, end);
         } catch (SQLException ex){
             System.err.println("Error in 'update property' sql");
             throw new IllegalQueryException();
@@ -247,9 +246,28 @@ public class DBCore {
             stmt.close();
 
         } catch(SQLException ex){
-            System.out.println("Error in  manager sql");
+            System.out.println("Error in  set fee period sql");
             ex.printStackTrace();
         }
+    }
+
+    public boolean updatePeriod(int PID, String from, String to, int cost){
+        try{
+            String query = "UPDATE Period SET From_Date = ?, To_Date = ?, Cost = ? WHERE PID = '" + PID + "'";
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+
+            stmt.setString(1, from);
+            stmt.setString(2, to);
+            stmt.setInt(3, cost);
+
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch(SQLException ex){
+            System.out.println("Error in  set fee period sql");
+            ex.printStackTrace();
+        }
+        return true;
     }
 
     public void close(){
