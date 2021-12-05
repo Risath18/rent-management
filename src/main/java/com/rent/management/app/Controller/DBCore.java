@@ -73,26 +73,24 @@ public class DBCore {
     public String findPerson(String email) throws IllegalQueryException{
         String toRet;
         try{
-            String query = "SELECT * FROM Person WHERE Email = '" "VALUES (?)";
-            PreparedStatement stmt = dbConnect.prepareStatement(query);
+            String query = "SELECT * FROM Person WHERE Email = '" + email + "'";
 
-            stmt.setString(1, email);
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            int accessLevel=0;
+            String name="";
             
-            stmt.executeUpdate();
-
-            Statement myStmt = dbConnect.createStatement();
-            result = myStmt.executeQuery("SELECT * FROM Person WHERE Email = ? VALUES (?)");
-
-            String name = result.getString("Name");
-            int access = result.getInt("AccessLevel");
-
-            toRet = email + ":" + name + ":" + access;
-
+            while(rs.next()){
+                name = rs.getString("Name");
+                accessLevel = rs.getInt("AccessLevel");
+            }
+            toRet = email + ":" + name + ":" + accessLevel;
 
             stmt.close();
+            rs.close();
 
         } catch (SQLException ex){
-            System.err.println("Error in person sql");
+            System.err.println("Error in 'find person' sql");
             throw new IllegalQueryException();
         }
         return toRet;
@@ -101,28 +99,26 @@ public class DBCore {
     public String findRenter(String email){
         String toRet;
         try{
-            String query = "SELECT * FROM Renter WHERE Email = ? VALUES (?)";
-            PreparedStatement stmt = dbConnect.prepareStatement(query);
+            String query = "SELECT * FROM Renter WHERE Email = '" + email + "'";
+    
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
 
-            System.out.println(query);
-
-            stmt.setString(1, email);
-            stmt.executeUpdate();
-
-            Statement myStmt = dbConnect.createStatement();
-            result = myStmt.executeQuery("SELECT * FROM Renter WHERE Email = ? VALUES (?)");
-
-            int notifications= result.getInt("Notifications_on");
-            String search = result.getString("SavedSearch_ID");
+            int notifications = 0;
+            String search = "";
+                
+            while(rs.next()){
+                notifications= result.getInt("Notifications_on");
+                search = result.getString("SavedSearch_ID");
+            }
 
             toRet = email + ":" + notifications + ":" + search;
 
-
             stmt.close();
+            rs.close();
 
         } catch (SQLException ex){
             System.err.println("Error in renter sql");
-            ex.printStackTrace();
             throw new IllegalQueryException();
         }
         return toRet;
@@ -143,7 +139,7 @@ public class DBCore {
             stmt.close();
 
         } catch (SQLException ex){
-            System.err.println("Error in person sql");
+            System.err.println("Error in register person sql");
             throw new IllegalQueryException();
         }
     }
