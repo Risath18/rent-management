@@ -71,7 +71,7 @@ public class Name {
      * @return returns a String with the name properly formatted to read
      */
     public String getFormattedName(){
-        return fName + ":" + mName + ":" + lName;
+        return fName + " " + mName + " " + lName;
     }
 }
 
