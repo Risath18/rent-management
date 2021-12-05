@@ -170,6 +170,29 @@ public class DBCore {
         }
     }
 
+    public boolean updateProperty(String pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
+        try{
+            String query = "UPDATE Property WHERE PID = '" + pid + "' VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+            stmt.setString(1, pid);
+            stmt.setString(2, lEmail);
+            stmt.setString(3, type);
+            stmt.setInt(4, numBed);
+            stmt.setInt(5, numBath);
+            stmt.setString(6, furnished);
+            stmt.setString(7, quadrant);
+            stmt.setString(8, address);
+            stmt.setInt(9, feePaid);
+            stmt.setString(10, status);
+            stmt.setString(11, start);
+            stmt.setString(12, end);
+        } catch (SQLException ex){
+            System.err.println("Error in 'update property' sql");
+            throw new IllegalQueryException();
+        }
+        return true;
+    }
+
     public void registerRenter(String rEmail, int notifications, String searchID){
         try{
             String query = "INSERT INTO Manager(R_Email, Notifications_on, SavedSearch_ID) VALUES (?,?)";
