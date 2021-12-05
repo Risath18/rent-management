@@ -8,8 +8,10 @@ import com.rent.management.app.Exceptions.IllegalPropertyTypeException;
 public enum PropertyType{
     APARTMENT,
     ATTACHED,
+    DETACHED,
     TOWNHOUSE,
-    OTHER;
+    OTHER,
+    NULL;
 
     /**
      * @return string of name

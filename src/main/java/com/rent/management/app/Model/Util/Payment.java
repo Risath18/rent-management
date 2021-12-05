@@ -2,14 +2,23 @@ package com.rent.management.app.Model.Util;
 
 
 public class Payment {
+    private boolean paid;
     private Date listingExpiryDate; //date that listing expires
+    private Date datePaid;
+
+    public Payment(){
+        paid = false;
+    }
 
     /**
      * Constructor for Payment
+     * @param datePaid Date object for date paid
      * @param listingExpiryDate Date object to be stored as the expiry date of the listing
      */
-    public Payment(Date listingExpiryDate) {
+    public Payment(Date datePaid, Date listingExpiryDate) {
+        this.setDatePaid(datePaid);
         this.setListingExpiryDate(listingExpiryDate);
+        paid = true;
     }
 
     /**
@@ -27,4 +36,28 @@ public class Payment {
     public void setListingExpiryDate(Date listingExpiryDate) {
         this.listingExpiryDate = listingExpiryDate;
     }
+
+    /**
+     * setter for date of payment
+     * @param datePaid Date object for date of payment
+     */
+    public void setDatePaid(Date datePaid){
+        this.datePaid = datePaid;
+    }
+
+    /**
+     * getter for date paid
+     * @return returns a Date object
+     */
+    public Date getDatePaid() {
+        return datePaid;
+    }
+
+    /**
+     * @return returns a boolean for payment status
+     */
+    public boolean isPaid(){
+        return paid;
+    }
+
 }

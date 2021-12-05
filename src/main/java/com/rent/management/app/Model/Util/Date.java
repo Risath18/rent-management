@@ -102,7 +102,7 @@ public class Date {
      * @return returns a formatted date string
      */
     public String getFormattedDate(){
-        return day + ":" + month + ":" + year + ":" + time.getFormattedTime();
+        return day + " " + month + " " + year + " " + time.getFormattedTime();
     }
 
     /**
