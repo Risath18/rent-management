@@ -5,6 +5,7 @@ import java.sql.*;
 import com.rent.management.app.Exceptions.IllegalQueryException;
 import com.rent.management.app.Model.Role.Person;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -191,26 +192,62 @@ public class DBCore {
         }
     }
 
-    public boolean updateProperty(String pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
+    public boolean updateProperty(String pid, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
         try{
-            String query = "UPDATE Property SET L_Email = ?, Type = ?,  Num_Bed = ?, Num_Bath = ?, Furnished = ?, Quadrant = ?, Address = ?, Fee_Paid = ?, Status = ?, Active_Date = ?, End_Date = ? WHERE PID = '" + pid + "'";
+            String query = "UPDATE Property SET Type = ?,  Num_Bed = ?, Num_Bath = ?, Furnished = ?, Quadrant = ?, Address = ?, Fee_Paid = ?, Status = ?, Active_Date = ?, End_Date = ? WHERE PID = '" + pid + "'";
             PreparedStatement stmt = dbConnect.prepareStatement(query);
-            stmt.setString(1, lEmail);
-            stmt.setString(2, type);
-            stmt.setInt(3, numBed);
-            stmt.setInt(4, numBath);
-            stmt.setString(5, furnished);
-            stmt.setString(6, quadrant);
-            stmt.setString(7, address);
-            stmt.setInt(8, feePaid);
-            stmt.setString(9, status);
-            stmt.setString(10, start);
-            stmt.setString(11, end);
+            stmt.setString(1, type);
+            stmt.setInt(2, numBed);
+            stmt.setInt(3, numBath);
+            stmt.setString(4, furnished);
+            stmt.setString(5, quadrant);
+            stmt.setString(6, address);
+            stmt.setInt(7, feePaid);
+            stmt.setString(8, status);
+            stmt.setString(9, start);
+            stmt.setString(10, end);
         } catch (SQLException ex){
             System.err.println("Error in 'update property' sql");
             throw new IllegalQueryException();
         }
         return true;
+    }
+
+    public JSONArray getAllProperties () {
+        JSONArray arr = new JSONArray(); // array of properties to be returned
+        try {
+            String query = "SELECT * FROM Property"; // select all properties query
+
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+            while(rs.next()){
+                JSONObject obj = new JSONObject(); // json object to be returned with all properties
+                obj.put("pid", rs.getString("pid"));
+                obj.put("l_email", rs.getString("l_email"));
+                obj.put("type", rs.getString("type"));
+                obj.put("num_bed", rs.getString("num_bed"));
+                obj.put("num_bath", rs.getString("num_bath"));
+                obj.put("furnished", rs.getString("furnished"));
+                obj.put("quadrant", rs.getString("quadrant"));
+                obj.put("address", rs.getString("address"));
+                obj.put("fee_paid", rs.getString("fee_paid"));
+                obj.put("status", rs.getString("status"));
+                obj.put("active_date", rs.getString("active_date"));
+                obj.put("end_date", rs.getString("end_date"));
+
+                arr.put(obj); // adding the object to the json array
+            }
+
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex){
+            System.err.println("Error in getting all properties sql");
+            ex.printStackTrace();
+        }
+
+        return arr;
     }
 
     public void registerRenter(String rEmail, int notifications, String searchID){

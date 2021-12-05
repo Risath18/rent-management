@@ -1,5 +1,7 @@
 package com.rent.management.app.Model.Property;
 
+import com.rent.management.app.Model.Util.Payment;
+
 public class Property {
     private int propertyId; //unique ID for property
     private PropertyType propertyType; //enum value for the type of property
@@ -8,6 +10,7 @@ public class Property {
     private boolean isFurnished; //whether property is furnished (true) or not (false)
     private PropertyStatus propertyStatus; //enum value for the status of the property
     private Address address; //address of property
+    private Payment payment; //payment for property
 
     /**
      * Constructor for property
@@ -163,6 +166,22 @@ public class Property {
      */
     public void setPropertyType(PropertyType propertyType) {
         this.propertyType = propertyType;
+    }
+
+    /**
+     * function to pay the fee
+     * @param payment Payment object
+     */
+    public void payFee(Payment payment){
+        this.payment = payment;
+    }
+
+    /**
+     * getter for Payment
+     * @return Payment object 
+     */
+    public Payment getPayment(){
+        return this.payment;
     }
 
 
