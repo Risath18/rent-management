@@ -1,9 +1,14 @@
 package com.rent.management.app.Model.Util;
 
+import java.util.UUID;
+
 import com.rent.management.app.Model.Property.CityQuadrant;
 import com.rent.management.app.Model.Property.PropertyType;
 
+import org.json.simple.JSONObject;
+
 public class SearchCriteria {
+    private String id;
     private PropertyType propertyType; //type of property from enum
     private int numOfBed; //number of bedrooms
     private int numOfBath; //number of bathrooms
@@ -25,11 +30,28 @@ public class SearchCriteria {
      */
     public SearchCriteria(PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished,
             CityQuadrant cityQuadrant) {
+        this.id = UUID.randomUUID().toString();
         this.setPropertyType(propertyType);
         this.setNumOfBed(numOfBed);
         this.setNumOfBath(numOfBath);
         this.setFurnished(isFurnished);
         this.setCityQuadrant(cityQuadrant);
+    }
+
+    public SearchCriteria(JSONObject obj){
+        try{
+        this.id=obj.get("search").toString();
+        this.setPropertyType(PropertyType.fromString(obj.get("type").toString()));
+        this.setNumOfBed(Integer.parseInt(obj.get("num_bed").toString()));
+        this.setNumOfBath(Integer.parseInt(obj.get("num_bath").toString()));
+        this.setFurnished(Boolean.parseBoolean(obj.get("furnished").toString()));
+        this.setCityQuadrant(CityQuadrant.fromString(obj.get("quadrant").toString()));
+
+        } catch(Exception e){
+            System.err.println(e);
+            e.printStackTrace();
+            return;
+        }
     }
 
     /**

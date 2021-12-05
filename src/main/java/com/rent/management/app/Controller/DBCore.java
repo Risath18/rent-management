@@ -5,6 +5,8 @@ import java.sql.*;
 import com.rent.management.app.Exceptions.IllegalQueryException;
 import com.rent.management.app.Model.Role.Person;
 
+import org.json.simple.JSONObject;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class DBCore {
@@ -70,22 +72,20 @@ public class DBCore {
         return accessLevel;
     }
 
-    public String findPerson(String email) throws IllegalQueryException{
-        String toRet;
+    public JSONObject findPerson(String email) throws IllegalQueryException{
+        JSONObject obj = new JSONObject();
+
         try{
             String query = "SELECT * FROM Person WHERE Email = '" + email + "'";
 
             Statement stmt =  dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            int accessLevel=0;
-            String name="";
-            
-            while(rs.next()){
-                name = rs.getString("Name");
-                accessLevel = rs.getInt("AccessLevel");
-            }
-            toRet = email + ":" + name + ":" + accessLevel;
 
+        
+            while(rs.next()){
+                obj.put("Name", rs.getString("Name"));
+                obj.put("AccessLevel", Integer.parseInt(rs.getString("AccessLevel")));
+            }
             stmt.close();
             rs.close();
 
@@ -93,35 +93,56 @@ public class DBCore {
             System.err.println("Error in 'find person' sql");
             throw new IllegalQueryException();
         }
-        return toRet;
+        return obj;
     }
 
-    public String findRenter(String email){
-        String toRet;
+    public JSONObject findRenter(JSONObject obj){
+        String search = "";
         try{
-            String query = "SELECT * FROM Renter WHERE Email = '" + email + "'";
-    
+            String query = "SELECT * FROM Renter WHERE r_email = '" + obj.get("Email").toString() + "'";
+
             Statement stmt =  dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-            int notifications = 0;
-            String search = "";
-                
             while(rs.next()){
-                notifications= result.getInt("Notifications_on");
-                search = result.getString("SavedSearch_ID");
+                obj.put("Notifications_on", rs.getInt("Notifications_on"));
+                search = rs.getString("SavedSearch_ID");
+            }
+    
+            stmt.close();
+            rs.close();
+
+        } catch (SQLException ex){
+            System.err.println("Error in find renter sql");
+            throw new IllegalQueryException();
+        }
+
+        try{
+            String query = "SELECT * FROM SavedSearch WHERE savedsearch_id = '" + search + "'";
+
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+            while(rs.next()){
+                obj.put("search", search);
+                obj.put("type", rs.getString("type"));
+                obj.put("num_bed", rs.getInt("num_bed"));
+                obj.put("num_bath", rs.getInt("num_bath"));
+                obj.put("furnished", Boolean.parseBoolean(rs.getString("furnished")));
+                System.out.println(rs.getString("quadrant"));
+                obj.put("quadrant", rs.getString("quadrant"));
             }
 
-            toRet = email + ":" + notifications + ":" + search;
 
             stmt.close();
             rs.close();
 
         } catch (SQLException ex){
-            System.err.println("Error in renter sql");
+            System.err.println("Error in find renter sql with searchId");
             throw new IllegalQueryException();
         }
-        return toRet;
+        return obj;
     }
     
     public void registerPerson(String email, String password, int access, String name) throws IllegalQueryException{

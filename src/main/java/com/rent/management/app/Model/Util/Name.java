@@ -3,7 +3,6 @@ package com.rent.management.app.Model.Util;
 
 public class Name {
     private String fName; //first name
-    private String mName; //middle name
     private String lName; //last name
 
     /**
@@ -12,9 +11,8 @@ public class Name {
      * @param mName String argument for middle name
      * @param lName String argument for last name
      */
-    public Name(String fName, String mName, String lName) {
+    public Name(String fName, String lName) {
         this.setfName(fName);
-        this.setmName(mName);
         this.setlName(lName);
     }
 
@@ -32,22 +30,6 @@ public class Name {
      */
     public void setlName(String lName) {
         this.lName = lName;
-    }
-
-    /**
-     * getter for middle name
-     * @return returns string of middle name
-     */
-    public String getmName() {
-        return mName;
-    }
-
-     /**
-     * setter for middle name
-     * @param mName String argument to be stored
-     */
-    public void setmName(String mName) {
-        this.mName = mName;
     }
 
     /**
@@ -71,7 +53,7 @@ public class Name {
      * @return returns a String with the name properly formatted to read
      */
     public String getFormattedName(){
-        return fName + " " + mName + " " + lName;
+        return fName  + " " + lName;
     }
 }
 
