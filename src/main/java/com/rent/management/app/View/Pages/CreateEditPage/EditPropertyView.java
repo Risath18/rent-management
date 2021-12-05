@@ -61,7 +61,7 @@ public class EditPropertyView extends JFrame {
      * Setter for property ID using getPropertyID
      * */
     public void setID(){
-        id.setText(Integer.toString(property.getPropertyId()));
+        id.setText(property.getPropertyId());
     }
 
     /**

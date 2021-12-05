@@ -5,16 +5,50 @@ import java.util.ArrayList;
 import com.rent.management.app.Model.*;
 import com.rent.management.app.Model.Property.*;
 import com.rent.management.app.Model.Util.*;
+import com.rent.management.app.View.Pages.Listing.RenterMenuView;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class PropertyController {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class PropertyController implements ActionListener {
     ArrayList<Property> properties;
     private DBCore db;
+    private RenterMenuView renterMenuView;
+    private RenterPropView renterPropView;
+    
+    private String [][]dataa;
+    
 
     public PropertyController(DBCore db){
         this.db = db;
+        renterMenuView=new RenterMenuView();
+        renterMenuView.setVisible(true);
+        addListernersToClass();
+        
     }
+
+    private void addListernersToClass(){
+        renterMenuView.searchListener(this);
+        renterMenuView.exitListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if(e.getActionCommand().equals("exit")){
+            System.exit(1);
+        }
+        else if(e.getActionCommand().equals("search")){
+            //Searching code if we wanna have this 
+        }
+        else if(e.getActionCommand().equals("send email")){
+            //Sending email logic
+        }
+        renterPropView(getAllProperties());
+    }
+
     
     public void setProperty(JSONObject obj){
         String propertyId = obj.get("pid").toString();
@@ -24,22 +58,31 @@ public class PropertyController {
         boolean isFurnished = Boolean.parseBoolean(obj.get("furnished").toString());
         CityQuadrant qt = CityQuadrant.fromString(obj.get("type").toString());
         String adr = obj.get("address").toString();
-        Address address = new Address(adr.substring(adr.indexOf(" ", 0), adr.length()-1), qt, adr.split("[ ]"[0]));
-        PropertyStatus ps = PropertyStatus.fromString(obj.get("status"));
-        Property property = new Property(pt, num_bed, num_bath, isFurnished, propertyId, ps, address);
+        
+        Address address = new Address(adr.substring(adr.indexOf(" ", 0), adr.length()-1), qt, Integer.parseInt(adr.split("[ ]")[0]));
+        PropertyStatus ps = PropertyStatus.fromString(obj.get("status").toString());
+        boolean paid;
+        String paidFee = obj.get("fee_paid").toString();
+        if(paidFee.toLowerCase().equals("yes")){
+            paid = true;
+        }
+        else{
+            paid = false;
+        }
+        Property property = new Property(pt, num_bed, num_bath, isFurnished, propertyId, ps, address, paid);
         properties.add(property);
     }
 
-    public Property getProperty(){
-        return property;
+    public ArrayList<Property> getProperty(){
+        return properties;
     }
     
 
     public void editProperty(Property property){
-        int pid = property.getPropertyId();
-        String type = property.getPropertyType().getString();
-        int numBed = property.getNumBed();
-        int numBath = property.getNumBath();
+        String pid = property.getPropertyId();
+        String type = property.getPropertyType().toString();
+        int numBed = property.getNumOfBed();
+        int numBath = property.getNumOfBath();
         boolean isFurnished = property.isFurnished();
         String furnishedStatus;
         if(isFurnished)
@@ -49,9 +92,17 @@ public class PropertyController {
         String quadrant = property.getAddress().getCityQuadrant().toString();
         Address address = property.getAddress();
         Payment payment = property.getPayment();
-        Date startDate = payment.getDatePaid();
-        Date endDate = payment.getListingExpiryDate();
-        db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), );
+        boolean paid = payment.isPaid();
+        String status = property.getPropertyStatus().toString();
+
+        if(paid){
+            Date startDate = payment.getDatePaid();
+            Date endDate = payment.getListingExpiryDate();
+            db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
+        }
+        else{
+            db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 0, status, "NULL", "NULL");
+        }
     }
 
     public void updateListingStatus(){
@@ -62,13 +113,13 @@ public class PropertyController {
         // turn array list into 2D array for view
         // "Property Type", "Beds","Baths","Furnished","Status","Address"
         String [][] result = new String [properties.size()][6];
-        for (int i = 0 < properties.size(); i++) {
-            result[i][0] = properties[i].getPropertyType();
-            result[i][1] = properties[i].getNumOfBed();
-            result[i][2] = properties[i].getnumBath();
-            result[i][3] = properties[i].isFurnished();
-            result[i][4] = properties[i].getPropertyStatus();
-            result[i][5] = properties[i].getAddress();
+        for (int i = 0 ; i< properties.size(); i++) {
+            result[i][0] = properties.get(i).getPropertyType().toString();
+            result[i][1] = Integer.toString(properties.get(i).getNumOfBed());
+            result[i][2] = Integer.toString(properties.get(i).getNumOfBath());
+            result[i][3] = Boolean.toString(properties.get(i).isFurnished());
+            result[i][4] = properties.get(i).getPropertyStatus().toString();
+            result[i][5] = properties.get(i).getAddress().getFormattedAddress();
         }
         
         return result;
@@ -76,6 +127,13 @@ public class PropertyController {
     
     public void setAllProperties (JSONArray arr) {
         // use the setProperty method and loops to populate properties array list
-        
+        for (int i = 0; i < arr.size(); i++) {
+             JSONObject obj = (JSONObject)arr.get(i);
+          //  JSONObject obj = arr.getJSONObject(i);
+            setProperty(obj);
+        }
+        // for (JSONObject obj : arr) {
+        //     setProperty(obj); // pass object to set property
+        // }
     }
 }

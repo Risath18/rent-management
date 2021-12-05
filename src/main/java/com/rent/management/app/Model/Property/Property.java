@@ -3,7 +3,7 @@ package com.rent.management.app.Model.Property;
 import com.rent.management.app.Model.Util.Payment;
 
 public class Property {
-    private int propertyId; //unique ID for property
+    private String propertyId; //unique ID for property
     private PropertyType propertyType; //enum value for the type of property
     private int numOfBed; //number of bedrooms in property
     private int numOfBath; //number of bathrooms in property
@@ -11,6 +11,7 @@ public class Property {
     private PropertyStatus propertyStatus; //enum value for the status of the property
     private Address address; //address of property
     private Payment payment; //payment for property
+    private boolean paid;
 
     /**
      * Constructor for property
@@ -22,8 +23,8 @@ public class Property {
      * @param propertyStatus PropertyStatus object to be stored
      * @param address Address object to be stored
      */
-    public Property(PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished, int propertyId,
-            PropertyStatus propertyStatus, Address address) {
+    public Property(PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished, String propertyId,
+            PropertyStatus propertyStatus, Address address, boolean paid) {
         this.setPropertyType(propertyType);
         this.setNumOfBed(numOfBed);
         this.setNumOfBath(numOfBath);
@@ -31,6 +32,7 @@ public class Property {
         this.setPropertyId(propertyId);
         this.setPropertyStatus(propertyStatus);
         this.setAddress(address);
+        this.paid = paid;
     }
 
     /**
@@ -47,7 +49,7 @@ public class Property {
      * @param data String argument for data to be parsed
      */
     public void setProperty(String data){
-        this.propertyId = Integer.parseInt(data.split("[:]")[0]);
+        this.propertyId = data.split("[:]")[0];
         this.propertyType = PropertyType.fromString(data.split("[:]")[1]);
         this.numOfBed = Integer.parseInt(data.split("[:]")[2]);
         this.numOfBath = Integer.parseInt(data.split("[:]")[3]);
@@ -92,7 +94,7 @@ public class Property {
      * getter for property ID
      * @return returns int corresponding to property ID
      */
-    public int getPropertyId() {
+    public String getPropertyId() {
         return propertyId;
     }
 
@@ -100,7 +102,7 @@ public class Property {
      * setter for property ID
      * @param propertyID int argument for property ID to be stored
      */
-    public void setPropertyId(int propertyId) {
+    public void setPropertyId(String propertyId) {
         this.propertyId = propertyId;
     }
 

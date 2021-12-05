@@ -103,7 +103,7 @@ public class PropertyInfoView extends JFrame {
      * Setter for ID from property id
      * */
     public void setIDField(){
-        ID.setText(Integer.toString(property.getPropertyId()));
+        ID.setText(property.getPropertyId());
    }
 
     /**

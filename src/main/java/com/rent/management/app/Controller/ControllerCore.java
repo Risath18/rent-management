@@ -3,6 +3,7 @@ package com.rent.management.app.Controller;
 import com.rent.management.app.Model.Role.Person;
 import com.rent.management.app.Model.Util.Name;
 import com.rent.management.app.Model.Util.SearchCriteria;
+import com.rent.management.app.View.Pages.Listing.RenterMenuView;
 import com.rent.management.app.View.Pages.Listing.UnRegRenterView;
 import com.rent.management.app.View.Pages.LoginPage.Login;
 
@@ -33,7 +34,7 @@ public class ControllerCore implements ActionListener{
         login.setVisible(true);
         this.addListernersToView();
         // System.out.println("Controller> Created!");
-        // this.db = new DBCore();
+         this.db = new DBCore();
 
         // Login login = new Login();
         // login.Login();
@@ -55,17 +56,22 @@ public class ControllerCore implements ActionListener{
     public void actionPerformed(ActionEvent e){
         String username=login.getUsername();
         String password=login.getPassword();
-
+        System.out.println(password);
         try{
             if(e.getActionCommand().equals("login")){
-                System.out.println("LOGG IN AUTH");
+                if(login(username, password)){
+                    //go to home page
+                    System.out.println("Log in Success for: " + username);
+                } else {
+                    //display fail
+                }
                 //Login Auth should happen here
                 //if(true)
                 //openHomePage()
             }else if(e.getActionCommand().equals("register")){
                 System.out.println("REG");
 
-                unRegRenterView=new UnRegRenterView();
+                UnRegRenterView unRegRenterView = new UnRegRenterView();
                 unRegRenterView.setVisible(true);
                 return;
             }else if(e.getActionCommand().equals("submit")){
@@ -121,7 +127,7 @@ public class ControllerCore implements ActionListener{
         return true;
     }
 
-    public void login(String username, String password){
+    public boolean login(String username, String password){
         //See if user exists
         //String formattedQuery;
         JSONObject obj;
@@ -145,12 +151,15 @@ public class ControllerCore implements ActionListener{
                 obj.put("Email", username);
                 obj = db.findRenter(obj);                
                 pc.setRenter(obj);
+             //   RenterMenuView renView= new RenterMenuView();
             }
         } catch(IllegalQueryException e){
-           // return false; //registration Failed
+            e.printStackTrace();
+            return false; //registration Failed
         }
 
         //If successfully logged in, add to model
+        return true;
 
     }
 }

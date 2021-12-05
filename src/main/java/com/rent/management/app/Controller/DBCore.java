@@ -59,10 +59,11 @@ public class DBCore {
 
             Statement stmt =  dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            
+
             while(rs.next()){
                 accessLevel = rs.getInt("AccessLevel");
             }
+
             stmt.close();
             rs.close();
 
@@ -213,7 +214,7 @@ public class DBCore {
         return true;
     }
 
-    public JSONArray getAllProperties () {
+    public JSONArray getAllProperties() {
         JSONArray arr = new JSONArray(); // array of properties to be returned
         try {
             String query = "SELECT * FROM Property"; // select all properties query
@@ -237,7 +238,7 @@ public class DBCore {
                 obj.put("active_date", rs.getString("active_date"));
                 obj.put("end_date", rs.getString("end_date"));
 
-                arr.put(obj); // adding the object to the json array
+                arr.add(obj); // adding the object to the json array
             }
 
             stmt.close();
@@ -327,6 +328,46 @@ public class DBCore {
         }
         return true;
     }
+
+    public void payFee (String property_id) {
+        String query = "UPDATE ";
+    }
+
+
+    //RISAT WORKING ON THIS
+    //USE SQL TO FIGURE OUT LOGIC
+    public JSONArray search(JSONObject searchCriteria){
+
+    }
+
+    public void changeNotificationStatus(){
+
+    }
+
+    public void saveSearchCriteria(){
+
+    }
+
+    public void checkSearchResults(){
+
+    }
+
+    public void changeFeePeriod(){
+
+    }
+
+    public void changeFeeAmount(){
+
+    }
+
+    public void retrieveForSummary(){
+
+    }
+
+    public void changeListingState(){
+
+    }
+
 
     public void close(){
         try{
