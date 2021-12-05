@@ -76,7 +76,7 @@ public class Address {
      * @return returns a String with the address properly formatted to read
      */
     public String getFormattedAddress() {
-		return street + ":" + houseNumber + ":" + cityQuadrant;
+		return houseNumber + " " + street;
     }
 
     //INCOMPLETE, PARSE DATA

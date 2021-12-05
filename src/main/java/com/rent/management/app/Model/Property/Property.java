@@ -13,6 +13,10 @@ public class Property {
     private Payment payment; //payment for property
     private boolean paid;
 
+    public Property(){
+        
+    }
+
     /**
      * Constructor for property
      * @param propertyType PropertyType object to be stored
@@ -23,8 +27,7 @@ public class Property {
      * @param propertyStatus PropertyStatus object to be stored
      * @param address Address object to be stored
      */
-    public Property(PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished, String propertyId,
-            PropertyStatus propertyStatus, Address address, boolean paid) {
+    public Property(String propertyId, PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished, Address address, boolean paid, PropertyStatus propertyStatus) {
         this.setPropertyType(propertyType);
         this.setNumOfBed(numOfBed);
         this.setNumOfBath(numOfBath);

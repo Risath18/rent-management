@@ -4,13 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import com.rent.management.app.Controller.LandlordController;
 import com.rent.management.app.Model.Property.Property;
 import com.rent.management.app.View.Pages.Listing.PropertyView;
 import com.rent.management.app.View.Pages.CreateEditPage.EditPropertyView;
 
 public class LandlordProperty extends PropertyView {
     //Implement Controller methods later
-    //private LandLordController landController;
+    private LandlordController llc;
 
     /**
      * Constructor for LandLordProperty View
@@ -49,9 +50,12 @@ public class LandlordProperty extends PropertyView {
     public void actionPerformed(ActionEvent e) {
         Property temp=editView.getSelectedProperty();
         temp.setPropertyStatus(editView.getStatus());
-        //Contoller code to follow
+        llc.updateStatus(temp);
     }
 
-    //Complete the following later. :)
-    //public void setLandLordController
+    public void setLandlordController ( LandlordController lc){
+        this.llc = lc;
+    }
+
+    
 }

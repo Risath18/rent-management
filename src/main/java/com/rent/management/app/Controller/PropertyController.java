@@ -6,6 +6,7 @@ import com.rent.management.app.Model.*;
 import com.rent.management.app.Model.Property.*;
 import com.rent.management.app.Model.Util.*;
 import com.rent.management.app.View.Pages.Listing.RenterMenuView;
+import com.rent.management.app.View.Pages.Listing.RenterPropView;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,11 +20,11 @@ public class PropertyController implements ActionListener {
     private RenterMenuView renterMenuView;
     private RenterPropView renterPropView;
     
-    private String [][]dataa;
-    
 
     public PropertyController(DBCore db){
         this.db = db;
+        properties = new ArrayList<Property>();
+        setAllProperties(db.getAllProperties());
         renterMenuView=new RenterMenuView();
         renterMenuView.setVisible(true);
         addListernersToClass();
@@ -46,7 +47,7 @@ public class PropertyController implements ActionListener {
         else if(e.getActionCommand().equals("send email")){
             //Sending email logic
         }
-        renterPropView(getAllProperties());
+        renterPropView =new RenterPropView (getAllProperties());
     }
 
     
@@ -69,7 +70,16 @@ public class PropertyController implements ActionListener {
         else{
             paid = false;
         }
-        Property property = new Property(pt, num_bed, num_bath, isFurnished, propertyId, ps, address, paid);
+        Property property = new Property(propertyId, pt, num_bed, num_bath, isFurnished, address, paid, ps);
+        System.out.println(pt);
+        System.out.println(num_bed);
+        System.out.println(num_bath);
+        System.out.println(isFurnished);
+        System.out.println(propertyId);
+        System.out.println(ps);
+        System.out.println(address);
+        System.out.println(paid);
+
         properties.add(property);
     }
 
@@ -111,8 +121,8 @@ public class PropertyController implements ActionListener {
 
     public String [][] getAllProperties() {
         // turn array list into 2D array for view
-        // "Property Type", "Beds","Baths","Furnished","Status","Address"
-        String [][] result = new String [properties.size()][6];
+        // "Property Type", "Beds","Baths","Furnished","Status","Address", "Quadrant"
+        String [][] result = new String [properties.size()][7];
         for (int i = 0 ; i< properties.size(); i++) {
             result[i][0] = properties.get(i).getPropertyType().toString();
             result[i][1] = Integer.toString(properties.get(i).getNumOfBed());
@@ -120,6 +130,7 @@ public class PropertyController implements ActionListener {
             result[i][3] = Boolean.toString(properties.get(i).isFurnished());
             result[i][4] = properties.get(i).getPropertyStatus().toString();
             result[i][5] = properties.get(i).getAddress().getFormattedAddress();
+            result[i][5] = properties.get(i).getAddress().getCityQuadrant().toString();
         }
         
         return result;

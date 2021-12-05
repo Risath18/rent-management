@@ -30,16 +30,17 @@ public class ControllerCore implements ActionListener{
 
     public ControllerCore(){
         login=new Login();
-        login.Login();
-        login.setVisible(true);
-        this.addListernersToView();
-        // System.out.println("Controller> Created!");
+       login.Login();
+       login.setVisible(true);
+       this.addListernersToView();
+        System.out.println("Controller> Created!");
          this.db = new DBCore();
+        // this.propc = new PropertyController(db);
 
-        // Login login = new Login();
-        // login.Login();
-        // login.setVisible(true);
-        // login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //  Login login = new Login();
+        // //  login.Login();
+        // // login.setVisible(true);
+        // // login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
        // register("bernie@gmail.com", "iheartamerica", 3, "Bernie", "Democrat", "Sanders");
@@ -76,6 +77,7 @@ public class ControllerCore implements ActionListener{
                 return;
             }else if(e.getActionCommand().equals("submit")){
                 System.out.println("SUBMIT");
+                String name = login.getName();
 
                 //Adding a new user logic 
             }
@@ -131,10 +133,9 @@ public class ControllerCore implements ActionListener{
         //See if user exists
         //String formattedQuery;
         JSONObject obj;
-
-        int accessLevel;
         this.pc = new PersonController();
 
+        int accessLevel;
         try{
            accessLevel = db.validateLogin(username, password);
 
@@ -151,6 +152,7 @@ public class ControllerCore implements ActionListener{
                 obj.put("Email", username);
                 obj = db.findRenter(obj);                
                 pc.setRenter(obj);
+
              //   RenterMenuView renView= new RenterMenuView();
             }
         } catch(IllegalQueryException e){

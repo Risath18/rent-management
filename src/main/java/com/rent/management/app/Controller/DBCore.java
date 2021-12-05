@@ -1,6 +1,11 @@
 package com.rent.management.app.Controller;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 import com.rent.management.app.Exceptions.IllegalQueryException;
 import com.rent.management.app.Model.Role.Person;
@@ -253,7 +258,7 @@ public class DBCore {
 
     public void registerRenter(String rEmail, int notifications, String searchID){
         try{
-            String query = "INSERT INTO Manager(R_Email, Notifications_on, SavedSearch_ID) VALUES (?,?)";
+            String query = "INSERT INTO Renter(R_Email, Notifications_on, SavedSearch_ID) VALUES (?,?,?)";
             PreparedStatement stmt = dbConnect.prepareStatement(query);
 
             stmt.setString(1, rEmail);
@@ -329,44 +334,217 @@ public class DBCore {
         return true;
     }
 
-    public void payFee (String property_id) {
-        String query = "UPDATE ";
+    public void payFee(String property_id) {
+        try {
+            // get fee days
+            String period_query = "SELECT * FROM Fees";
+            Statement fee_stmt = dbConnect.createStatement();
+            ResultSet fee_rs = fee_stmt.executeQuery(period_query);
+            int period = 0;
+            if (fee_rs.next()) {
+                 period = fee_rs.getInt("Days");
+            }
+
+            String query = "UPDATE Property SET (Fee_Paid, Active_Date, End_Date)  VALUES(1,?,?) WHERE PID = " + property_id + " ";
+
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+            
+            LocalDateTime date = LocalDateTime.now(); // retrieve current date
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("MMM dd, yyyy");
+            String formattedDate = date.format(formatter);
+            
+            stmt.setString(1, formattedDate);
+            
+            
+
+            // increment date by period
+            date.plusDays(period);
+            formattedDate = date.format(formatter);
+            stmt.setString(2, formattedDate);
+
+            // submit query
+            stmt.executeUpdate();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error in paying fees");
+            ex.printStackTrace();
+        }
     }
 
 
-    //RISAT WORKING ON THIS
-    //USE SQL TO FIGURE OUT LOGIC
-    public JSONArray search(JSONObject searchCriteria){
+    // //RISAT WORKING ON THIS
+    // //USE SQL TO FIGURE OUT LOGIC
+    //    public JSONArray search(JSONObject searchCriteria){
+
+    public void search(JSONObject searchCriteria){
+        // String type = searchCriteria.get("type").toString();
+        // String num_bed = Integer.parseInt(searchCriteria.get("num_bed").toString());
+        // String num_bath = Integer.parseInt(searchCriteria.get("num_bath").toString());
+        // String furnished = searchCriteria.get("furnished").toString();
+        // String quadrant = searchCriteria.get("quadrant").toString();
+
+        // String query = "SELECT * FROM Property WHERE ";
+
+        // if(type!=null){
+        //     query+= type;
+        // }
 
     }
 
-    public void changeNotificationStatus(){
+    //alexis
+    public void changeNotificationStatus(String email){
+        String query = "SELECT * FROM Renter WHERE R_Email = '" + email + "'";
+        int notif=-1;
+        try{
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
 
+
+            while(rs.next()){
+                notif = rs.getInt("Notifications_on");
+            }
+
+            if(notif < 1)
+                notif = 1;
+            else
+                notif = 0;
+
+            query = "UPDATE Renter Notifications_on = '" + notif + "' WHERE R_Email = '" + email + "'";
+            
+            rs = stmt.executeQuery(query);
+        
+            stmt.close();
+            rs.close();
+
+        } catch(SQLException e){
+            System.out.println("Notification status error");
+        }
+    } //done
+
+    //alexis
+    public void saveSearchCriteria(String type, int numBed, int numBath, String furnished, String quadrant){
+        String query = "INSERT INTO Saved_Search (SavedSearch_ID, Type, Num_Bed, Num_Bath, Furnished, Quadrant) VALUES (?,?,?,?,?,?)";
+        
+        try{
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+
+            String searchID = UUID.randomUUID().toString();
+
+            stmt.setString(1, searchID);
+            stmt.setString(2, type);
+            stmt.setInt(3, numBed);
+            stmt.setInt(4, numBath);
+            stmt.setString(5, furnished);
+            stmt.setString(6, quadrant);
+
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch(SQLException e){
+            System.out.println("Error inside save search criteria");
+        }
+    }//done?? may need to figure out nulls 
+
+    // Liana
+    public void checkSearchResults(String renter_email) {
+        String searchID = "";
+        // select appropriate renter
+        try {
+            String query = "SELECT * FROM Renter WHERE R_Email = " + renter_email + ";";
+            Statement statement = dbConnect.createStatement();
+            ResultSet set = statement.executeQuery(query);
+
+            int notifications = 0;
+            if (set.next()) {
+                notifications = set.getInt("Notifications_on");
+                searchID = set.getString("SavedSearch_ID");
+            }
+
+        // check for notifications turned on
+            if (notifications == 0) {
+        //  return null if notifications are turned off
+                return; 
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in checking notification search results");
+            ex.printStackTrace();
+        }
+        //  else continue to find search information
+        try {
+        // use saved search id to find saved search
+            String query = "Select * FROM SavedSearch WHERE SavedSearch_ID = '" + searchID + "''";
+            Statement statement = dbConnect.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+        // turn search into a JSON Object
+            JSONObject obj = new JSONObject();
+            if (rs.next()) {
+                obj.put("type", rs.getString("Type").toString());
+                obj.put("num_bed", Integer.parseInt(rs.getString("Num_Bed").toString()));
+                obj.put("num_bath", Integer.parseInt(rs.getString("num_bath").toString()));
+                obj.put("furnished", rs.getString("Furnished").toString());
+                obj.put("quadrant", rs.getString("Quadrant").toString());
+            }
+        // pass JSON object to Risat's function
+        // return the results
+            return;// search(obj);
+
+        } catch (SQLException ex) {
+            System.out.println("Error in checking notification search results");
+            ex.printStackTrace();
+        }
     }
 
-    public void saveSearchCriteria(){
+    public void changeFeePeriod(int days){
+        try {
+        String query = "UPDATE Fees (Days) VALUES (?)";
 
+        PreparedStatement stmt = dbConnect.prepareStatement(query);
+        stmt.setInt(1, days); // set new days
+        stmt.executeUpdate();
+        stmt.close();
+        
+        } catch (SQLException ex) {
+            System.out.println("Error in paying fees");
+            ex.printStackTrace();
+        }
     }
 
-    public void checkSearchResults(){
+    public void changeFeeAmount(int fee){
+        try {
+        String query = "UPDATE Fees (Price) VALUES (?)";
 
-    }
-
-    public void changeFeePeriod(){
-
-    }
-
-    public void changeFeeAmount(){
-
+        PreparedStatement stmt = dbConnect.prepareStatement(query);
+        stmt.setInt(1, fee); // set new days
+        stmt.executeUpdate();
+        stmt.close();
+        
+        } catch (SQLException ex) {
+            System.out.println("Error in paying fees");
+            ex.printStackTrace();
+        }
     }
 
     public void retrieveForSummary(){
-
+        
     }
 
-    public void changeListingState(){
+    public void changeListingStatus(int pid, String newStatus){
+        String query = "UPDATE Property Status = '" + newStatus + "' WHERE PID = '" + pid + "'";
+        try{
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            rs = stmt.executeQuery(query);
+        
+            stmt.close();
+            rs.close();
 
-    }
+        } catch(SQLException e){
+            System.out.println("listing status error");
+        }
+    } //this one is done
 
 
     public void close(){

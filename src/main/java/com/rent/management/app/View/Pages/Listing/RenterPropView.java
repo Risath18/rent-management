@@ -5,10 +5,12 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import com.rent.management.app.Controller.PropertyController;
+import com.rent.management.app.Model.Property.Property;
 
 public class RenterPropView extends PropertyView{
     private PropertyController propController;
-    
+    private Property selectedProperty;
+
     public RenterPropView(String[][] addToTable) {
         super(addToTable);
     }
@@ -16,17 +18,21 @@ public class RenterPropView extends PropertyView{
     @Override
     public void actionMouse(MouseEvent e) {
         int index = getTable().getSelectedRow();
-		if (propertyList.size() > 0) {
-			selectedProperty = propertyList.get(index);
-			propertyInfo = new PropertyInfoView(selectedProperty);
+		if (properties.size() > 0) {
+			selectedProperty = properties.get(index);
+			propInfo = new PropertyInfoView(selectedProperty);
 		} else {
 			selectedProperty = null;
-			propertyInfo = new PropertyInfoView(selectedProperty);
+			propInfo = new PropertyInfoView(selectedProperty);
 		}
-		propertyInfo.setVisible(true);
-		propertyInfo.addSendEmailListener(this);
+		propInfo.setVisible(true);
+		//propInfo.addSendEmailListener(this);
     }
 
+    public void setPropertyController(PropertyController pc){
+        this.propController=pc;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
 
