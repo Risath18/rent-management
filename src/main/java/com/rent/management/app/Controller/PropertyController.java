@@ -14,6 +14,8 @@ import org.json.simple.JSONObject;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
+
 public class PropertyController implements ActionListener {
     ArrayList<Property> properties;
     private DBCore db;
@@ -136,6 +138,25 @@ public class PropertyController implements ActionListener {
         return result;
     }
     
+    public String [][] getAllPropertiesDated() {
+        // turn array list into 2D array for manager summary
+        // "Property Type", "Beds","Baths","Furnished","Status","Address", "Quadrant", "StartDate", "EndDate"
+        String [][] result = new String [properties.size()][8];
+        for (int i = 0 ; i< properties.size(); i++) {
+            result[i][0] = properties.get(i).getPropertyType().toString();
+            result[i][1] = Integer.toString(properties.get(i).getNumOfBed());
+            result[i][2] = Integer.toString(properties.get(i).getNumOfBath());
+            result[i][3] = Boolean.toString(properties.get(i).isFurnished());
+            result[i][4] = properties.get(i).getPropertyStatus().toString();
+            result[i][5] = properties.get(i).getAddress().getFormattedAddress();
+            result[i][5] = properties.get(i).getAddress().getCityQuadrant().toString();
+            result[i][6] = properties.get(i).getPayment().getDatePaid().getFormattedDate();
+            result[i][7] = properties.get(i).getPayment().getListingExpiryDate().getFormattedDate();
+        }
+        return result;
+    }
+
+
     public void setAllProperties (JSONArray arr) {
         // use the setProperty method and loops to populate properties array list
         for (int i = 0; i < arr.size(); i++) {
@@ -146,5 +167,48 @@ public class PropertyController implements ActionListener {
         // for (JSONObject obj : arr) {
         //     setProperty(obj); // pass object to set property
         // }
+    }
+
+    private LocalDateTime stringToDateTime (String str_date) { // input must be month in words, days in numbers, 
+        String [] split_date = str_date.split(" ");
+        
+        int month = 0;
+        String mon = split_date[0].substring(0, 3); // get first 3 letters of the month
+        mon.toLowerCase();
+        switch (mon) {
+            case "jan" :
+                month = 1;
+            case "feb" :
+                month = 2;
+            case "mar" :
+                month = 3;
+            case "apr" :
+                month = 4;
+            case "may" :
+                month = 5;
+            case "jun":
+                month = 6;
+            case "jul":
+                month = 7;
+            case "aug" :
+                month = 8;
+            case "sep":
+                month = 9;
+            case "oct" :
+                month = 10;
+            case "nov":
+                month = 11;
+            case "dec":
+                month = 12;
+        }
+
+        String day_ = split_date[1].substring(0, split_date[1].length());
+        int day = Integer.parseInt(day_);
+
+        int year = Integer.parseInt(split_date[2]);
+
+        LocalDateTime date = LocalDateTime.of(year, month, day, 0, 0);
+
+        return date;
     }
 }

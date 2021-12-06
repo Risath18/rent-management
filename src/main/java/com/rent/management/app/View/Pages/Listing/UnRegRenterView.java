@@ -17,6 +17,10 @@ public class UnRegRenterView extends JFrame {
      * Default constructor for unregistered renter view
      * */
     public UnRegRenterView(){
+  
+    }
+
+    public void createView(){
         setSize(303, 295);
         getContentPane().setBackground(new Color(230, 230, 250));
         setTitle("Register");
@@ -69,7 +73,6 @@ public class UnRegRenterView extends JFrame {
         password.setBounds(116, 121, 146, 26);
         getContentPane().add(password);
     }
-
     /**
      * Setter for action listener for submission
      * @param al action listener for submition action

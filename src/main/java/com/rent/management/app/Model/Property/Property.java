@@ -26,6 +26,7 @@ public class Property {
      * @param propertyID int ID of property
      * @param propertyStatus PropertyStatus object to be stored
      * @param address Address object to be stored
+     * @param paid boolean for whether the fee has been paid or not
      */
     public Property(String propertyId, PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished, Address address, boolean paid, PropertyStatus propertyStatus) {
         this.setPropertyType(propertyType);

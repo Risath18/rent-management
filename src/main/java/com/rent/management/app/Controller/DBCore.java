@@ -526,10 +526,6 @@ public class DBCore {
         }
     }
 
-    public void retrieveForSummary(){
-        
-    }
-
     public void changeListingStatus(int pid, String newStatus){
         String query = "UPDATE Property Status = '" + newStatus + "' WHERE PID = '" + pid + "'";
         try{
