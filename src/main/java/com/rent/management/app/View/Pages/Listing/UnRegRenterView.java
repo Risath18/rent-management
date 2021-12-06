@@ -3,12 +3,12 @@ package com.rent.management.app.View.Pages.Listing;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLOutput;
 
 public class UnRegRenterView extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField fName;
     private JTextField lName;
-    private JTextField uName;
     private JTextField email;
     private JPasswordField password;
     private JButton submit = new JButton("submit");
@@ -16,6 +16,7 @@ public class UnRegRenterView extends JFrame {
     /**
      * Default constructor for unregistered renter view
      * */
+
     public UnRegRenterView(){
         setSize(303, 295);
         getContentPane().setBackground(new Color(230, 230, 250));
@@ -30,9 +31,6 @@ public class UnRegRenterView extends JFrame {
         lNameLbl.setBounds(15, 52, 86, 20);
         getContentPane().add(lNameLbl);
 
-        JLabel uNameLbl = new JLabel("User Name");
-        uNameLbl.setBounds(15, 88, 86, 20);
-        getContentPane().add(uNameLbl);
 
         JLabel pwLbl = new JLabel("Password");
         pwLbl.setBounds(15, 124, 69, 20);
@@ -55,10 +53,6 @@ public class UnRegRenterView extends JFrame {
         getContentPane().add(lName);
         lName.setColumns(10);
 
-        uName = new JTextField();
-        uName.setBounds(116, 85, 146, 26);
-        getContentPane().add(uName);
-        uName.setColumns(10);
 
         email = new JTextField();
         email.setBounds(116, 157, 146, 26);
@@ -69,7 +63,6 @@ public class UnRegRenterView extends JFrame {
         password.setBounds(116, 121, 146, 26);
         getContentPane().add(password);
     }
-
     /**
      * Setter for action listener for submission
      * @param al action listener for submition action
@@ -103,13 +96,7 @@ public class UnRegRenterView extends JFrame {
         return String.copyValueOf(password.getPassword());
     }
 
-    /**
-     * Getter for username
-     * @return username
-     * */
-    public String getUName(){
-        return uName.getText();
-    }
+
 
     /**
      * Getter for email address
@@ -119,4 +106,12 @@ public class UnRegRenterView extends JFrame {
         return email.getText();
     }
 
+//    public static void main(String[] args) {
+//        UnRegRenterView unReg = new UnRegRenterView();
+//        unReg.createView();
+//        unReg.setVisible(true);
+//
+//    }
+
 }
+

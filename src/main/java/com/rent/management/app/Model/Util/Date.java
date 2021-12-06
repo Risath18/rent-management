@@ -3,7 +3,6 @@ package com.rent.management.app.Model.Util;
 import com.rent.management.app.Exceptions.IllegalDateException;
 
 public class Date {
-    private Time time; //time object
     private int month;
     private int day;
     private int year;
@@ -18,16 +17,14 @@ public class Date {
      * @param year int for the year
      * @param month int for the month
      * @param day int for the day
-     * @param time Time object
      */
-    public Date(int year, int month, int day, Time time){
+    public Date(int year, int month, int day){
         if(validateYear(year))
             setYear(year);
         if(validateMonth(month))
             setMonth(month);
         if(validateDay(day))
             setDay(day);
-        setTime(time);
     }
 
     /**
@@ -82,27 +79,11 @@ public class Date {
     }
 
     /**
-     * getter for time
-     * @return returns Time object
-     */
-    public Time getTime() {
-        return time;
-    }
-
-    /**
-     * setter for time
-     * @param time Time object to be stored
-     */
-    public void setTime(Time time) {
-        this.time = time;
-    }
-
-    /**
      * getter for formatted date
      * @return returns a formatted date string
      */
     public String getFormattedDate(){
-        return day + " " + month + " " + year + " " + time.getFormattedTime();
+        return month + " " + day + "," + year;
     }
 
     /**

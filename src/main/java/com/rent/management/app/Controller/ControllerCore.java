@@ -30,7 +30,8 @@ public class ControllerCore implements ActionListener{
 
     public ControllerCore(){
         login=new Login();
-       login.Login();
+        unRegRenterView = new UnRegRenterView();
+        login.Login();
        login.setVisible(true);
        this.addListernersToView();
         System.out.println("Controller> Created!");
@@ -71,20 +72,22 @@ public class ControllerCore implements ActionListener{
                 //openHomePage()
             }else if(e.getActionCommand().equals("register")){
                 System.out.println("REG");
-
-                UnRegRenterView unRegRenterView = new UnRegRenterView();
                 unRegRenterView.setVisible(true);
-                return;
+                unRegRenterView.submitListener(this);
+                //return;
             }else if(e.getActionCommand().equals("submit")){
                 System.out.println("SUBMIT");
-                String name = login.getName();
-
-                //Adding a new user logic 
+                System.out.println("Hi inside submit");
+                String name=unRegRenterView.getFName();
+                System.out.print(name);
             }
         }catch(Exception exception){
                 exception.printStackTrace();
         }
     }
+
+    
+
 
     public void openHomePage(){
         //Open the page to view depending on renter, landlord or other stuff
