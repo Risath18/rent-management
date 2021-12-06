@@ -24,48 +24,57 @@ public class LoginController implements ActionListener{
     private DBCore db;
     private PersonController pc;
     private PropertyController propc;
-    private Login login;
+    private Login loginView;
     private UnRegRenterView unRegRenterView;
     private String userType;
+    private int accessLevel;
 
-    public LoginController(){
-        login=new Login();
+    public LoginController(DBCore db, int accessLevel){
+        this.accessLevel = accessLevel;
+        loginView=new Login();
         unRegRenterView = new UnRegRenterView();
-        login.Login();
-        login.setVisible(true);
+        loginView.Login();
+        loginView.setVisible(true);
         this.addListernersToView();
         System.out.println("Controller Created!");
-        this.db = new DBCore();
+        this.db = db;
 
     }
 
     public void addListernersToView(){
-        login.addLoginListener(this);
-        login.addNewListener(this);
+        loginView.addLoginListener(this);
+        loginView.addNewListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        String username=login.getUsername();
-        String password=login.getPassword();
-        System.out.println(password);
+        String username=loginView.getUsername();
+        String password=loginView.getPassword();
+        System.out.println(username + " " + password);
+
         try{
             if(e.getActionCommand().equals("login")){
                 if(login(username, password)){
                     System.out.println("Log in Success for: " + username);
                 } else {
-                    //display fail
+                    System.out.println("Fail!");
                 }
             }else if(e.getActionCommand().equals("register")){
-                System.out.println("REG");
                 unRegRenterView.setVisible(true);
                 unRegRenterView.submitListener(this);
                 //return;
             }else if(e.getActionCommand().equals("submit")){
-                System.out.println("SUBMIT");
-                System.out.println("Hi inside submit");
-                String name=unRegRenterView.getFName();
-                System.out.print(name);
+                String fName=unRegRenterView.getFName();
+                String lName = unRegRenterView.getLName();
+                String email=unRegRenterView.getEmail();
+                String pass= unRegRenterView.getPassword();
+                if(register(email, pass, accessLevel, fName, lName)){
+                    System.out.println("Registration Success!");
+                    //TODO: GO TO NEXT PAGE! SUCCESS
+                } else{
+                    System.out.println("Registration Failed! User exist!");
+                    //TODO: FAIL, GO BACK
+                }
             }
         }catch(Exception exception){
                 exception.printStackTrace();
@@ -92,11 +101,11 @@ public class LoginController implements ActionListener{
      * @param name object of name for the user's name
      * @return boolean whether successful 
      */
-    public boolean register(String username, String password, int accessLevel, String fName, String mName, String lName){
+    public boolean register(String username, String password, int accessLevel, String fName, String lName){
 
         //Send to DB
         try{
-            db.registerPerson(username, password, accessLevel, (fName + " " + mName + " " + lName));
+            db.registerPerson(username, password, accessLevel, (fName + " " + lName));
         } catch(IllegalQueryException e){
             return false; //registration Failed
         }
@@ -127,6 +136,7 @@ public class LoginController implements ActionListener{
         int accessLevel;
         try{
            accessLevel = db.validateLogin(username, password);
+           System.out.println("al: " + accessLevel);
 
             if(accessLevel == 1){ //Manager
                 obj = db.findPerson(username);

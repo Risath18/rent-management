@@ -6,13 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainController implements ActionListener {
-
+    private DBCore db;
     private ViewMain viewMain;
     private LoginController login;
     public MainController(){
+        this.db = new DBCore();
         viewMain = new ViewMain();
         this.addListeners();
         viewMain.setVisible(true);
+
     }
     public void addListeners(){
         viewMain.addLandLord(this);
@@ -24,11 +26,15 @@ public class MainController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Guest")){
             viewMain.setVisible(false);
-
-        }
-        else if (e.getActionCommand().equals("Landlord") || e.getActionCommand().equals("Renter") || e.getActionCommand().equals("Manager")){
+        }else if (e.getActionCommand().equals("Landlord")){
             viewMain.setVisible(false);
-            login= new LoginController();
+            login= new LoginController(db, 2);
+        } else if(e.getActionCommand().equals("Renter")){
+            viewMain.setVisible(false);
+            login= new LoginController(db, 3);
+        } else if(e.getActionCommand().equals("Manager")){
+            viewMain.setVisible(false);
+            login= new LoginController(db, 1);
         }
     }
 }
