@@ -39,6 +39,9 @@ public class LoginController implements ActionListener{
         System.out.println("Controller Created!");
         this.db = db;
 
+        // this.propc = new PropertyController(db);
+        // propc.createProperty();
+
     }
 
     public void addListernersToView(){

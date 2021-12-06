@@ -172,11 +172,38 @@ public class DBCore {
         }
     }
 
-    public void registerProperty(String pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
+    /*
+    * Generates Property Id based on current MAX value PID in db
+    **/
+    public int generatePropertyId(){
+        int result = 0;
+        try{
+            String query = "SELECT MAX(pid) as max FROM property";
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                result = Integer.parseInt(rs.getString("max"));
+            }
+
+            stmt.close();
+            rs.close();
+        } 
+        catch(SQLException ex){
+            System.err.println("Error in generatePropertyId sql");
+            ex.printStackTrace();
+        }
+        return ++result;
+    }
+
+    /*
+    * Adds Property based on NULL Start & End Date Values
+    **/
+    public void registerProperty(int pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
         try{
             String query = "INSERT INTO Property (PID, L_Email, Type, Num_Bed, Num_Bath, Furnished, Quadrant, Address, Fee_Paid, Status, Active_Date, End_Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = dbConnect.prepareStatement(query);
-            stmt.setString(1, pid);
+            stmt.setInt(1, pid);
             stmt.setString(2, lEmail);
             stmt.setString(3, type);
             stmt.setInt(4, numBed);
