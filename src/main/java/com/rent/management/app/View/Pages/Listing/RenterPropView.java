@@ -4,12 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import com.rent.management.app.Controller.GuestController;
 import com.rent.management.app.Controller.PropertyController;
 import com.rent.management.app.Model.Property.Property;
 
 public class RenterPropView extends PropertyView{
     private PropertyController propController;
     private Property selectedProperty;
+    private GuestController gc;
 
     public RenterPropView(String[][] addToTable) {
         super(addToTable);
@@ -32,9 +34,10 @@ public class RenterPropView extends PropertyView{
     public void setPropertyController(PropertyController pc){
         this.propController=pc;
     }
+    public void setGuestController(GuestController guest){this.gc = guest;}
     
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        //Email logic mostly
     }
 }
