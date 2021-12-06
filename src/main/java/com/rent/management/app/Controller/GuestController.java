@@ -2,17 +2,20 @@ package com.rent.management.app.Controller;
 
 import com.rent.management.app.Model.Property.Property;
 import com.rent.management.app.View.Pages.Listing.RenterMenuView;
+import com.rent.management.app.View.Pages.Listing.RenterPropView;
+import com.rent.management.app.Controller.GeneralPropController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class GuestController implements ActionListener {
+public class GuestController implements GeneralPropController,ActionListener{
     private RenterMenuView renterMenuView;
     private PropertyController propContoller;
     private SearchController searchController;
     private ArrayList<Property> searchResults = null;
     private String [][]dataa;
+    private RenterPropView renterPropView;
 
     public GuestController(){
         renterMenuView = new RenterMenuView();
@@ -30,14 +33,17 @@ public class GuestController implements ActionListener {
             System.exit(1);
         }
         else if(e.getActionCommand().equals("search")){
-            searchController = new SearchController();
+            searchController = new SearchController(this);
         }
         else if(e.getActionCommand().equals("send email")){
             //Email Logic
         }
     }
     public void getSearchData(Property p) {
-        //Searching logic
+        //Search Properties based onp
+        renterPropView = new RenterPropView(dataa);
+        renterPropView.setGuestController(this);
+        renterPropView.setDisplay(searchResults);
     }
     public void setData(){
         //Set things according to search data
