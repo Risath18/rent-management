@@ -30,7 +30,8 @@ public class ControllerCore implements ActionListener{
 
     public ControllerCore(){
         login=new Login();
-       login.Login();
+        unRegRenterView = new UnRegRenterView();
+        login.Login();
        login.setVisible(true);
        this.addListernersToView();
         System.out.println("Controller> Created!");
@@ -57,7 +58,6 @@ public class ControllerCore implements ActionListener{
     public void actionPerformed(ActionEvent e){
         String username=login.getUsername();
         String password=login.getPassword();
-        UnRegRenterView unRegRenterView = new UnRegRenterView();
         System.out.println(password);
         try{
             if(e.getActionCommand().equals("login")){
@@ -72,18 +72,14 @@ public class ControllerCore implements ActionListener{
                 //openHomePage()
             }else if(e.getActionCommand().equals("register")){
                 System.out.println("REG");
-                unRegRenterView.createView();
-
-                unRegRenterView.submitListener(this);
                 unRegRenterView.setVisible(true);
+                unRegRenterView.submitListener(this);
                 //return;
             }else if(e.getActionCommand().equals("submit")){
-                this.addListernersToView();
                 System.out.println("SUBMIT");
+                System.out.println("Hi inside submit");
                 String name=unRegRenterView.getFName();
                 System.out.print(name);
-
-                //Adding a new user logic 
             }
         }catch(Exception exception){
                 exception.printStackTrace();

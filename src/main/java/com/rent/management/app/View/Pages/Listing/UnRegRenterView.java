@@ -3,6 +3,7 @@ package com.rent.management.app.View.Pages.Listing;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLOutput;
 
 public class UnRegRenterView extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -16,11 +17,8 @@ public class UnRegRenterView extends JFrame {
     /**
      * Default constructor for unregistered renter view
      * */
-    public UnRegRenterView(){
-  
-    }
 
-    public void createView(){
+    public UnRegRenterView(){
         setSize(303, 295);
         getContentPane().setBackground(new Color(230, 230, 250));
         setTitle("Register");
@@ -121,5 +119,12 @@ public class UnRegRenterView extends JFrame {
     public String getEmail(){
         return email.getText();
     }
+
+//    public static void main(String[] args) {
+//        UnRegRenterView unReg = new UnRegRenterView();
+//        unReg.createView();
+//        unReg.setVisible(true);
+//
+//    }
 
 }
