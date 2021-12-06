@@ -96,7 +96,7 @@ public class UnRegRenterView extends JFrame {
         return String.copyValueOf(password.getPassword());
     }
 
-    
+
 
     /**
      * Getter for email address
