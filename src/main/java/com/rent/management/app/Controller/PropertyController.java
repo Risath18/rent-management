@@ -1,6 +1,7 @@
 package com.rent.management.app.Controller;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.rent.management.app.Model.*;
 import com.rent.management.app.Model.Property.*;
@@ -52,8 +53,32 @@ public class PropertyController implements ActionListener {
         renterPropView =new RenterPropView (getAllProperties());
     }
 
-    
-    public void setProperty(JSONObject obj){
+    //After Submitting Button to Create Property
+    //Arg: PersonController pc
+    public void createProperty(){
+       
+        //TODO: REPLACE FOLLOWING WITH GETTERS FROM PROPERTYVIEW
+        PropertyType pt = PropertyType.ATTACHED;
+        int num_bed = 9;
+        int num_bath = 9;
+        boolean isFurnished = true;
+        String furnishedString = isFurnished == true ? "true" : "false";
+        CityQuadrant qt = CityQuadrant.NE;
+        Address address = new Address("153 Road, La", qt, 123);
+        PropertyStatus ps = PropertyStatus.SUSPENDED;
+        boolean paid = false;
+        int paidInt = paid == true ? 1 : 0;
+        String email = "kim@gmail.com"; //pc.getPerson().getEmail();
+
+        //Create id
+        int pid = db.generatePropertyId();
+
+        //Add to Model and DB
+        Property property = new Property(Integer.toString(pid), pt, num_bed, num_bath, isFurnished, address, paid, ps);
+        db.registerProperty(pid, email, pt.toString(), num_bed, num_bath, furnishedString, qt.toString(), address.getFormattedAddress(), paidInt, ps.toString(), "NULL", "NULL");
+    }
+
+    public Property generateProperty(JSONObject obj){
         String propertyId = obj.get("pid").toString();
         PropertyType pt = PropertyType.fromString(obj.get("type").toString());
         int num_bed = Integer.parseInt(obj.get("num_bed").toString());
@@ -73,15 +98,14 @@ public class PropertyController implements ActionListener {
             paid = false;
         }
         Property property = new Property(propertyId, pt, num_bed, num_bath, isFurnished, address, paid, ps);
-        System.out.println(pt);
-        System.out.println(num_bed);
-        System.out.println(num_bath);
-        System.out.println(isFurnished);
-        System.out.println(propertyId);
-        System.out.println(ps);
-        System.out.println(address);
-        System.out.println(paid);
+        return property;
+    }
+    
+    public void setProperty(JSONObject obj){
+        properties.add(generateProperty(obj));
+    }
 
+    public void setProperty(Property property){
         properties.add(property);
     }
 
