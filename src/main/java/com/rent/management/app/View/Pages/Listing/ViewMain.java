@@ -8,6 +8,7 @@ public class ViewMain  extends JFrame {
     private JButton landlord = new JButton("Landlord");
     private JButton renter = new JButton("Renter");
     private JButton manager = new JButton("Manager");
+    private JButton unReg = new JButton("Guest");
 
     /**
      * Default constructor for main view
@@ -28,6 +29,9 @@ public class ViewMain  extends JFrame {
         manager.setBounds(66, 141, 115, 56);
         getContentPane().add(manager);
         manager.setActionCommand("Manager");
+        unReg.setBounds(242, 141, 115, 56);
+        getContentPane().add(unReg);
+        unReg.setActionCommand("Guest");
 
         JLabel optionsLbl = new JLabel("Please select one of the options");
         optionsLbl.setBounds(96, 16, 222, 20);
@@ -60,6 +64,10 @@ public class ViewMain  extends JFrame {
      * */
     public void addManager(ActionListener al){
         manager.addActionListener(al);
+    }
+
+    public void addGuest(ActionListener al){
+        unReg.addActionListener(al);
     }
 
 }

@@ -19,7 +19,7 @@ import org.json.simple.parser.JSONParser;
 import javax.swing.JFrame;
 
 import com.rent.management.app.Exceptions.*;
-public class ControllerCore implements ActionListener{
+public class LoginController implements ActionListener{
     //private ViewCore view;
     private DBCore db;
     private PersonController pc;
@@ -28,25 +28,15 @@ public class ControllerCore implements ActionListener{
     private UnRegRenterView unRegRenterView;
     private String userType;
 
-    public ControllerCore(){
+    public LoginController(){
         login=new Login();
         unRegRenterView = new UnRegRenterView();
         login.Login();
-       login.setVisible(true);
-       this.addListernersToView();
-        System.out.println("Controller> Created!");
-         this.db = new DBCore();
-        // this.propc = new PropertyController(db);
+        login.setVisible(true);
+        this.addListernersToView();
+        System.out.println("Controller Created!");
+        this.db = new DBCore();
 
-        //  Login login = new Login();
-        // //  login.Login();
-        // // login.setVisible(true);
-        // // login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-       // register("bernie@gmail.com", "iheartamerica", 3, "Bernie", "Democrat", "Sanders");
-     //  login("bieber@gmail.com", "biebs");
-   //    System.out.println( pc.getPerson().getName().getfName()); 
     }
 
     public void addListernersToView(){
@@ -62,14 +52,10 @@ public class ControllerCore implements ActionListener{
         try{
             if(e.getActionCommand().equals("login")){
                 if(login(username, password)){
-                    //go to home page
                     System.out.println("Log in Success for: " + username);
                 } else {
                     //display fail
                 }
-                //Login Auth should happen here
-                //if(true)
-                //openHomePage()
             }else if(e.getActionCommand().equals("register")){
                 System.out.println("REG");
                 unRegRenterView.setVisible(true);
