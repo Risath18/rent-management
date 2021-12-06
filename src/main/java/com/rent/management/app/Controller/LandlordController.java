@@ -19,13 +19,49 @@ public class LandlordController implements ActionListener{
 
     public LandlordController (){
         landLordView = new LandlordView();
-        //landlo
+         landLordView.setVisible(true);
+         addListeners();
+    }
+    public void addListeners(){
+        landLordView.editListener(this);
+        landLordView.exitListener(this);
+        landLordView.createListener(this);
     }
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		switch (e.getActionCommand()){
+            case "createProperty":
+                addProperty();
+                break;
+            case "editProperty":
+                getLandLordProperties();
+                break;
+            case "addSubmit":
+                addNewProperty();
+                break;
+            case "exit":
+                System.exit(1);
+
+        }
 		
 	}
+    private void getLandLordProperties(){
+        //Get the list of landlord props
+    }
+
+    public void setData(){
+
+    }
+
+    private void addNewProperty(){
+        //Add new property
+        //When submit is pressed
+    }
+
+    public void addProperty(){
+        //Add a new property to the database
+    }
+
 	public void updateStatus(Property temp) {
     
     }
