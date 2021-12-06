@@ -7,6 +7,7 @@ import com.rent.management.app.Model.Property.Address;
 import com.rent.management.app.Model.Property.CityQuadrant;
 import com.rent.management.app.Model.Property.PropertyStatus;
 
+import java.awt.event.ActionListener;
 import java.lang.instrument.IllegalClassFormatException;
 import java.text.*;
 import java.util.Objects;
@@ -208,5 +209,10 @@ public class CreateListing extends JFrame{
         PropertyStatus toReturn=null;
         toReturn=PropertyStatus.fromString("ACTIVE");
         return toReturn;
+    }
+
+    public void addSubmitListener(ActionListener al)  {
+        submit.addActionListener(al);
+        submit.setActionCommand("addSubmit");
     }
 }
