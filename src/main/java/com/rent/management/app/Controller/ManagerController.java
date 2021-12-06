@@ -9,7 +9,7 @@ public class ManagerController {
 
     public void retrieveSummary(String startDate, String endDate){
         String [][] properties = propertyController.getAllPropertiesDated();
-        //count the number of houses that are rented or active in the period
+        //count the number of houses that are rented or active in the period (ones that have dates)
         //count the number of rented houses in the period
         //count the number of active houses in period
         //retrieve all houses rented in period (l name, pid, address)
