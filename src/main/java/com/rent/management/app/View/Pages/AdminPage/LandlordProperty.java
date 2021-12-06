@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.rent.management.app.Controller.LandlordController;
 import com.rent.management.app.Model.Property.Property;
 import com.rent.management.app.View.Pages.Listing.PropertyView;
+import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
 import com.rent.management.app.View.Pages.CreateEditPage.EditPropertyView;
 
 public class LandlordProperty extends PropertyView {

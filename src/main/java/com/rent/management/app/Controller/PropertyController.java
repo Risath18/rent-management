@@ -6,6 +6,8 @@ import java.util.UUID;
 import com.rent.management.app.Model.*;
 import com.rent.management.app.Model.Property.*;
 import com.rent.management.app.Model.Util.*;
+import com.rent.management.app.View.Pages.AdminPage.LandlordView;
+import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
 import com.rent.management.app.View.Pages.Listing.RenterMenuView;
 import com.rent.management.app.View.Pages.Listing.RenterPropView;
 
@@ -23,7 +25,7 @@ public class PropertyController implements ActionListener {
     private RenterMenuView renterMenuView;
     private RenterPropView renterPropView;
     
-
+    
     public PropertyController(DBCore db){
         this.db = db;
         properties = new ArrayList<Property>();
@@ -54,9 +56,7 @@ public class PropertyController implements ActionListener {
     }
 
     //After Submitting Button to Create Property
-    //Arg: PersonController pc
-    public void createProperty(){
-       
+    public void createProperty(PersonController pc){
         //TODO: REPLACE FOLLOWING WITH GETTERS FROM PROPERTYVIEW
         PropertyType pt = PropertyType.ATTACHED;
         int num_bed = 9;
@@ -68,7 +68,7 @@ public class PropertyController implements ActionListener {
         PropertyStatus ps = PropertyStatus.SUSPENDED;
         boolean paid = false;
         int paidInt = paid == true ? 1 : 0;
-        String email = "kim@gmail.com"; //pc.getPerson().getEmail();
+        String email = pc.getPerson().getEmail();
 
         //Create id
         int pid = db.generatePropertyId();
@@ -192,6 +192,7 @@ public class PropertyController implements ActionListener {
         //     setProperty(obj); // pass object to set property
         // }
     }
+
 
     private LocalDateTime stringToDateTime (String str_date) { // input must be month in words, days in numbers, 
         String [] split_date = str_date.split(" ");

@@ -569,7 +569,37 @@ public class DBCore {
         }
     } //this one is done
 
+    /**
+     * getter for fee table in SQL
+     * @return JSONObject with the fee cost and number of days valid
+     */
+    public JSONObject getFormattedFees(){
+        JSONObject obj = new JSONObject();
+        try{
+            String query = "SELECT * FROM Fees";
+    
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+    
+            while(rs.next()){
+                obj.put("Days", rs.getInt("Days"));
+                obj.put("Fees", rs.getInt("Fees"));
+            }
+        
+            stmt.close();
+            rs.close();
+    
+        } catch (SQLException ex){
+            System.err.println("Error in fee retrieval sql");
+            throw new IllegalQueryException();
+        }
+        return obj;
+    }
 
+
+    /**
+     * closes connection to database
+     */
     public void close(){
         try{
             result.close();
