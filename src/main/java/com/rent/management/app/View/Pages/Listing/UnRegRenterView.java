@@ -9,7 +9,6 @@ public class UnRegRenterView extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField fName;
     private JTextField lName;
-    private JTextField uName;
     private JTextField email;
     private JPasswordField password;
     private JButton submit = new JButton("submit");
@@ -32,9 +31,6 @@ public class UnRegRenterView extends JFrame {
         lNameLbl.setBounds(15, 52, 86, 20);
         getContentPane().add(lNameLbl);
 
-        JLabel uNameLbl = new JLabel("User Name");
-        uNameLbl.setBounds(15, 88, 86, 20);
-        getContentPane().add(uNameLbl);
 
         JLabel pwLbl = new JLabel("Password");
         pwLbl.setBounds(15, 124, 69, 20);
@@ -57,10 +53,6 @@ public class UnRegRenterView extends JFrame {
         getContentPane().add(lName);
         lName.setColumns(10);
 
-        uName = new JTextField();
-        uName.setBounds(116, 85, 146, 26);
-        getContentPane().add(uName);
-        uName.setColumns(10);
 
         email = new JTextField();
         email.setBounds(116, 157, 146, 26);
@@ -104,13 +96,7 @@ public class UnRegRenterView extends JFrame {
         return String.copyValueOf(password.getPassword());
     }
 
-    /**
-     * Getter for username
-     * @return username
-     * */
-    public String getUName(){
-        return uName.getText();
-    }
+    
 
     /**
      * Getter for email address
