@@ -1,10 +1,6 @@
 package com.rent.management.app;
 
-import java.sql.*;
-
 import com.rent.management.app.Controller.*;
-
-import io.github.cdimascio.dotenv.Dotenv;
 
 /**
  * Hello world!
@@ -14,8 +10,9 @@ public class App
 {
     public static void main( String[] args )
     {
+        String a="";
         System.out.println("Application Starting");
-        ControllerCore cc = new ControllerCore();
+        MainController mainController= new MainController();
         App myApp = new App();
     }
 
