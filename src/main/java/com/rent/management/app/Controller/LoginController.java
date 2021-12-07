@@ -25,11 +25,13 @@ public class LoginController implements ActionListener{
     private PersonController pc;
     private Login loginView;
     private UnRegRenterView unRegRenterView;
+    private PropertyController propertyController;
     private String userType;
     private LandlordController landlordController;
     private int accessLevel;
 
     public LoginController(DBCore db, int accessLevel){
+        System.out.println("Login controller "+accessLevel);
         this.accessLevel = accessLevel;
         loginView=new Login();
         unRegRenterView = new UnRegRenterView();
@@ -73,7 +75,7 @@ public class LoginController implements ActionListener{
                 String pass= unRegRenterView.getPassword();
                 if(register(email, pass, accessLevel, fName, lName)){
                     System.out.println("Registration Success!");
-                    //TODO: GO TO NEXT PAGE! SUCCESS
+
                 } else{
                     System.out.println("Registration Failed! User exist!");
                     //TODO: FAIL, GO BACK
@@ -87,7 +89,7 @@ public class LoginController implements ActionListener{
     
 
 
-    public void openHomePage(){
+    public void openHomePage(String userType){
         //Open the page to view depending on renter, landlord or other stuff
     }
 
@@ -101,7 +103,7 @@ public class LoginController implements ActionListener{
      * @param username String for username
      * @param password String for password
      * @param accessLevel int for level of access in system
-     * @param name object of name for the user's name
+     * @param lName object of name for the user's name
      * @return boolean whether successful 
      */
     public boolean register(String username, String password, int accessLevel, String fName, String lName){
@@ -155,8 +157,7 @@ public class LoginController implements ActionListener{
                 obj.put("Email", username);
                 obj = db.findRenter(obj);                
                 pc.setRenter(obj);
-
-             //   RenterMenuView renView= new RenterMenuView();
+                propertyController = new PropertyController(db);
             }
         } catch(IllegalQueryException e){
             e.printStackTrace();

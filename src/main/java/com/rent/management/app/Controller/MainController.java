@@ -16,7 +16,7 @@ public class MainController implements ActionListener {
         viewMain = new ViewMain();
         this.addListeners();
         viewMain.setVisible(true);
-        this.propc = new PropertyController(db);
+        //this.propc = new PropertyController(db);
 
     }
     public void addListeners(){
