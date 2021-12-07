@@ -9,9 +9,16 @@ import com.rent.management.app.Model.Util.Payment;
 
 import org.json.simple.JSONObject;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
+import com.sendgrid.*;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.*;
+
 public class UtilController {
     DBCore db;
     Payment payment;
+    Dotenv env;
 
     /**
      * constructor for UtilController class
@@ -20,6 +27,7 @@ public class UtilController {
     public UtilController(DBCore db){
         this.db = db;
         this.payment = new Payment();
+        this.env = Dotenv.load();
     }
     
     public JSONObject makePayment(){
@@ -54,4 +62,36 @@ public class UtilController {
         payment.setPrice(Integer.parseInt(obj.get("price").toString()));
         return obj;
     }
+
+    /**
+     * Sends email to someone from a specific email with subject and content
+     * like a true email client.
+     * @param to receiver email address.
+     * @param from sender email address
+     * @param subject message subject.
+     * @param message message content.
+     */
+
+    public void sendEmail(String to_email, String from_email, String subject, String message) {
+        //to = "libergood@gmail.com"; // hardcode for testing
+        Email to = new Email (to_email);
+        Email from = new Email (from_email);
+        Content content = new Content("text/plain", message);
+        Mail mail = new Mail(from, subject, to, content);
+        SendGrid sg = new SendGrid(env.get("SENDGRID_API_KEY")); // retrieve API key from environment variables
+
+        try{
+            Request request = new Request ();
+            request.setMethod (Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+
+            Response response = sg.api(request); // can use response functions to print information
+            // getStatusCode(), getHeaders(), getBody()
+        }catch(Exception e){
+            System.err.println("Error sending email.");
+            e.printStackTrace();
+        }
+    }
+
 }
