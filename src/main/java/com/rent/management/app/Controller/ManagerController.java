@@ -79,7 +79,7 @@ public class ManagerController implements ActionListener {
         this.personController = person;
     }
 
-    public ManagerController(DBCore db){
+    public ManagerController(DBCore db, PersonController pc){
         this.db = new DBCore();
         managerView = new ManagerView();
         managerView.setVisible(true);
