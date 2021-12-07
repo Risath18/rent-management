@@ -9,11 +9,14 @@ public class MainController implements ActionListener {
     private DBCore db;
     private ViewMain viewMain;
     private LoginController login;
+    private PropertyController propc;
+
     public MainController(){
         this.db = new DBCore();
         viewMain = new ViewMain();
         this.addListeners();
         viewMain.setVisible(true);
+        this.propc = new PropertyController(db);
 
     }
     public void addListeners(){
@@ -29,7 +32,7 @@ public class MainController implements ActionListener {
         }else if (e.getActionCommand().equals("Landlord")){
             viewMain.setVisible(false);
             login= new LoginController(db, 2);
-        } else if(e.getActionCommand().equals("Renter")){
+            } else if(e.getActionCommand().equals("Renter")){
             viewMain.setVisible(false);
             login= new LoginController(db, 3);
         } else if(e.getActionCommand().equals("Manager")){

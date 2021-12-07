@@ -11,7 +11,7 @@ public class Login extends JFrame implements LoginPage{
     private JTextField nameInput;
     private JButton login = new JButton("login");
     private JButton signUp = new JButton("Sign Up");
-    private JPasswordField password;
+    private JTextField password;
 
     public void Login () {
         setSize(518, 209);
@@ -39,15 +39,12 @@ public class Login extends JFrame implements LoginPage{
         signUp.setBounds(329, 64, 96, 27);
         getContentPane().add(signUp);
 
-        password = new JPasswordField();
-        password.setBounds(168, 98, 146, 26);
-        getContentPane().add(password);
 
         JLabel instruction = new JLabel("Please enter your username and password");
         instruction.setBounds(96, 31, 305, 20);
         getContentPane().add(instruction);
 
-        password = new JPasswordField();
+        password = new JTextField();
         password.setBounds(168, 98, 146, 26);
         getContentPane().add(password);
     }
@@ -71,7 +68,7 @@ public class Login extends JFrame implements LoginPage{
     }
 
     public String getPassword () {
-        return String.copyValueOf(password.getPassword());
+        return password.getText();
     }
 
 //    public static void main(String args[]) {

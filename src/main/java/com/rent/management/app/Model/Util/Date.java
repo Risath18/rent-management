@@ -83,7 +83,7 @@ public class Date {
      * @return returns a formatted date string
      */
     public String getFormattedDate(){
-        return month + " " + day + "," + year;
+        return month + "-" + day + "-" + year;
     }
 
     /**

@@ -23,10 +23,10 @@ public class LoginController implements ActionListener{
     //private ViewCore view;
     private DBCore db;
     private PersonController pc;
-    private PropertyController propc;
     private Login loginView;
     private UnRegRenterView unRegRenterView;
     private String userType;
+    private LandlordController landlordController;
     private int accessLevel;
 
     public LoginController(DBCore db, int accessLevel){
@@ -149,6 +149,7 @@ public class LoginController implements ActionListener{
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 pc.setLandlord(obj);
+                landlordController = new LandlordController(db, pc);
             } else{ //Renter
                 obj = db.findPerson(username);
                 obj.put("Email", username);

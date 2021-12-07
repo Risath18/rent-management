@@ -60,6 +60,7 @@ public class DBCore {
     public int validateLogin(String email, String password) throws IllegalQueryException{
         int accessLevel=0;
         try{
+            System.out.println(password);
             String query = "SELECT AccessLevel FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "'";
 
             Statement stmt =  dbConnect.createStatement();
@@ -201,7 +202,7 @@ public class DBCore {
     **/
     public void registerProperty(int pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
         try{
-            String query = "INSERT INTO Property (PID, L_Email, Type, Num_Bed, Num_Bath, Furnished, Quadrant, Address, Fee_Paid, Status, Active_Date, End_Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String query = "IF NOT EXISTS(SELECT * FROM Property WHERE Address = '" + address + "'') INSERT INTO Property (PID, L_Email, Type, Num_Bed, Num_Bath, Furnished, Quadrant, Address, Fee_Paid, Status, Active_Date, End_Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = dbConnect.prepareStatement(query);
             stmt.setInt(1, pid);
             stmt.setString(2, lEmail);
@@ -337,7 +338,7 @@ public class DBCore {
             stmt.close();
 
         } catch(SQLException ex){
-            System.out.println("Error in  set fee period sql");
+            System.out.println("Error in set fee period sql");
             ex.printStackTrace();
         }
     }
@@ -372,7 +373,7 @@ public class DBCore {
                  period = fee_rs.getInt("Days");
             }
 
-            String query = "UPDATE Property SET (Fee_Paid, Active_Date, End_Date)  VALUES(1,?,?) WHERE PID = " + property_id + " ";
+            String query = "UPDATE Property SET Fee_Paid = 1, Active_Date = ?, End_Date = ? WHERE PID = " + property_id + " ";
 
             PreparedStatement stmt = dbConnect.prepareStatement(query);
             
@@ -382,8 +383,6 @@ public class DBCore {
             
             stmt.setString(1, formattedDate);
             
-            
-
             // increment date by period
             date.plusDays(period);
             formattedDate = date.format(formatter);
@@ -437,7 +436,7 @@ public class DBCore {
             else
                 notif = 0;
 
-            query = "UPDATE Renter Notifications_on = '" + notif + "' WHERE R_Email = '" + email + "'";
+            query = "UPDATE Renter SET Notifications_on = '" + notif + "' WHERE R_Email = '" + email + "'";
             
             rs = stmt.executeQuery(query);
         
@@ -525,7 +524,7 @@ public class DBCore {
 
     public void changeFeePeriod(int days){
         try {
-        String query = "UPDATE Fees (Days) VALUES (?)";
+        String query = "UPDATE Fees SET Days = ?";
 
         PreparedStatement stmt = dbConnect.prepareStatement(query);
         stmt.setInt(1, days); // set new days
@@ -540,7 +539,7 @@ public class DBCore {
 
     public void changeFeeAmount(int fee){
         try {
-        String query = "UPDATE Fees (Price) VALUES (?)";
+        String query = "UPDATE Fees SET Price = ?";
 
         PreparedStatement stmt = dbConnect.prepareStatement(query);
         stmt.setInt(1, fee); // set new days
@@ -554,7 +553,7 @@ public class DBCore {
     }
 
     public void changeListingStatus(int pid, String newStatus){
-        String query = "UPDATE Property Status = '" + newStatus + "' WHERE PID = '" + pid + "'";
+        String query = "UPDATE Property SET Status = '" + newStatus + "' WHERE PID = '" + pid + "'";
         try{
             Statement stmt =  dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -567,9 +566,44 @@ public class DBCore {
         } catch(SQLException e){
             System.out.println("listing status error");
         }
-    } //this one is done
+    } 
+
+    // public boolean checkAddress(String address){
+        
+    // }
+
+    /**
+     * getter for fee table in SQL
+     * @return JSONObject with the fee cost and number of days valid
+     */
+    public JSONObject getFormattedFees(){
+        JSONObject obj = new JSONObject();
+        try{
+            String query = "SELECT * FROM Fees";
+    
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+    
+            while(rs.next()){
+                System.out.println( rs.getInt("Days"));
+                obj.put("Days", rs.getInt("Days"));
+                obj.put("price", rs.getInt("price"));
+            }
+        
+            stmt.close();
+            rs.close();
+    
+        } catch (SQLException ex){
+            System.err.println("Error in fee retrieval sql");
+            ex.printStackTrace();
+        }
+        return obj;
+    }
 
 
+    /**
+     * closes connection to database
+     */
     public void close(){
         try{
             result.close();

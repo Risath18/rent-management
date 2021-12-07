@@ -6,6 +6,8 @@ import java.util.UUID;
 import com.rent.management.app.Model.*;
 import com.rent.management.app.Model.Property.*;
 import com.rent.management.app.Model.Util.*;
+import com.rent.management.app.View.Pages.AdminPage.LandlordView;
+import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
 import com.rent.management.app.View.Pages.Listing.RenterMenuView;
 import com.rent.management.app.View.Pages.Listing.RenterPropView;
 
@@ -23,7 +25,7 @@ public class PropertyController implements ActionListener {
     private RenterMenuView renterMenuView;
     private RenterPropView renterPropView;
     
-
+    
     public PropertyController(DBCore db){
         this.db = db;
         properties = new ArrayList<Property>();
@@ -53,30 +55,7 @@ public class PropertyController implements ActionListener {
         renterPropView =new RenterPropView (getAllProperties());
     }
 
-    //After Submitting Button to Create Property
-    //Arg: PersonController pc
-    public void createProperty(){
-       
-        //TODO: REPLACE FOLLOWING WITH GETTERS FROM PROPERTYVIEW
-        PropertyType pt = PropertyType.ATTACHED;
-        int num_bed = 9;
-        int num_bath = 9;
-        boolean isFurnished = true;
-        String furnishedString = isFurnished == true ? "true" : "false";
-        CityQuadrant qt = CityQuadrant.NE;
-        Address address = new Address("153 Road, La", qt, 123);
-        PropertyStatus ps = PropertyStatus.SUSPENDED;
-        boolean paid = false;
-        int paidInt = paid == true ? 1 : 0;
-        String email = "kim@gmail.com"; //pc.getPerson().getEmail();
-
-        //Create id
-        int pid = db.generatePropertyId();
-
-        //Add to Model and DB
-        Property property = new Property(Integer.toString(pid), pt, num_bed, num_bath, isFurnished, address, paid, ps);
-        db.registerProperty(pid, email, pt.toString(), num_bed, num_bath, furnishedString, qt.toString(), address.getFormattedAddress(), paidInt, ps.toString(), "NULL", "NULL");
-    }
+    
 
     public Property generateProperty(JSONObject obj){
         String propertyId = obj.get("pid").toString();
@@ -97,7 +76,7 @@ public class PropertyController implements ActionListener {
         else{
             paid = false;
         }
-        Property property = new Property(propertyId, pt, num_bed, num_bath, isFurnished, address, paid, ps);
+        Property property = new Property(propertyId, pt, num_bed, num_bath, isFurnished, address, ps);
         return property;
     }
     
@@ -130,15 +109,18 @@ public class PropertyController implements ActionListener {
         Payment payment = property.getPayment();
         boolean paid = payment.isPaid();
         String status = property.getPropertyStatus().toString();
+        Date startDate = payment.getPeriod().getStartDate();
+        Date endDate = payment.getPeriod().getEndDate();
+        db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
 
-        if(paid){
-            Date startDate = payment.getDatePaid();
-            Date endDate = payment.getListingExpiryDate();
-            db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
-        }
-        else{
-            db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 0, status, "NULL", "NULL");
-        }
+        // if(paid){
+        //     Date startDate = payment.getDatePaid();
+        //     Date endDate = payment.getListingExpiryDate();
+        //     db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
+        // }
+        // else{
+        //     db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 0, status, "NULL", "NULL");
+        // }
     }
 
     public void updateListingStatus(){
@@ -174,8 +156,8 @@ public class PropertyController implements ActionListener {
             result[i][4] = properties.get(i).getPropertyStatus().toString();
             result[i][5] = properties.get(i).getAddress().getFormattedAddress();
             result[i][5] = properties.get(i).getAddress().getCityQuadrant().toString();
-            result[i][6] = properties.get(i).getPayment().getDatePaid().getFormattedDate();
-            result[i][7] = properties.get(i).getPayment().getListingExpiryDate().getFormattedDate();
+            result[i][6] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
+            result[i][7] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
         }
         return result;
     }
@@ -192,6 +174,7 @@ public class PropertyController implements ActionListener {
         //     setProperty(obj); // pass object to set property
         // }
     }
+
 
     private LocalDateTime stringToDateTime (String str_date) { // input must be month in words, days in numbers, 
         String [] split_date = str_date.split(" ");
