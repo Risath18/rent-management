@@ -13,12 +13,15 @@ import com.rent.management.app.Model.Property.PropertyType;
 import com.rent.management.app.View.Pages.AdminPage.LandlordProperty;
 import com.rent.management.app.View.Pages.AdminPage.LandlordView;
 import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
+import com.rent.management.app.Controller.DBCore;
+import com.rent.management.app.Controller.PropertyController;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 public class LandlordController implements ActionListener{
     private LandlordView landLordView;
     private CreateListing createProperty;
-    private LandlordProperty LandlordPropertyView;
+    private LandlordProperty landlordPropertyView;
     private ArrayList<Property> landLordProps = new ArrayList<>();
     private DBCore db;
     private PersonController pc;
@@ -53,7 +56,7 @@ public class LandlordController implements ActionListener{
      */
 	@Override   
 	public void actionPerformed(ActionEvent e) {
-        System.out.println("LOOK ITS HERE!!!!!!!!!!");
+
 		switch (e.getActionCommand()){
             case "createProperty":
                 propertyPage();
@@ -62,7 +65,6 @@ public class LandlordController implements ActionListener{
                 getLandLordProperties();
                 break;
             case "addSubmit":
-                System.out.println("HEWTAD");
                 addNewProperty();
                 break;
             case "exit":
@@ -78,13 +80,36 @@ public class LandlordController implements ActionListener{
      * 
      */ 
     private void getLandLordProperties(){
-        //Get the list of landlord props
+        setData();
+        landlordPropertyView = new LandlordProperty(data,landLordProps);
+        landlordPropertyView.setLandlordController(this);
     }
+
+
 
     /**
      * setter for data in properties
      */
     public void setData(){
+        String email = pc.getPerson().getEmail(); // get landlord's email
+        JSONArray arr = db.getLandlordProperties (email); // get all landlord properties
+
+        data = new String [arr.size()] [7];
+        for(int i = 0; i < arr.size(); i++) {
+            JSONObject obj = (JSONObject)arr.get(i);
+            Property property = PropertyController.generateProperty (obj);
+            data[i][0] = property.getPropertyId();
+            data[i][1] = property.getPropertyType().toString();
+            data[i][2] = Integer.toString(property.getNumOfBed());
+            data[i][3] = Integer.toString(property.getNumOfBath());
+            if (property.isFurnished()) {
+                data[i][4] = "Yes";
+            } else {
+                data[i][4] = "No";
+            }
+            data[i][5] = property.getAddress().getFormattedAddress();
+            data[i][6] = property.getPropertyStatus().toString();
+        }
 
     }
 
@@ -107,7 +132,7 @@ public class LandlordController implements ActionListener{
             int num_bed = createProperty.getBeds();
             int num_bath = createProperty.getBaths();
             boolean isFurnished = createProperty.isFurnished();
-            String furnishedString = isFurnished == true ? "true" : "false";
+            String furnishedString = isFurnished == true ? "yes" : "no";
             JSONObject obj = createProperty.getAddress();
             CityQuadrant qt = CityQuadrant.fromString(createProperty.getQuadrant());
             Address address = new Address(obj.get("street").toString(), qt, Integer.parseInt(obj.get("house_number").toString()));

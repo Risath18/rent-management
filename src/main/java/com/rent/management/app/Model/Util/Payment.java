@@ -9,6 +9,7 @@ public class Payment {
 
     //constructor for payment
     public Payment(){
+        this.period = new Period();
     }
 
     public boolean isPaid() {
@@ -24,9 +25,11 @@ public class Payment {
      * @param days int for days of payment validity
      * @param price int for fee amount
      */
-    public Payment(int days, int price) {
+    public Payment(int days, int price, Period period, boolean isPaid) {
         this.setDays(days);
         this.setPrice(price);
+        this.setPaid(isPaid);
+        this.setPeriod(period);
     }
 
     /**

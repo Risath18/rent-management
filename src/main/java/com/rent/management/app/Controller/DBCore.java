@@ -202,7 +202,7 @@ public class DBCore {
     **/
     public void registerProperty(int pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
         try{
-            String query = "IF NOT EXISTS(SELECT * FROM Property WHERE Address = '" + address + "'') INSERT INTO Property (PID, L_Email, Type, Num_Bed, Num_Bath, Furnished, Quadrant, Address, Fee_Paid, Status, Active_Date, End_Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO Property (PID, L_Email, Type, Num_Bed, Num_Bath, Furnished, Quadrant, Address, Fee_Paid, Status, Active_Date, End_Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = dbConnect.prepareStatement(query);
             stmt.setInt(1, pid);
             stmt.setString(2, lEmail);
@@ -403,19 +403,40 @@ public class DBCore {
     // //USE SQL TO FIGURE OUT LOGIC
     //    public JSONArray search(JSONObject searchCriteria){
 
-    public void search(JSONObject searchCriteria){
+    public JSONArray search(String type, int num_bed, int num_bath, String furnished, String quadrant){
         // String type = searchCriteria.get("type").toString();
         // String num_bed = Integer.parseInt(searchCriteria.get("num_bed").toString());
         // String num_bath = Integer.parseInt(searchCriteria.get("num_bath").toString());
         // String furnished = searchCriteria.get("furnished").toString();
         // String quadrant = searchCriteria.get("quadrant").toString();
+        String query = "SELECT * FROM Property WHERE ('" + type + "'='NULL' or Type='" + type + "') AND (" + num_bed + "=0 or Num_bed=" + num_bed + ") AND (" + num_bath + "=0 or Num_bath=" + num_bath + ") AND ('" + furnished + "'='NULL' or Furnished='" + furnished + "') AND ('" + quadrant + "'='NULL' or Quadrant='" + quadrant + "')";
+        JSONArray arr = new JSONArray ();
 
-        // String query = "SELECT * FROM Property WHERE ";
-
-        // if(type!=null){
-        //     query+= type;
-        // }
-
+        try {
+            Statement stmt = dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                JSONObject obj = new JSONObject ();
+                obj.put("pid", Integer.toString(rs.getInt("PID")));
+                obj.put("l_email", rs.getString("L_Email"));
+                obj.put("type", rs.getString("Type"));
+                obj.put("num_bed", Integer.toString(rs.getInt("Num_Bed")));
+                obj.put("num_bath", Integer.toString(rs.getInt("Num_Bath")));
+                obj.put("furnished",rs.getString("Furnished"));
+                obj.put("quadrant", rs.getString("Quadrant"));
+                obj.put("address", rs.getString("Address"));
+                obj.put("fee_paid", rs.getString("Fee_Paid"));
+                obj.put("status", rs.getString("Status"));
+                obj.put("active_date", rs.getString("Active_Date"));
+                obj.put("end_date", rs.getString("End_Date"));
+                
+                arr.add(obj);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error in retrieving landlord properties via search.");
+            ex.printStackTrace();
+        }
+        return arr;
     }
 
     //alexis
@@ -600,6 +621,36 @@ public class DBCore {
         return obj;
     }
 
+    JSONArray getLandlordProperties (String email) {
+        JSONArray arr = new JSONArray ();
+
+        try {
+            String query = "SELECT * FROM Property WHERE L_Email = '" + email + "'";
+            Statement stmt = dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                JSONObject obj = new JSONObject ();
+                obj.put("pid", Integer.toString(rs.getInt("PID")));
+                obj.put("l_email", rs.getString("L_Email"));
+                obj.put("type", rs.getString("Type"));
+                obj.put("num_bed", Integer.toString(rs.getInt("Num_Bed")));
+                obj.put("num_bath", Integer.toString(rs.getInt("Num_Bath")));
+                obj.put("furnished",rs.getString("Furnished"));
+                obj.put("quadrant", rs.getString("Quadrant"));
+                obj.put("address", rs.getString("Address"));
+                obj.put("fee_paid", rs.getString("Fee_Paid"));
+                obj.put("status", rs.getString("Status"));
+                obj.put("active_date", rs.getString("Active_Date"));
+                obj.put("end_date", rs.getString("End_Date"));
+                
+                arr.add(obj);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error in retrieving landlord properties.");
+            ex.printStackTrace();
+        }
+        return arr;
+    }
 
     /**
      * closes connection to database

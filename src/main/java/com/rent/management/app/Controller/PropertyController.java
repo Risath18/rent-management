@@ -33,7 +33,19 @@ public class PropertyController implements ActionListener {
         renterMenuView=new RenterMenuView();
         renterMenuView.setVisible(true);
         addListernersToClass();
-        
+    }
+
+    void setSearchMetrics(){
+
+        //Call Getters of Search
+        String type = "NULL";
+        int num_bed = 0;
+        int num_bath = 0;
+        String furnished= "No";
+        String quadrant= "NULL";
+
+        //Based on Search Metrics
+        setAllProperties(db.search(type, num_bed, num_bath, furnished, quadrant));
     }
 
     private void addListernersToClass(){
@@ -57,7 +69,7 @@ public class PropertyController implements ActionListener {
 
     
 
-    public Property generateProperty(JSONObject obj){
+    public static Property generateProperty(JSONObject obj){
         String propertyId = obj.get("pid").toString();
         PropertyType pt = PropertyType.fromString(obj.get("type").toString());
         int num_bed = Integer.parseInt(obj.get("num_bed").toString());
@@ -138,7 +150,7 @@ public class PropertyController implements ActionListener {
             result[i][3] = Boolean.toString(properties.get(i).isFurnished());
             result[i][4] = properties.get(i).getPropertyStatus().toString();
             result[i][5] = properties.get(i).getAddress().getFormattedAddress();
-            result[i][5] = properties.get(i).getAddress().getCityQuadrant().toString();
+            result[i][6] = properties.get(i).getAddress().getCityQuadrant().toString();
         }
         
         return result;
@@ -150,14 +162,11 @@ public class PropertyController implements ActionListener {
         String [][] result = new String [properties.size()][8];
         for (int i = 0 ; i< properties.size(); i++) {
             result[i][0] = properties.get(i).getPropertyType().toString();
-            result[i][1] = Integer.toString(properties.get(i).getNumOfBed());
-            result[i][2] = Integer.toString(properties.get(i).getNumOfBath());
-            result[i][3] = Boolean.toString(properties.get(i).isFurnished());
-            result[i][4] = properties.get(i).getPropertyStatus().toString();
-            result[i][5] = properties.get(i).getAddress().getFormattedAddress();
-            result[i][5] = properties.get(i).getAddress().getCityQuadrant().toString();
-            result[i][6] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
-            result[i][7] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
+            result[i][2] = properties.get(i).getPropertyStatus().toString();
+            result[i][3] = properties.get(i).getAddress().getFormattedAddress();
+            result[i][4] = properties.get(i).getAddress().getCityQuadrant().toString();
+            result[i][5] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
+            result[i][6] = properties.get(i).getPayment().getPeriod().getEndDate().getFormattedDate();
         }
         return result;
     }

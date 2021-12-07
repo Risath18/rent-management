@@ -36,15 +36,11 @@ public class UtilController {
         obj.put("current-date", dateFormat.format(today_date));
         obj.put("end-date", dateFormat.format(next_date));
 
-        //BROKE HERE YIKES!
-        payment.getPeriod().setStartDate(dateFormat.format(today_date).toString());
-        payment.getPeriod().setEndDate(dateFormat.format(today_date).toString());
+        System.out.println(dateFormat.format(today_date));
+        System.out.println(dateFormat.format(next_date));
 
-        // obj.put("current-date", dtf.format(now));
-
-        // c.setTime(dtf.parse(now));
-        // Date d = sdf.format(c.getTime());
-      //  c.add(Calendar.DATE, payment.getDays());
+        payment.getPeriod().setStartDate(dateFormat.format(today_date));
+        payment.getPeriod().setEndDate(dateFormat.format(next_date));
         
         return obj;
     }
