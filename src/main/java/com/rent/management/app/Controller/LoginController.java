@@ -159,7 +159,7 @@ public class LoginController implements ActionListener{
                 obj.put("Email", username);
                 obj = db.findRenter(obj);                
                 pc.setRenter(obj);
-                propertyController = new PropertyController(db);
+                propertyController = new PropertyController(db,pc);
             }
         } catch(IllegalQueryException e){
             e.printStackTrace();

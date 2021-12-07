@@ -10,6 +10,7 @@ import com.rent.management.app.View.Pages.AdminPage.LandlordView;
 import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
 import com.rent.management.app.View.Pages.Listing.RenterMenuView;
 import com.rent.management.app.View.Pages.Listing.RenterPropView;
+import com.rent.management.app.View.Pages.Listing.SearchView;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -24,12 +25,15 @@ public class PropertyController implements ActionListener {
     private DBCore db;
     private RenterMenuView renterMenuView;
     private RenterPropView renterPropView;
+    private SearchView searchView;
+    private PersonController pc;
     
     
-    public PropertyController(DBCore db){
+    public PropertyController(DBCore db,PersonController pc){
         this.db = db;
+        this.pc = pc;
         properties = new ArrayList<Property>();
-        setAllProperties(db.getAllProperties());
+       // setAllProperties(db.getAllProperties());
         renterMenuView=new RenterMenuView();
         renterMenuView.setVisible(true);
         addListernersToClass();
@@ -38,14 +42,14 @@ public class PropertyController implements ActionListener {
     void setSearchMetrics(){
 
         //Call Getters of Search
-        String type = "NULL";
-        int num_bed = 0;
-        int num_bath = 0;
-        String furnished= "No";
-        String quadrant= "NULL";
+        String type = searchView.getPropertyType();
+        int num_bed = searchView.getBeds();
+        int num_bath = searchView.getBaths();
+        String furnishedString = searchView.isFurnished();
+        String cityQuadrant = searchView.getCityQuadrant();
 
         //Based on Search Metrics
-        setAllProperties(db.search(type, num_bed, num_bath, furnished, quadrant));
+        setAllProperties(db.search(type.toString(), num_bed, num_bath, furnishedString, cityQuadrant.toString()));
     }
 
     private void addListernersToClass(){
@@ -59,12 +63,19 @@ public class PropertyController implements ActionListener {
             System.exit(1);
         }
         else if(e.getActionCommand().equals("search")){
-            //Searching code if we wanna have this 
+            System.out.println("Search Button Working!");
+            searchView = new SearchView();
+            searchView.setVisible(true);
+            searchView.submitListener(this);
         }
         else if(e.getActionCommand().equals("send email")){
             //Sending email logic
         }
-        renterPropView =new RenterPropView (getAllProperties());
+        else if(e.getActionCommand().equals("searchSubmit")){
+            System.out.println("SAVED SEARCH YAY");
+            setSearchMetrics();
+            renterPropView =new RenterPropView (getAllProperties());
+        }
     }
 
     
@@ -156,24 +167,25 @@ public class PropertyController implements ActionListener {
         return result;
     }
     
-    public String [][] getAllPropertiesDated() {
-        // turn array list into 2D array for manager summary
-        // "Property Type", "Beds","Baths","Furnished","Status","Address", "Quadrant", "StartDate", "EndDate"
-        String [][] result = new String [properties.size()][8];
-        for (int i = 0 ; i< properties.size(); i++) {
-            result[i][0] = properties.get(i).getPropertyType().toString();
-            result[i][2] = properties.get(i).getPropertyStatus().toString();
-            result[i][3] = properties.get(i).getAddress().getFormattedAddress();
-            result[i][4] = properties.get(i).getAddress().getCityQuadrant().toString();
-            result[i][5] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
-            result[i][6] = properties.get(i).getPayment().getPeriod().getEndDate().getFormattedDate();
-        }
-        return result;
-    }
+    // public String [][] getAllPropertiesDated() {
+    //     // turn array list into 2D array for manager summary
+    //     // "Property Type", "Beds","Baths","Furnished","Status","Address", "Quadrant", "StartDate", "EndDate"
+    //     String [][] result = new String [properties.size()][8];
+    //     for (int i = 0 ; i< properties.size(); i++) {
+    //         result[i][0] = properties.get(i).getPropertyType().toString();
+    //         result[i][2] = properties.get(i).getPropertyStatus().toString();
+    //         result[i][3] = properties.get(i).getAddress().getFormattedAddress();
+    //         result[i][4] = properties.get(i).getAddress().getCityQuadrant().toString();
+    //         result[i][5] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
+    //         result[i][6] = properties.get(i).getPayment().getPeriod().getEndDate().getFormattedDate();
+    //     }
+    //     return result;
+    // }
 
 
     public void setAllProperties (JSONArray arr) {
         // use the setProperty method and loops to populate properties array list
+        properties.clear();
         for (int i = 0; i < arr.size(); i++) {
              JSONObject obj = (JSONObject)arr.get(i);
           //  JSONObject obj = arr.getJSONObject(i);
@@ -194,28 +206,40 @@ public class PropertyController implements ActionListener {
         switch (mon) {
             case "jan" :
                 month = 1;
+                break;
             case "feb" :
                 month = 2;
+                break;
             case "mar" :
                 month = 3;
+                break;
             case "apr" :
                 month = 4;
+                break;
             case "may" :
                 month = 5;
+                break;
             case "jun":
                 month = 6;
+                break;
             case "jul":
                 month = 7;
+                break;
             case "aug" :
                 month = 8;
+                break;
             case "sep":
                 month = 9;
+                break;
             case "oct" :
                 month = 10;
+                break;
             case "nov":
                 month = 11;
+                break;
             case "dec":
                 month = 12;
+                break;
         }
 
         String day_ = split_date[1].substring(0, split_date[1].length());

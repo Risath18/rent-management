@@ -6,26 +6,24 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class SearchView  extends JFrame {
-    private String [] propertyType={"Apartment", "Attached", "Townhouse ", "Other"};
-    private String []cityQuadrant={"SW","NW","SE","NE"};
-    private String[] numbers={"1","2","3","4","5"};
-    private String[] furnish={"Furnished","Not Furnished"};
+    private String [] propertyType={"Any", "APPARTMENT", "ATTACHED", "TOWNHOUSE ", "OTHER"};
+    private String []cityQuadrant={"Any", "SW","NW","SE","NE"};
+    private String[] numbers={"Any","1","2","3","4","5"};
+    private String[] furnish={"Any", "Furnished","Not Furnished"};
 
     private JComboBox typeBox=new JComboBox(propertyType);
     private JComboBox bedBox=new JComboBox(numbers);
-    private JComboBox bathBox = new JComboBox(numbers);
+    private JComboBox bathBox = new JComboBox(numbers); 
     private JComboBox quadrantBox= new JComboBox(cityQuadrant);
     private JComboBox furnished=new JComboBox(furnish);
 
-    private JRadioButton proceed=new JRadioButton("Proceed");
-    private JRadioButton cancel=new JRadioButton("Cancel");
+
     private JButton submit=new JButton("Submit");
-    private ButtonGroup group=new ButtonGroup();
 
     public SearchView(){
         setSize(450, 543);
         getContentPane().setBackground(new Color(230, 230, 250));
-        setTitle("Create New Property");
+        setTitle("Search View");
         getContentPane().setLayout(null);
 
 
@@ -64,21 +62,22 @@ public class SearchView  extends JFrame {
         furnished.setBounds(157, 160, 56, 26);
         getContentPane().add(furnished);
 
-        proceed.setBounds(152, 123, 61, 29);
-        getContentPane().add(proceed);
-
-        cancel.setBounds(217, 123, 61, 29);
-        getContentPane().add(cancel);
-
-        group.add(proceed);
-        group.add(cancel);
-
         submit.setBounds(144, 441, 115, 29);
         getContentPane().add(submit);
 
     }
 
+    public String getPropertyType(){
+        if(typeBox.getSelectedItem().toString().equals("Any")){
+            return "NULL";
+        }else
+        return (typeBox.getSelectedItem().toString());
+    }
+
     public int getBeds(){
+        if( Objects.requireNonNull(bedBox.getSelectedItem()).toString().equals("Any")){
+            return 0;
+        }
         return Integer.parseInt((String) Objects.requireNonNull(bedBox.getSelectedItem()));
     }
 
@@ -87,6 +86,9 @@ public class SearchView  extends JFrame {
      * @return number of baths as an int
      * */
     public int getBaths(){
+        if( Objects.requireNonNull(bathBox.getSelectedItem()).toString().equals("Any")){
+            return 0;
+        }else
         return Integer.parseInt((String) Objects.requireNonNull(bathBox.getSelectedItem()));
     }
 
@@ -94,9 +96,24 @@ public class SearchView  extends JFrame {
      * Getter function for furnished status
      * @return boolean value of furnished status
      * */
-    public boolean isFurnished(){
-        return Boolean.parseBoolean((String) furnished.getSelectedItem());
+    public String isFurnished(){
+        if( furnished.getSelectedItem().toString().equals("Any")){
+            return "NULL";
+        }else if(furnished.getSelectedItem().toString().equals("Furnished")){
+            return "Yes";
+        }else{
+            return "No";
+        }    
     }
+
+     public String getCityQuadrant(){
+         if(quadrantBox.getSelectedItem().toString().equals("Any"))
+            return "NULL";
+        else
+            return quadrantBox.getSelectedItem().toString();
+    }
+
+
     public void submitListener(ActionListener al){
         submit.addActionListener(al);
         submit.setActionCommand("searchSubmit");

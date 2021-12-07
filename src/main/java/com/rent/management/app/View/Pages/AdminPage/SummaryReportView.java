@@ -101,11 +101,8 @@ public class SummaryReportView {
         houseRent.setText(Integer.toString(n));
     }
 
-    public void setNumActiveList(boolean n) {
-        if(n){
-            activeListing.setText("Yes");
-        }else
-            activeListing.setText("False");
+    public void setNumActiveList(int n) {
+        activeListing.setText(Integer.toString(n));
     }
 
     public void setVisible(boolean v) {

@@ -545,30 +545,28 @@ public class DBCore {
 
     public void changeFeePeriod(int days){
         try {
-        String query = "UPDATE Fees SET Days = ?";
+            String query = "UPDATE Fees SET Days = ?";
 
-        PreparedStatement stmt = dbConnect.prepareStatement(query);
-        stmt.setInt(1, days); // set new days
-        stmt.executeUpdate();
-        stmt.close();
-        
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+            stmt.setInt(1, days); // set new days
+            stmt.executeUpdate();
+            stmt.close();
         } catch (SQLException ex) {
-            System.out.println("Error in paying fees");
+            System.out.println("Error in setting fees period");
             ex.printStackTrace();
         }
     }
 
     public void changeFeeAmount(int fee){
         try {
-        String query = "UPDATE Fees SET Price = ?";
+            String query = "UPDATE Fees SET Price = ?";
 
-        PreparedStatement stmt = dbConnect.prepareStatement(query);
-        stmt.setInt(1, fee); // set new days
-        stmt.executeUpdate();
-        stmt.close();
-        
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+            stmt.setInt(1, fee); // set new days
+            stmt.executeUpdate();
+            stmt.close();
         } catch (SQLException ex) {
-            System.out.println("Error in paying fees");
+            System.out.println("Error in setting price");
             ex.printStackTrace();
         }
     }
@@ -650,6 +648,25 @@ public class DBCore {
             ex.printStackTrace();
         }
         return arr;
+    }
+
+    String getLandlordName (String email) {
+        String name = "";
+
+        try {
+            String query = "SELECT Name FROM Person WHERE Email = " + email;
+
+            Statement stmt = dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                name = rs.getString("Name");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in retrieving landlord name.");
+            e.printStackTrace();
+        }
+
+        return name;
     }
 
     /**
