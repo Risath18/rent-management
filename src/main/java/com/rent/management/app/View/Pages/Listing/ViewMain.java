@@ -25,7 +25,7 @@ public class ViewMain  extends JFrame {
         landlord.setActionCommand("Landlord");
         renter.setBounds(242, 57, 115, 56);
         getContentPane().add(renter);
-        renter.setActionCommand("Registered");
+        renter.setActionCommand("Renter");
         manager.setBounds(66, 141, 115, 56);
         getContentPane().add(manager);
         manager.setActionCommand("Manager");

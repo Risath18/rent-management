@@ -33,7 +33,12 @@ public abstract class PropertyView implements ActionListener {
         frame = new JFrame("Property Listing");
         frame.setLocation(200,400);
         frame.setSize(1000,2000);
-        setTable(new JTable(addToTable, columns));
+        setTable(new JTable(addToTable, columns){
+            @Override
+            public boolean isCellEditable(int row,int column) {
+                return false;
+            }
+        });
         JScrollPane scrollPane=new JScrollPane(getTable());
 
         scrollPane.setPreferredSize(dim);

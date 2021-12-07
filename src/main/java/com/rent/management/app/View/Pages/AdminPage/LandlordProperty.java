@@ -11,7 +11,6 @@ import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
 import com.rent.management.app.View.Pages.CreateEditPage.EditPropertyView;
 
 public class LandlordProperty extends PropertyView {
-    //Implement Controller methods later
     private LandlordController llc;
 
     /**
