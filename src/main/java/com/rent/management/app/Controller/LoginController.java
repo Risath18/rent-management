@@ -28,6 +28,7 @@ public class LoginController implements ActionListener{
     private PropertyController propertyController;
     private String userType;
     private LandlordController landlordController;
+    private ManagerController managerController;
     private int accessLevel;
 
     public LoginController(DBCore db, int accessLevel){
@@ -147,6 +148,7 @@ public class LoginController implements ActionListener{
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 pc.setManager(obj);
+                managerController = new ManagerController(db,pc);
             } else if(accessLevel == 2){ //Landlord
                 obj = db.findPerson(username);
                 obj.put("Email", username);
