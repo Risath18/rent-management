@@ -1,6 +1,9 @@
 package com.rent.management.app.View.Pages.AdminPage;
 
 import javax.swing.*;
+
+import com.rent.management.app.Controller.ManagerController;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -11,6 +14,8 @@ public class ManagerView extends JFrame {
     private JButton getUserInfo = new JButton("Get Information of Users");
     private JButton exit = new JButton("Exit");
     private JButton createNewReport = new JButton("Create New Summary Report");
+    private ManagerController managerController;
+
 
     /**
      * ManagerView default constructor initializing view for manager to choose functionality
@@ -80,6 +85,10 @@ public class ManagerView extends JFrame {
     public void exitListener(ActionListener al){
         exit.addActionListener(al);
         exit.setActionCommand("exit");
+    }
+
+    public void setManagerController(ManagerController cont){
+        this.managerController = cont;
     }
 }
 

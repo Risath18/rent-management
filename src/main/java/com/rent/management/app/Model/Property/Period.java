@@ -54,12 +54,12 @@ public class Period {
     }
 
     public void setStartDate(String date) {
-        Date dt = new Date(Integer.parseInt(date.split("[-]")[0]), Integer.parseInt(date.split("[-]")[1]), Integer.parseInt(date.split("[-]")[2]));
+        Date dt = new Date(Integer.parseInt(date.split("[-]")[0]), Integer.parseInt(date.split("[-]")[2]), Integer.parseInt(date.split("[-]")[1]));
         setStartDate(dt);
     }
     
     public void setEndDate(String date){
-        Date dt = new Date(Integer.parseInt(date.split("[-]")[0]), Integer.parseInt(date.split("[-]")[1]), Integer.parseInt(date.split("[-]")[2]));
+        Date dt = new Date(Integer.parseInt(date.split("[-]")[0]), Integer.parseInt(date.split("[-]")[2]), Integer.parseInt(date.split("[-]")[1]));
         this.endDate = dt;
     }
     

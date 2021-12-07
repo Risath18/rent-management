@@ -80,16 +80,16 @@ public class ChangeFeesView extends JFrame {
      * Setting a new fee
      * @param fee double with new fee
      */
-    public void setFee(double fee){
-        currentFee.setText(Double.toString(fee));
+    public void setFee(String fee){
+        currentFee.setText(fee);
     }
 
     /**
      * Getter for fees
      * @return a double which holds the current fee value
      * */
-    public double getChangedFees(){
-        return Double.parseDouble(changeFee.getText());
+    public String getChangedFees(){
+        return (changeFee.getText());
     }
 
     /**
