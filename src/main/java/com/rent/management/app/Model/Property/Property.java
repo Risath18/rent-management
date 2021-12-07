@@ -11,7 +11,6 @@ public class Property {
     private PropertyStatus propertyStatus; //enum value for the status of the property
     private Address address; //address of property
     private Payment payment; //payment for property
-    private boolean paid;
 
     public Property(){
         
@@ -26,9 +25,8 @@ public class Property {
      * @param propertyID int ID of property
      * @param propertyStatus PropertyStatus object to be stored
      * @param address Address object to be stored
-     * @param paid boolean for whether the fee has been paid or not
      */
-    public Property(String propertyId, PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished, Address address, boolean paid, PropertyStatus propertyStatus) {
+    public Property(String propertyId, PropertyType propertyType, int numOfBed, int numOfBath, boolean isFurnished, Address address, PropertyStatus propertyStatus) {
         this.setPropertyType(propertyType);
         this.setNumOfBed(numOfBed);
         this.setNumOfBath(numOfBath);
@@ -36,7 +34,6 @@ public class Property {
         this.setPropertyId(propertyId);
         this.setPropertyStatus(propertyStatus);
         this.setAddress(address);
-        this.paid = paid;
     }
 
     /**
@@ -175,10 +172,10 @@ public class Property {
     }
 
     /**
-     * function to pay the fee
+     * function to set payment
      * @param payment Payment object
      */
-    public void payFee(Payment payment){
+    public void setPayment(Payment payment){
         this.payment = payment;
     }
 

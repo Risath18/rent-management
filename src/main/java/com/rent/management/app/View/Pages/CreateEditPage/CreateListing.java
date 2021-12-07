@@ -7,6 +7,8 @@ import com.rent.management.app.Model.Property.Address;
 import com.rent.management.app.Model.Property.CityQuadrant;
 import com.rent.management.app.Model.Property.PropertyStatus;
 
+import org.json.simple.JSONObject;
+
 import java.awt.event.ActionListener;
 import java.lang.instrument.IllegalClassFormatException;
 import java.text.*;
@@ -24,10 +26,7 @@ public class CreateListing extends JFrame{
     private JComboBox bathBox = new JComboBox(numbers);
     private JComboBox quadrantBox= new JComboBox(cityQuadrant);
     private JComboBox furnished=new JComboBox(furnish);
-    private JRadioButton proceed=new JRadioButton("Proceed");
-    private JRadioButton cancel=new JRadioButton("Cancel");
     private JButton submit=new JButton("Submit");
-    private ButtonGroup group=new ButtonGroup();
     private final JLabel cardNumLbl = new JLabel("Card Number");
     private final JLabel expiryDateLbl = new JLabel("Expiry Date");
     private final JLabel cvvLbl = new JLabel("CVV");
@@ -95,15 +94,6 @@ public class CreateListing extends JFrame{
         furnished.setBounds(157, 160, 56, 26);
         getContentPane().add(furnished);
 
-        proceed.setBounds(152, 123, 61, 29);
-        getContentPane().add(proceed);
-
-        cancel.setBounds(217, 123, 61, 29);
-        getContentPane().add(cancel);
-
-        group.add(proceed);
-        group.add(cancel);
-
         submit.setBounds(144, 441, 115, 29);
         getContentPane().add(submit);
 
@@ -131,7 +121,7 @@ public class CreateListing extends JFrame{
         street.setColumns(10);
 
         houseNumber = new JTextField();
-        houseNumber.setBounds(157, 196, 256, 26);
+        houseNumber.setBounds(157, 220, 256, 26);
         getContentPane().add(houseNumber);
         houseNumber.setColumns(10);
 
@@ -152,7 +142,7 @@ public class CreateListing extends JFrame{
 
         getContentPane().add(streetLbl);
 
-        houseNumberLal.setBounds(41, 199, 69, 20);
+        houseNumberLal.setBounds(41, 210, 69, 20);
         getContentPane().add(houseNumberLal);
 
 
@@ -168,13 +158,29 @@ public class CreateListing extends JFrame{
     /**
      * Getter method for Address
      * @throws IllegalClassFormatException
-     * @return address value as Address class
+     * @return JSON object to be parsed
      * */
-    public Address getAddress() throws IllegalClassFormatException {
-        CityQuadrant quad = null;
-        quad.fromString((String) Objects.requireNonNull(quadrantBox.getSelectedItem()));
-        Address toReturn= new Address(street.getText(),quad,Integer.parseInt(houseNumberLal.getText()));
-        return toReturn;
+    public JSONObject getAddress() throws IllegalClassFormatException {
+        JSONObject obj = new JSONObject();
+        obj.put("house_number", houseNumber.getText());
+        obj.put("street", street.getText());
+        return obj;
+    }
+
+    /**
+     * getter method for type
+     * @return returns string for type of property
+     */
+    public String getPropertyType(){
+        return (typeBox.getSelectedItem().toString());
+    }
+
+    /**
+     * getter for quadrant
+     * @return returns string for quadrant of property
+     */
+    public String getQuadrant(){
+        return quadrantBox.getSelectedItem().toString();
     }
 
     /**
@@ -182,7 +188,7 @@ public class CreateListing extends JFrame{
      * @return int bed number
      * */
     public int getBeds(){
-        return Integer.parseInt((String)bedBox.getSelectedItem());
+        return Integer.parseInt(bedBox.getSelectedItem().toString());
     }
 
     /**
@@ -190,7 +196,7 @@ public class CreateListing extends JFrame{
      * @return number of baths as an int
      * */
     public int getBaths(){
-        return Integer.parseInt((String) bathBox.getSelectedItem());
+        return Integer.parseInt( bathBox.getSelectedItem().toString());
     }
 
     /**
@@ -198,21 +204,24 @@ public class CreateListing extends JFrame{
      * @return boolean value of furnished status
      * */
     public boolean isFurnished(){
-        return Boolean.parseBoolean((String) furnished.getSelectedItem());
+        return Boolean.parseBoolean( furnished.getSelectedItem().toString());
    }
 
-    /**
-     * Getter for property status
-     * @return PropertyStatus type of property status
-     * */
-    public PropertyStatus getStatus(){
-        PropertyStatus toReturn=null;
-        toReturn=PropertyStatus.fromString("ACTIVE");
-        return toReturn;
-    }
 
+    /**
+     * An actionlistener to trigger when submit is pressed
+     * @return void
+     */
     public void addSubmitListener(ActionListener al)  {
         submit.addActionListener(al);
         submit.setActionCommand("addSubmit");
     }
+
+
+    /**
+    Setter for fees
+     */
+    public void setCurrentFee(String fee) {
+		currentFee.setText(fee);
+	}
 }

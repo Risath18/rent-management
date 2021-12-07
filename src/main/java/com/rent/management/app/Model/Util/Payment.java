@@ -1,63 +1,71 @@
 package com.rent.management.app.Model.Util;
 
+import com.rent.management.app.Model.Property.Period;
 
 public class Payment {
-    private boolean paid;
-    private Date listingExpiryDate; //date that listing expires
-    private Date datePaid;
+    private int price, days;
+    private boolean isPaid;
+    private Period period;
 
+    //constructor for payment
     public Payment(){
-        paid = false;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean isPaid) {
+        this.isPaid = isPaid;
     }
 
     /**
      * Constructor for Payment
-     * @param datePaid Date object for date paid
-     * @param listingExpiryDate Date object to be stored as the expiry date of the listing
+     * @param days int for days of payment validity
+     * @param price int for fee amount
      */
-    public Payment(Date datePaid, Date listingExpiryDate) {
-        this.setDatePaid(datePaid);
-        this.setListingExpiryDate(listingExpiryDate);
-        paid = true;
+    public Payment(int days, int price) {
+        this.setDays(days);
+        this.setPrice(price);
     }
 
     /**
-     * getter for listing expiry date
-     * @return returns a Date object
+     * setter for days
+     * @param days number of days in fee period
      */
-    public Date getListingExpiryDate() {
-        return listingExpiryDate;
+    public void setDays(int days){
+        this.days = days;
     }
 
     /**
-     * setter for listing expiry date
-     * @param listingExpiryDate Date object to be stored
+     * setter for fee
+     * @param price cost of fees
      */
-    public void setListingExpiryDate(Date listingExpiryDate) {
-        this.listingExpiryDate = listingExpiryDate;
+    public void setPrice(int price){
+        this.price = price;
+    }
+    
+    /**
+     * getter for days
+     * @return number of days in fee period
+     */
+    public int getDays(){
+        return this.days;
     }
 
     /**
-     * setter for date of payment
-     * @param datePaid Date object for date of payment
+     * getter for fees
+     * @return cost of fee
      */
-    public void setDatePaid(Date datePaid){
-        this.datePaid = datePaid;
+    public int getPrice(){
+        return this.price;
     }
 
-    /**
-     * getter for date paid
-     * @return returns a Date object
-     */
-    public Date getDatePaid() {
-        return datePaid;
+    public Period getPeriod(){
+        return this.period;
     }
 
-    /**
-     * @return returns a boolean for payment status
-     */
-    public boolean isPaid(){
-        return paid;
+    public void setPeriod(Period period){
+        this.period = period;
     }
-
 }
