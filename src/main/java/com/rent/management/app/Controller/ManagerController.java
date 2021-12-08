@@ -104,7 +104,7 @@ public class ManagerController implements ActionListener {
                 break;
             case "generateReport":
                 System.out.println("Generating Report");
-              //  retrieveSummary();
+               retrieveSummary();
                 break;
             case "closeReport":
                 //Close it
@@ -134,122 +134,129 @@ public class ManagerController implements ActionListener {
     }
 
     /**
-     * retrieves a manager's periodical summary
+     * retrieves a manager's periodical summary. Includes: 
+     * includes total number of houses in the period
+     * total number of active listings 
+     * total number of houses rented
+     * summary of which properties have been rented
      */
     public void retrieveSummary(){
         try{
-        
-        JSONArray arr = db.getAllProperties();
-        String [][] data = new String[arr.size()][8];
-        for(int i = 0; i < arr.size(); i++){
-            JSONObject obj = (JSONObject)arr.get(i);
-            String ID = obj.get("pid").toString();
-            String email = obj.get("l_email").toString();
-            String status = obj.get("status").toString();
-            String address = obj.get("address").toString();
-            String quadrant = obj.get("quadrant").toString();
-            String start = obj.get("active_date").toString();
-            String end = obj.get("end_date").toString();
+            JSONArray arr = db.getAllProperties();
+            String [][] data = new String[arr.size()][8];
+            for(int i = 0; i < arr.size(); i++){
+                JSONObject obj = (JSONObject)arr.get(i);
+                String ID = obj.get("pid").toString();
+                String email = obj.get("l_email").toString();
+                String status = obj.get("status").toString();
+                String address = obj.get("address").toString();
+                String quadrant = obj.get("quadrant").toString();
+                String start = obj.get("active_date").toString();
+                String end = obj.get("end_date").toString();
 
-            data[i][0] = ID;
-            data[i][1] = email;
-            data[i][2] = status;
-            data[i][3] = address;
-            data[i][4] = quadrant;
-            data[i][5] = start;
-            data[i][6] = end;
-        }
+                data[i][0] = ID;
+                data[i][1] = email;
+                data[i][2] = status;
+                data[i][3] = address;
+                data[i][4] = quadrant;
+                data[i][5] = start;
+                data[i][6] = end;
+            }
          
-        String startDate = requestReport.getStartYear()+"-"+requestReport.getStartMonth()+"-"+requestReport.getStartDate();
-        String endDate = requestReport.getEndYear() + "-" +requestReport.getEndMonth() + "-" + requestReport.getEndDate();
+            String startDate = requestReport.getStartYear()+"-"+requestReport.getStartMonth()+"-"+requestReport.getStartDate();
+            String endDate = requestReport.getEndYear() + "-" +requestReport.getEndMonth() + "-" + requestReport.getEndDate();
 
-        int year = Integer.parseInt(startDate.split("[-]")[0]);
-        int month = Integer.parseInt(startDate.split("[-]")[1]);
-        int day = Integer.parseInt(startDate.split("[-]")[2]);
+            int year = Integer.parseInt(startDate.split("[-]")[0]);
+            int month = Integer.parseInt(startDate.split("[-]")[1]);
+            int day = Integer.parseInt(startDate.split("[-]")[2]);
                 
-        Calendar start = Calendar.getInstance();
-        start.set(Calendar.DAY_OF_MONTH, day);
-        start.set(Calendar.MONTH, month);
-        start.set(Calendar.YEAR, year);
+            Calendar start = Calendar.getInstance();
+            start.set(Calendar.DAY_OF_MONTH, day);
+            start.set(Calendar.MONTH, month);
+            start.set(Calendar.YEAR, year);
 
-        Calendar end = Calendar.getInstance();
-        year = Integer.parseInt(endDate.split("[-]")[0]);
-        month = Integer.parseInt(endDate.split("[-]")[1]);
-        day = Integer.parseInt(endDate.split("[-]")[2]);
-        end.set(Calendar.DAY_OF_MONTH, day);
-        end.set(Calendar.MONTH, month);
-        end.set(Calendar.YEAR, year);
+            Calendar end = Calendar.getInstance();
+            year = Integer.parseInt(endDate.split("[-]")[0]);
+            month = Integer.parseInt(endDate.split("[-]")[1]);
+            day = Integer.parseInt(endDate.split("[-]")[2]);
+            end.set(Calendar.DAY_OF_MONTH, day);
+            end.set(Calendar.MONTH, month);
+            end.set(Calendar.YEAR, year);
 
-        int housesRentedActive = 0;
-        for(int i = 0; i < data.length; i++){
-            if(data[i][5]!= "NULL"){
-                year = Integer.parseInt(data[i][6].split("[-]")[0]);
-                month = Integer.parseInt(data[i][6].split("[-]")[1]);
-                day = Integer.parseInt(data[i][6].split("[-]")[2]);
-                Calendar getData = Calendar.getInstance();
-                getData.set(Calendar.DAY_OF_MONTH, day);
-                getData.set(Calendar.MONTH, month);
-                getData.set(Calendar.YEAR, year);
-                int compareStart = getData.compareTo(start);
-                int compareEnd = getData.compareTo(end);
-                if(compareStart >= 0 && compareEnd <= 0)
-                    housesRentedActive++;
-            }
-        }//count the number of houses that are rented or active in the period
+            int housesRentedActive = 0;
+            for(int i = 0; i < data.length; i++){
+                if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL")){
+                    year = Integer.parseInt(data[i][6].split("[-]")[0]);
+                    month = Integer.parseInt(data[i][6].split("[-]")[1]);
+                    day = Integer.parseInt(data[i][6].split("[-]")[2]);
+                    Calendar getData = Calendar.getInstance();
+                    getData.set(Calendar.DAY_OF_MONTH, day);
+                    getData.set(Calendar.MONTH, month);
+                    getData.set(Calendar.YEAR, year);
+                    int compareStart = getData.compareTo(start);
+                    int compareEnd = getData.compareTo(end);
+                    if(compareStart >= 0 && compareEnd <= 0)
+                        housesRentedActive++;
+                }
+            }//count the number of houses that are rented or active in the period
 
-        int rented = 0;
-        int active = 0;
-        for(int i = 0; i < data.length; i++){
-            if(data[i][5]!= "NULL" && data[i][2] == "RENTED"){
-                year = Integer.parseInt(data[i][6].split("[-]")[0]);
-                month = Integer.parseInt(data[i][6].split("[-]")[1]);
-                day = Integer.parseInt(data[i][6].split("[-]")[2]);
-                Calendar getData = Calendar.getInstance();
-                getData.set(Calendar.DAY_OF_MONTH, day);
-                getData.set(Calendar.MONTH, month);
-                getData.set(Calendar.YEAR, year);
-                int compareStart = getData.compareTo(start);
-                int compareEnd = getData.compareTo(end);
-                if(compareStart >= 0 && compareEnd <= 0)
-                    rented++;
+            int rented = 0;
+            int active = 0;
+            for(int i = 0; i < data.length; i++){
+                if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL") && data[i][2].equals("RENTED")){
+                    year = Integer.parseInt(data[i][6].split("[-]")[0]);
+                    month = Integer.parseInt(data[i][6].split("[-]")[1]);
+                    day = Integer.parseInt(data[i][6].split("[-]")[2]);
+                    Calendar getData = Calendar.getInstance();
+                    getData.set(Calendar.DAY_OF_MONTH, day);
+                    getData.set(Calendar.MONTH, month);
+                    getData.set(Calendar.YEAR, year);
+                    int compareStart = getData.compareTo(start);
+                    int compareEnd = getData.compareTo(end);
+                    System.out.println(compareStart + ":start - end:" + compareEnd);
+                    if(compareStart >= 0 && compareEnd <= 0)
+                        rented++;
+                }
+                else if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL") && data[i][2].equals("ACTIVE")){
+                    year = Integer.parseInt(data[i][6].split("[-]")[0]);
+                    month = Integer.parseInt(data[i][6].split("[-]")[1]);
+                    day = Integer.parseInt(data[i][6].split("[-]")[2]);
+                    Calendar getData =  Calendar.getInstance();
+                    getData.set(Calendar.DAY_OF_MONTH, day);
+                    getData.set(Calendar.MONTH, month);
+                    getData.set(Calendar.YEAR, year);
+                    int compareStart = getData.compareTo(start);
+                    int compareEnd = getData.compareTo(end);
+                    if(compareStart >= 0 && compareEnd <= 0)
+                        active++;
+                }
             }
-            else if(data[i][5]!= "NULL" && data[i][2] == "ACTIVE"){
-                year = Integer.parseInt(data[i][6].split("[-]")[0]);
-                month = Integer.parseInt(data[i][6].split("[-]")[1]);
-                day = Integer.parseInt(data[i][6].split("[-]")[2]);
-                Calendar getData =  Calendar.getInstance();
-                getData.set(Calendar.DAY_OF_MONTH, day);
-                getData.set(Calendar.MONTH, month);
-                getData.set(Calendar.YEAR, year);
-                int compareStart = getData.compareTo(start);
-                int compareEnd = getData.compareTo(end);
-                if(compareStart >= 0 && compareEnd <= 0)
-                    active++;
-            }
-        }
-        //count the number of active houses in period
-        //count the number of rented houses in the period
+            //count the number of active houses in period
+            //count the number of rented houses in the period
 
-        String[][] houses = new String[rented][4];
-        for(int i = 0; i < data.length; i++){
-            if(data[i][5]!= "NULL" && data[i][2] == "RENTED"){
-                houses[i][0] = data[i][0]; //pid
-                houses[i][1] = db.getLandlordName(data[i][1]); //landlord name
-                houses[i][2] = data[i][3];
-                houses[i][3] = data[i][4];
-            }
-        }//list of houses rented in period (landlord's name, house ID, address)
-        
-        reportView = new SummaryReportView(houses);
-        reportView.setNumActiveList(active);
-        reportView.setNumHouseList(housesRentedActive);
-        reportView.setNumHouseRent(rented);
-        reportView.setVisible(true);
+            String[][] houses = new String[rented][4];
+            int counter =0;
+            System.out.println(rented);
+            for(int i = 0; i < data.length && counter < rented; i++){
+                if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL") && data[i][2].equals("RENTED")){
+                    houses[counter][0] = data[i][0]; //pid
+                    houses[counter][1] = db.getLandlordName(data[i][1]); //landlord name
+                    System.out.println(houses[i][1]);
+                    houses[counter][2] = data[i][3];
+                    houses[counter][3] = data[i][4];
+                    counter++;
+                }
+            }//list of houses rented in period (landlord's name, house ID, address)
+            System.out.println("Creating a report");
+            reportView = new SummaryReportView(houses);
+            reportView.setVisible(true);
+            reportView.setNumActiveList(active);
+            System.out.println(active);
+            reportView.setNumHouseList(housesRentedActive);
+            reportView.setNumHouseRent(rented);
+            System.out.println(rented);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
-        // includes total number of houses in the period
-        // total number of houses rented in period
-        // total number of active listings 
 }

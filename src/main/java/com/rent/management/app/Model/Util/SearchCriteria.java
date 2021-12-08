@@ -38,15 +38,18 @@ public class SearchCriteria {
         this.setCityQuadrant(cityQuadrant);
     }
 
+    /**
+     * Constructor with JSONObject
+     * @param obj JSONObject with search criteria.
+     */
     public SearchCriteria(JSONObject obj){
         try{
-        this.id=obj.get("search").toString();
-        this.setPropertyType(PropertyType.fromString(obj.get("type").toString()));
-        this.setNumOfBed(Integer.parseInt(obj.get("num_bed").toString()));
-        this.setNumOfBath(Integer.parseInt(obj.get("num_bath").toString()));
-        this.setFurnished(Boolean.parseBoolean(obj.get("furnished").toString()));
-        this.setCityQuadrant(CityQuadrant.fromString(obj.get("quadrant").toString()));
-
+            this.id=obj.get("search").toString();
+            this.setPropertyType(PropertyType.fromString(obj.get("type").toString()));
+            this.setNumOfBed(Integer.parseInt(obj.get("num_bed").toString()));
+            this.setNumOfBath(Integer.parseInt(obj.get("num_bath").toString()));
+            this.setFurnished(Boolean.parseBoolean(obj.get("furnished").toString()));
+            this.setCityQuadrant(CityQuadrant.fromString(obj.get("quadrant").toString()));
         } catch(Exception e){
             System.err.println(e);
             e.printStackTrace();

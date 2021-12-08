@@ -31,7 +31,6 @@ public class Manager implements Person{
         return report;
     }
 
-    //potential issue here
     /**
      * setter for report
      * @param report Report object to be stored
@@ -40,14 +39,6 @@ public class Manager implements Person{
     public void setReport(Report report, Manager manager) {
         this.report = report;
     }
-
-    /**
-     * changes the status of a property
-     * @return returns a boolean whether the change was successful
-     */
-    // public boolean changePropertyStatus(){
-
-    // }
 
     /**
      * getter for Person object
@@ -89,9 +80,11 @@ public class Manager implements Person{
         this.email = email;
     }
 
+    /**
+     * overrides parent method
+     */
     @Override
     public Name name() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

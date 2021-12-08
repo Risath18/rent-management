@@ -78,13 +78,4 @@ public class Landlord implements Person{
         // TODO Auto-generated method stub
         return null;
     }
-    
-    /**
-     * getter for all properties owned by this landlord
-     * @return returns an ArrayList of properties
-     */
-    // public ArrayList<Property> getLandlordProperties(){
-
-    // }
-
 }

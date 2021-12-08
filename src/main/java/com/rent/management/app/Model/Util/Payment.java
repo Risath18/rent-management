@@ -7,15 +7,25 @@ public class Payment {
     private boolean isPaid;
     private Period period;
 
-    //constructor for payment
+    /**
+     * Constructor for payment
+     */
     public Payment(){
         this.period = new Period();
     }
 
+    /**
+     * Chackes whether or not a payement has been made.
+     * @return bool value of paid status
+     */
     public boolean isPaid() {
         return isPaid;
     }
 
+    /**
+     * setter for isPaid.
+     * @param isPaid boolean value with paid status
+     */
     public void setPaid(boolean isPaid) {
         this.isPaid = isPaid;
     }
@@ -64,10 +74,18 @@ public class Payment {
         return this.price;
     }
 
+    /**
+     * Getter for period
+     * @return period of payement
+     */
     public Period getPeriod(){
         return this.period;
     }
 
+    /**
+     * Setter for period.
+     * @param period period to be set
+     */
     public void setPeriod(Period period){
         this.period = period;
     }
