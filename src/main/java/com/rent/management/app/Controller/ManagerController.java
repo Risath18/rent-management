@@ -168,17 +168,17 @@ public class ManagerController implements ActionListener {
         int day = Integer.parseInt(startDate.split("[-]")[2]);
                 
         Calendar start = Calendar.getInstance();
-        start.DAY_OF_MONTH = day;
-        start.MONTH = month;
-        start.YEAR = year;
+        start.set(Calendar.DAY_OF_MONTH, day);
+        start.set(Calendar.MONTH, month);
+        start.set(Calendar.YEAR, year);
 
         Calendar end = Calendar.getInstance();
         year = Integer.parseInt(endDate.split("[-]")[0]);
         month = Integer.parseInt(endDate.split("[-]")[1]);
         day = Integer.parseInt(endDate.split("[-]")[2]);
-        end.DAY_OF_MONTH = day;
-        end.MONTH = month;
-        end.YEAR = year;
+        end.set(Calendar.DAY_OF_MONTH, day);
+        end.set(Calendar.MONTH, month);
+        end.set(Calendar.YEAR, year);
 
         int housesRentedActive = 0;
         for(int i = 0; i < data.length; i++){
@@ -187,9 +187,9 @@ public class ManagerController implements ActionListener {
                 month = Integer.parseInt(data[i][6].split("[-]")[1]);
                 day = Integer.parseInt(data[i][6].split("[-]")[2]);
                 Calendar getData = Calendar.getInstance();
-                getData.DAY_OF_MONTH = day;
-                getData.MONTH = month;
-                getData.YEAR = year;
+                getData.set(Calendar.DAY_OF_MONTH, day);
+                getData.set(Calendar.MONTH, month);
+                getData.set(Calendar.YEAR, year);
                 int compareStart = getData.compareTo(start);
                 int compareEnd = getData.compareTo(end);
                 if(compareStart >= 0 && compareEnd <= 0)
@@ -205,9 +205,9 @@ public class ManagerController implements ActionListener {
                 month = Integer.parseInt(data[i][6].split("[-]")[1]);
                 day = Integer.parseInt(data[i][6].split("[-]")[2]);
                 Calendar getData = Calendar.getInstance();
-                getData.DAY_OF_MONTH = day;
-                getData.MONTH = month;
-                getData.YEAR = year;
+                getData.set(Calendar.DAY_OF_MONTH, day);
+                getData.set(Calendar.MONTH, month);
+                getData.set(Calendar.YEAR, year);
                 int compareStart = getData.compareTo(start);
                 int compareEnd = getData.compareTo(end);
                 if(compareStart >= 0 && compareEnd <= 0)
@@ -218,9 +218,9 @@ public class ManagerController implements ActionListener {
                 month = Integer.parseInt(data[i][6].split("[-]")[1]);
                 day = Integer.parseInt(data[i][6].split("[-]")[2]);
                 Calendar getData =  Calendar.getInstance();
-                getData.DAY_OF_MONTH = day;
-                getData.MONTH = month;
-                getData.YEAR = year;
+                getData.set(Calendar.DAY_OF_MONTH, day);
+                getData.set(Calendar.MONTH, month);
+                getData.set(Calendar.YEAR, year);
                 int compareStart = getData.compareTo(start);
                 int compareEnd = getData.compareTo(end);
                 if(compareStart >= 0 && compareEnd <= 0)
