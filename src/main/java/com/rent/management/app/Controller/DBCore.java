@@ -80,6 +80,12 @@ public class DBCore {
         return accessLevel;
     }
 
+    /**
+     * 
+     * @param email String argument for the email to be found
+     * @return returns a JSONObject
+     * @throws IllegalQueryException
+     */
     public JSONObject findPerson(String email) throws IllegalQueryException{
         JSONObject obj = new JSONObject();
 
@@ -654,7 +660,7 @@ public class DBCore {
         String name = "";
 
         try {
-            String query = "SELECT Name FROM Person WHERE Email = " + email;
+            String query = "SELECT Name FROM Person WHERE Email = '" + email + "'";
 
             Statement stmt = dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
