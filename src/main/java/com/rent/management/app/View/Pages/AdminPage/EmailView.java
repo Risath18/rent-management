@@ -103,8 +103,11 @@ public class EmailView extends JFrame {
      * @param ll print out
      */
     public void setTo(String ll) {
-        from.setText(ll);
-        from.setEditable(false);
+        if(ll!=null) {
+            from.setText(ll);
+            from.setEditable(false);
+        }else
+            from.setText(null);
     }
 
     /**
@@ -130,9 +133,4 @@ public class EmailView extends JFrame {
     public String getLandlordEmail(){
         return landLord;
     }
-
-//    public static void main(String[] args) {
-//        EmailView emailView=new EmailView("test@gmail.com");
-//        emailView.setVisible(true);
-//    }
 }
