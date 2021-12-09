@@ -43,7 +43,6 @@ public class LoginController implements ActionListener{
      */
     public LoginController(DBCore db, UtilController uc, int accessLevel, PropertyController propc){
         this.propc = propc;
-        System.out.println("Login controller "+accessLevel);
         this.accessLevel = accessLevel;
         this.uc = uc;
         loginView=new Login();
@@ -51,7 +50,6 @@ public class LoginController implements ActionListener{
         loginView.Login();
         loginView.setVisible(true);
         this.addListernersToView();
-        System.out.println("Controller Created!");
         this.db = db;
 
         // this.propc = new PropertyController(db);
@@ -75,7 +73,6 @@ public class LoginController implements ActionListener{
     public void actionPerformed(ActionEvent e){
         String username=loginView.getUsername();
         String password=loginView.getPassword();
-        System.out.println(username + " " + password);
 
         try{
             if(e.getActionCommand().equals("login")){
@@ -150,7 +147,7 @@ public class LoginController implements ActionListener{
         } else{ //Renter
             pc.setRenter(fName, lName, username, false);
             try{
-                db.registerRenter(username, 0, "NULL");
+                db.registerRenter(username, 0, null);
             } catch(IllegalQueryException e){
                 return false;
             }

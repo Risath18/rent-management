@@ -49,7 +49,6 @@ public class UtilController {
     public void changeFees(int days, int price){
 
         if (price != payment.getPrice()) db.changeFeeAmount(price);
-        System.out.println("WACK: " +  days);
         if (days != payment.getDays()) db.changeFeePeriod(days);
     }
     
@@ -70,9 +69,6 @@ public class UtilController {
         Date next_date = c.getTime();
         obj.put("current-date", dateFormat.format(today_date));
         obj.put("end-date", dateFormat.format(next_date));
-
-        System.out.println(dateFormat.format(today_date));
-        System.out.println(dateFormat.format(next_date));
 
         payment.getPeriod().setStartDate(dateFormat.format(today_date));
         payment.getPeriod().setEndDate(dateFormat.format(next_date));

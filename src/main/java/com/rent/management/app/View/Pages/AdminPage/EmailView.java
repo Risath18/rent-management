@@ -28,7 +28,6 @@ public class EmailView extends JFrame {
      */
     public EmailView(String to){
         landLord = to;
-        System.out.println("To received is "+to);
         setSize(452, 450);
         getContentPane().setBackground(new Color(230, 230, 250));
         setTitle("Send Email");
@@ -104,7 +103,6 @@ public class EmailView extends JFrame {
      * @param ll print out
      */
     public void setTo(String ll) {
-        System.out.println("HEY: " + ll);
         from.setText(ll);
         from.setEditable(false);
     }

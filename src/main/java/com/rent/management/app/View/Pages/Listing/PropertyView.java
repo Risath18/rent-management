@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 public abstract class PropertyView implements ActionListener {
-    String[] columns ={"Property Type", "Beds","Baths","Furnished","Status","Address"};
+    protected String[] columns = {"Property Type", "Beds","Baths","Furnished","Status","Address","Quadrant"};
     protected JFrame frame;
     // protected String [][]tableData;
     protected ArrayList<Property> properties=new ArrayList<Property>();
@@ -32,7 +32,8 @@ public abstract class PropertyView implements ActionListener {
         Dimension dim=new Dimension(1000,200);
         frame = new JFrame("Property Listing");
         frame.setLocation(200,400);
-        frame.setSize(1000,2000);
+        frame.setSize(1000,000);
+        // setTable (addToTable, columns);
         setTable(new JTable(addToTable, columns){
             @Override
             public boolean isCellEditable(int row,int column) {
@@ -72,23 +73,23 @@ public abstract class PropertyView implements ActionListener {
      * */
     public void setTable(JTable table) {
                 this.table = table;
-        }
+    }
 
     /**
      * Getter of property table
      * @return property table
      * */
-        public JTable getTable(){
-                return this.table;
-        }
+    public JTable getTable(){
+        return this.table;
+    }
 
     /**
      * Setter of frame visibility
      * @param b boolean value for frame visibility
      * */
-     public void visibility(boolean b){
-                frame.setVisible(b);
-        }
+    public void visibility(boolean b){
+        frame.setVisible(b);
+    }
 
     /**
      * Abstract function for mouse listener to be implemented by children
@@ -98,14 +99,14 @@ public abstract class PropertyView implements ActionListener {
     /**
      * Abstract action listener to be implemented by children
      * */
-     public abstract void actionPerformed(ActionEvent e);
+    public abstract void actionPerformed(ActionEvent e);
 
     /**
      * Setter for display
      * @param prop array list of properties for properties
      * */
-     public void setDisplay(ArrayList<Property> prop){
-                properties=prop;
-        }
+    public void setDisplay(ArrayList<Property> prop){
+        properties=prop;
+    }
 
 }

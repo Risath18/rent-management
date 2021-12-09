@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class ManagerView extends JFrame {
     private static final long serialVersionUID = 1L;
-    private JButton changeStatus = new JButton("Change Property Status");
+    private JButton changeStatus = new JButton("Change Property Status and View Listings");
     private JButton changeFee = new JButton("Change Fee");
     private JButton getUserInfo = new JButton("Get Information of Users");
     private JButton exit = new JButton("Exit");
@@ -26,7 +26,7 @@ public class ManagerView extends JFrame {
         setTitle("Manager Menu");
         getContentPane().setLayout(null);
 
-        changeStatus.setBounds(106, 16, 199, 29);
+        changeStatus.setBounds(55, 16, 320, 29);
         getContentPane().add(changeStatus);
 
         getUserInfo.setBounds(106, 100, 199, 29);

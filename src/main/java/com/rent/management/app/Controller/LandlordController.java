@@ -6,11 +6,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import com.rent.management.app.Model.Property.*;
-// import com.rent.management.app.Model.Property.Address;
-// import com.rent.management.app.Model.Property.CityQuadrant;
-// import com.rent.management.app.Model.Property.Property;
-// import com.rent.management.app.Model.Property.PropertyStatus;
-// import com.rent.management.app.Model.Property.PropertyType;
 import com.rent.management.app.View.Pages.AdminPage.LandlordProperty;
 import com.rent.management.app.View.Pages.AdminPage.LandlordView;
 import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
@@ -104,26 +99,26 @@ public class LandlordController implements ActionListener{
      */
     public void setData(){
         String email = pc.getPerson().getEmail(); // get landlord's email
-        JSONArray arr = db.getLandlordProperties (email); // get all landlord properties
+        JSONArray arr = db.getLandlordProperties(email); // get all landlord properties
+        System.out.println(arr.size());
 
-        data = new String [arr.size()] [7];
+        data = new String [arr.size()][7];
         for(int i = 0; i < arr.size(); i++) {
             JSONObject obj = (JSONObject)arr.get(i);
             Property property = PropertyController.generateProperty(obj);
             landLordProps.add(property);
-            data[i][0] = property.getPropertyId();
-            data[i][1] = property.getPropertyType().toString();
-            data[i][2] = Integer.toString(property.getNumOfBed());
-            data[i][3] = Integer.toString(property.getNumOfBath());
+            data[i][0] = property.getPropertyType().toString();
+            data[i][1] = Integer.toString(property.getNumOfBed());
+            data[i][2] = Integer.toString(property.getNumOfBath());
             if (property.isFurnished()) {
-                data[i][4] = "Yes";
+                data[i][3] = "Yes";
             } else {
-                data[i][4] = "No";
+                data[i][3] = "No";
             }
-            data[i][5] = property.getAddress().getFormattedAddress();
-            data[i][6] = property.getPropertyStatus().toString();
+            data[i][4] = property.getAddress().getFormattedAddress();
+            data[i][5] = property.getPropertyStatus().toString();
+            data[i][6] = property.getAddress().getCityQuadrant().toString();
         }
-
     }
 
     /**
@@ -147,11 +142,17 @@ public class LandlordController implements ActionListener{
             PropertyType pt = PropertyType.fromString(createProperty.getPropertyType());
             int num_bed = createProperty.getBeds();
             int num_bath = createProperty.getBaths();
-            boolean isFurnished = createProperty.isFurnished();
-            String furnishedString = isFurnished == true ? "yes" : "no";
+            String furnished = createProperty.isFurnished();
+            boolean isFurnished;
+            if(furnished.equals("Yes")){
+                isFurnished = true;
+            }
+            else{
+                isFurnished = false;
+            }
             JSONObject obj = createProperty.getAddress();
             CityQuadrant qt = CityQuadrant.fromString(createProperty.getQuadrant());
-            Address address = new Address(obj.get("street").toString(), qt, Integer.parseInt(obj.get("house_number").toString()));
+            Address address = new Address(obj.get("address").toString(), qt);
             PropertyStatus ps = PropertyStatus.ACTIVE;
             String email = pc.getPerson().getEmail();
 
@@ -161,11 +162,10 @@ public class LandlordController implements ActionListener{
 
             //Add to Model and DB
             Property property = new Property(Integer.toString(pid), pt, num_bed, num_bath, isFurnished, address, ps);
-            db.registerProperty(pid, email, pt.toString(), num_bed, num_bath, furnishedString, qt.toString(), address.getFormattedAddress(), 1, ps.toString(), rateJson.get("current-date").toString(), rateJson.get("end-date").toString());
-            System.out.println("Congrats!");   
+            db.registerProperty(pid, email, pt.toString(), num_bed, num_bath, furnished, qt.toString(), address.getFormattedAddress(), 1, ps.toString(), rateJson.get("current-date").toString(), rateJson.get("end-date").toString());
         } catch(Exception e){
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+        }
     }
 
 }
