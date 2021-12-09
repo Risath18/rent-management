@@ -19,15 +19,41 @@ public class UtilController {
     DBCore db;
     Payment payment;
     Dotenv env;
+    PersonController pc;
 
     /**
      * constructor for UtilController class
      * @param db DBCore object
      */
-    public UtilController(DBCore db){
+    public UtilController(DBCore db, PersonController pc){
+        this.pc=pc;
         this.db = db;
         this.payment = new Payment();
         this.env = Dotenv.load();
+        setFees();
+    
+    }
+
+    protected void setFees(){
+        JSONObject obj = db.getFormattedFees();
+        this.payment.setDays(Integer.parseInt(obj.get("Days").toString()));
+        this.payment.setPrice(Integer.parseInt(obj.get("price").toString()));
+    }
+
+     /**
+     * Change fees charges to landlords for posting properties.
+     * @param days period to change to, 0 for no change.
+     * @param price cost for period duration, 0 for no change.
+     */
+    public void changeFees(){
+        
+        // temporary values until connected to GUI
+        int days = 60;
+        int price = 40;
+        
+        if (price != payment.getPrice()) db.changeFeeAmount(price);
+        
+        if (days != payment.getDays()) db.changeFeePeriod(days);
     }
     
     public JSONObject makePayment(){
@@ -72,7 +98,8 @@ public class UtilController {
      * @param message message content.
      */
 
-    public void sendEmail(String to_email, String from_email, String subject, String message) {
+    public void sendEmail(String to_email, String subject, String message) {
+        String from_email = "radarrisat@gmail.com";
         //to = "libergood@gmail.com"; // hardcode for testing
         Email to = new Email (to_email);
         Email from = new Email (from_email);

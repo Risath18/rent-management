@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.event.*;
 //when listing status changed to rented, change end date to today's date PLEASE DO THIS!!!!!!!!!!!!!!!!!!
 public class ManagerController implements ActionListener {
-    private PersonController personController;
+    private PersonController pc;
     private PropertyController propertyController;
     private ManagerView managerView;
     private ChangeFeesView changeFeesView;
@@ -37,6 +37,7 @@ public class ManagerController implements ActionListener {
      */
     public ManagerController(DBCore db, PersonController pc){
         this.db = new DBCore();
+        this.pc = pc;
         managerView = new ManagerView();
         managerView.setVisible(true);
         addListeners();
@@ -47,7 +48,7 @@ public class ManagerController implements ActionListener {
      * @param person PersonController object
      */
     public void setPersonController(PersonController person) {
-        this.personController = person;
+        this.pc = person;
     }
 
     /**
@@ -70,20 +71,6 @@ public class ManagerController implements ActionListener {
         changeFeesView.addSubmitListener(this);
     }
 
-    /**
-     * Change fees charges to landlords for posting properties.
-     * @param days period to change to, 0 for no change.
-     * @param price cost for period duration, 0 for no change.
-     */
-    public void changeFees(int days, int price){
-        // temporary values until connected to GUI
-        days = 60;
-        price = 100;
-
-        if (price != 0) db.changeFeeAmount(price);
-        
-        if (days != 0) db.changeFeePeriod(days);
-    }
 
     /**
      * performs an action
@@ -133,6 +120,8 @@ public class ManagerController implements ActionListener {
         requestReport.addGenerateReportListener(this);
     }
 
+    
+
     /**
      * retrieves a manager's periodical summary. Includes: 
      * includes total number of houses in the period
@@ -170,93 +159,138 @@ public class ManagerController implements ActionListener {
             int month = Integer.parseInt(startDate.split("[-]")[1]);
             int day = Integer.parseInt(startDate.split("[-]")[2]);
                 
-            Calendar start = Calendar.getInstance();
-            start.set(Calendar.DAY_OF_MONTH, day);
-            start.set(Calendar.MONTH, month);
-            start.set(Calendar.YEAR, year);
+            Calendar userStart = Calendar.getInstance();
+            userStart.set(Calendar.DAY_OF_MONTH, day);
+            userStart.set(Calendar.MONTH, month);
+            userStart.set(Calendar.YEAR, year);
 
-            Calendar end = Calendar.getInstance();
+            Calendar userEnd = Calendar.getInstance();
             year = Integer.parseInt(endDate.split("[-]")[0]);
             month = Integer.parseInt(endDate.split("[-]")[1]);
             day = Integer.parseInt(endDate.split("[-]")[2]);
-            end.set(Calendar.DAY_OF_MONTH, day);
-            end.set(Calendar.MONTH, month);
-            end.set(Calendar.YEAR, year);
+            userEnd.set(Calendar.DAY_OF_MONTH, day);
+            userEnd.set(Calendar.MONTH, month);
+            userEnd.set(Calendar.YEAR, year);
+
+            ArrayList<ArrayList<String>> table = new ArrayList<ArrayList<String>>();
 
             int housesRentedActive = 0;
-            for(int i = 0; i < data.length; i++){
-                if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL")){
-                    year = Integer.parseInt(data[i][6].split("[-]")[0]);
-                    month = Integer.parseInt(data[i][6].split("[-]")[1]);
-                    day = Integer.parseInt(data[i][6].split("[-]")[2]);
-                    Calendar getData = Calendar.getInstance();
-                    getData.set(Calendar.DAY_OF_MONTH, day);
-                    getData.set(Calendar.MONTH, month);
-                    getData.set(Calendar.YEAR, year);
-                    int compareStart = getData.compareTo(start);
-                    int compareEnd = getData.compareTo(end);
-                    if(compareStart >= 0 && compareEnd <= 0)
-                        housesRentedActive++;
-                }
-            }//count the number of houses that are rented or active in the period
-
             int rented = 0;
             int active = 0;
+            
             for(int i = 0; i < data.length; i++){
-                if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL") && data[i][2].equals("RENTED")){
+                if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL")){
+                    year = Integer.parseInt(data[i][5].split("[-]")[0]);
+                    month = Integer.parseInt(data[i][5].split("[-]")[1]);
+                    day = Integer.parseInt(data[i][5].split("[-]")[2]);
+                    Calendar propertyStart = Calendar.getInstance();
+                    propertyStart.set(Calendar.DAY_OF_MONTH, day);
+                    propertyStart.set(Calendar.MONTH, month);
+                    propertyStart.set(Calendar.YEAR, year);
+                    
                     year = Integer.parseInt(data[i][6].split("[-]")[0]);
                     month = Integer.parseInt(data[i][6].split("[-]")[1]);
                     day = Integer.parseInt(data[i][6].split("[-]")[2]);
-                    Calendar getData = Calendar.getInstance();
-                    getData.set(Calendar.DAY_OF_MONTH, day);
-                    getData.set(Calendar.MONTH, month);
-                    getData.set(Calendar.YEAR, year);
-                    int compareStart = getData.compareTo(start);
-                    int compareEnd = getData.compareTo(end);
-                    System.out.println(compareStart + ":start - end:" + compareEnd);
-                    if(compareStart >= 0 && compareEnd <= 0)
-                        rented++;
-                }
-                else if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL") && data[i][2].equals("ACTIVE")){
-                    year = Integer.parseInt(data[i][6].split("[-]")[0]);
-                    month = Integer.parseInt(data[i][6].split("[-]")[1]);
-                    day = Integer.parseInt(data[i][6].split("[-]")[2]);
-                    Calendar getData =  Calendar.getInstance();
-                    getData.set(Calendar.DAY_OF_MONTH, day);
-                    getData.set(Calendar.MONTH, month);
-                    getData.set(Calendar.YEAR, year);
-                    int compareStart = getData.compareTo(start);
-                    int compareEnd = getData.compareTo(end);
-                    if(compareStart >= 0 && compareEnd <= 0)
-                        active++;
+                    Calendar propertyEnd = Calendar.getInstance();
+                    propertyEnd.set(Calendar.DAY_OF_MONTH, day);
+                    propertyEnd.set(Calendar.MONTH, month);
+                    propertyEnd.set(Calendar.YEAR, year);
+                    //0 == equal
+                    // < 0 -> property.compareTo(report) -> property is Before report Start
+                    // > 0 -> property.compareTo(report) -> property is After report Start
+
+                    
+                    //Case 1: startDate of Property is after start date of Period. End date of property is before end date of period
+                    if(propertyStart.compareTo(userStart) > 0 && propertyEnd.compareTo(userEnd) < 0){
+                        //if the requested dates are in the range, 
+                        System.out.println("Case 1: " + data[i][2]);
+                        housesRentedActive++;
+                        if(data[i][2].equals("RENTED")){
+                            rented++;
+                            ArrayList<String> row = new ArrayList<>();
+                            row.add(data[i][0]);
+                            row.add(db.getLandlordName(data[i][1]));
+                            row.add(data[i][3]);
+                            row.add(data[i][4]);
+                            table.add(row);
+                        } else if(data[i][3].equals("ACTIVE")){
+                            active++;
+                        }
+
+                        //Case 2: Property end date is after report start date.
+                    } else if(propertyEnd.compareTo(userStart) > 0 && propertyStart.compareTo(userStart) < 0){
+                        housesRentedActive++;
+                        System.out.println("Case 2: " + data[i][2]);
+
+                        if(data[i][2].equals("RENTED")){
+                            rented++;
+                            ArrayList<String> row = new ArrayList<>();
+                            row.add(data[i][0]);
+                            row.add(db.getLandlordName(data[i][1]));
+                            row.add(data[i][3]);
+                            row.add(data[i][4]);
+                            table.add(row);
+                        } else if(data[i][3].equals("ACTIVE")){
+                            active++;
+                        }
+
+                        //Case 3: Property start date is before reporty end date.
+                    } else if(propertyStart.compareTo(userEnd) < 0 && propertyEnd.compareTo(userEnd) > 0){
+                        housesRentedActive++;
+                        System.out.println("Case 3: " + data[i][2]);
+
+                        if(data[i][2].equals("RENTED")){
+                            rented++;
+                            ArrayList<String> row = new ArrayList<>();
+                            row.add(data[i][0]);
+                            row.add(db.getLandlordName(data[i][1]));
+                            row.add(data[i][3]);
+                            row.add(data[i][4]);
+                            table.add(row);
+                        } else if(data[i][3].equals("ACTIVE")){
+                            active++;
+                        }
+
+                        //Case 4: Property Start is before Period start and Property end is after Period end
+                    } else if(propertyStart.compareTo(userStart) < 0 && propertyEnd.compareTo(userEnd) > 0){
+                        housesRentedActive++;
+                        System.out.println("Case 4: " + data[i][2]);
+
+                        if(data[i][2].equals("RENTED")){
+                            rented++;
+                            ArrayList<String> row = new ArrayList<>();
+                            row.add(data[i][0]);
+                            row.add(db.getLandlordName(data[i][1]));
+                            row.add(data[i][3]);
+                            row.add(data[i][4]);
+                            table.add(row);
+                        } else if(data[i][3].equals("ACTIVE")){
+                            active++;
+                        }
+                    }
                 }
             }
+
             //count the number of active houses in period
             //count the number of rented houses in the period
-
-            String[][] houses = new String[rented][4];
             int counter =0;
-            System.out.println(rented);
-            for(int i = 0; i < data.length && counter < rented; i++){
-                if(!data[i][5].equals("NULL") && !data[i][6].equals("NULL") && data[i][2].equals("RENTED")){
-                    houses[counter][0] = data[i][0]; //pid
-                    houses[counter][1] = db.getLandlordName(data[i][1]); //landlord name
-                    System.out.println(houses[i][1]);
-                    houses[counter][2] = data[i][3];
-                    houses[counter][3] = data[i][4];
-                    counter++;
-                }
-            }//list of houses rented in period (landlord's name, house ID, address)
-            System.out.println("Creating a report");
+
+            String[][] houses = new String[table.size()][];
+            for (int i = 0; i < table.size(); i++) {
+                System.out.println(table.get(i).get(2));
+                ArrayList<String> row = table.get(i);
+                houses[i] = row.toArray(new String[row.size()]);
+            }
+
+            // System.out.println("Creating a report");
             reportView = new SummaryReportView(houses);
             reportView.setVisible(true);
             reportView.setNumActiveList(active);
-            System.out.println(active);
             reportView.setNumHouseList(housesRentedActive);
             reportView.setNumHouseRent(rented);
-            System.out.println(rented);
-        }catch(Exception e){
+            }catch(Exception e){
             e.printStackTrace();
         }
     }
+
 }

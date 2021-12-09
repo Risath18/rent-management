@@ -53,11 +53,19 @@ public class Period {
         this.startDate = startDate;
     }
 
+    /**
+     * Setter for the start date
+     * @param date date to be set. 
+     */
     public void setStartDate(String date) {
         Date dt = new Date(Integer.parseInt(date.split("[-]")[0]), Integer.parseInt(date.split("[-]")[2]), Integer.parseInt(date.split("[-]")[1]));
         setStartDate(dt);
     }
     
+    /**
+     * setter for end date
+     * @param date date to be set
+     */
     public void setEndDate(String date){
         Date dt = new Date(Integer.parseInt(date.split("[-]")[0]), Integer.parseInt(date.split("[-]")[2]), Integer.parseInt(date.split("[-]")[1]));
         this.endDate = dt;

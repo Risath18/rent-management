@@ -116,7 +116,7 @@ public class LoginController implements ActionListener{
             return false; //registration Failed
         }
         //If successfully, Add to Model
-        this.pc = new PersonController();
+        this.pc = new PersonController(db);
         
         if(accessLevel == 1){ //Manager
             pc.setManager(fName, lName, username);
@@ -137,7 +137,7 @@ public class LoginController implements ActionListener{
         //See if user exists
         //String formattedQuery;
         JSONObject obj;
-        this.pc = new PersonController();
+        this.pc = new PersonController(db);
 
         int accessLevel;
         try{

@@ -38,7 +38,7 @@ public class PropertyController implements ActionListener {
         renterMenuView.setVisible(true);
         addListernersToClass();
     }
-
+    
     void setSearchMetrics(){
 
         //Call Getters of Search
@@ -69,7 +69,8 @@ public class PropertyController implements ActionListener {
             searchView.submitListener(this);
         }
         else if(e.getActionCommand().equals("send email")){
-            //Sending email logic
+            System.out.println("Email Working!!!");
+            //sending email logic
         }
         else if(e.getActionCommand().equals("searchSubmit")){
             System.out.println("SAVED SEARCH YAY");
@@ -77,8 +78,6 @@ public class PropertyController implements ActionListener {
             renterPropView =new RenterPropView (getAllProperties());
         }
     }
-
-    
 
     public static Property generateProperty(JSONObject obj){
         String propertyId = obj.get("pid").toString();
@@ -88,6 +87,7 @@ public class PropertyController implements ActionListener {
         boolean isFurnished = Boolean.parseBoolean(obj.get("furnished").toString());
         CityQuadrant qt = CityQuadrant.fromString(obj.get("type").toString());
         String adr = obj.get("address").toString();
+        String email = obj.get("l_email").toString();
         
         Address address = new Address(adr.substring(adr.indexOf(" ", 0), adr.length()-1), qt, Integer.parseInt(adr.split("[ ]")[0]));
         PropertyStatus ps = PropertyStatus.fromString(obj.get("status").toString());
@@ -100,6 +100,7 @@ public class PropertyController implements ActionListener {
             paid = false;
         }
         Property property = new Property(propertyId, pt, num_bed, num_bath, isFurnished, address, ps);
+        property.setEmail(email);
         return property;
     }
     
@@ -135,15 +136,6 @@ public class PropertyController implements ActionListener {
         Date startDate = payment.getPeriod().getStartDate();
         Date endDate = payment.getPeriod().getEndDate();
         db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
-
-        // if(paid){
-        //     Date startDate = payment.getDatePaid();
-        //     Date endDate = payment.getListingExpiryDate();
-        //     db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
-        // }
-        // else{
-        //     db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 0, status, "NULL", "NULL");
-        // }
     }
 
     public void updateListingStatus(){
@@ -166,21 +158,6 @@ public class PropertyController implements ActionListener {
         
         return result;
     }
-    
-    // public String [][] getAllPropertiesDated() {
-    //     // turn array list into 2D array for manager summary
-    //     // "Property Type", "Beds","Baths","Furnished","Status","Address", "Quadrant", "StartDate", "EndDate"
-    //     String [][] result = new String [properties.size()][8];
-    //     for (int i = 0 ; i< properties.size(); i++) {
-    //         result[i][0] = properties.get(i).getPropertyType().toString();
-    //         result[i][2] = properties.get(i).getPropertyStatus().toString();
-    //         result[i][3] = properties.get(i).getAddress().getFormattedAddress();
-    //         result[i][4] = properties.get(i).getAddress().getCityQuadrant().toString();
-    //         result[i][5] = properties.get(i).getPayment().getPeriod().getStartDate().getFormattedDate();
-    //         result[i][6] = properties.get(i).getPayment().getPeriod().getEndDate().getFormattedDate();
-    //     }
-    //     return result;
-    // }
 
 
     public void setAllProperties (JSONArray arr) {
