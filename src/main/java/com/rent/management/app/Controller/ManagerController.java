@@ -114,6 +114,9 @@ public class ManagerController implements ActionListener {
         // //Continue code ((JAYYYY))
     }
 
+    /**
+     * opens report form
+     */
     public void openReportForm(){
         requestReport = new RequestReport();
         requestReport.setVisible(true);

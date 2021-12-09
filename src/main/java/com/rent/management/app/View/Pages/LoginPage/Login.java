@@ -13,6 +13,9 @@ public class Login extends JFrame implements LoginPage{
     private JButton signUp = new JButton("Sign Up");
     private JTextField password;
 
+    /**
+     * default constructor for login
+     */
     public void Login () {
         setSize(518, 209);
         getContentPane().setBackground(new Color(230, 230, 250));
@@ -49,24 +52,41 @@ public class Login extends JFrame implements LoginPage{
         getContentPane().add(password);
     }
 
-
+    /**
+     * Registering a user
+     */
     public void register () {
     }
 
-
+    /**
+     * adding a login action listener
+     * @param al action listener
+     */
     public void addLoginListener (ActionListener al){
         login.addActionListener(al);
     }
 
+    /**
+     * adding a new action listener
+     * @param al action listener
+     */
     public void addNewListener (ActionListener al){
         signUp.addActionListener(al);
         signUp.setActionCommand("register");
     }
 
+    /**
+     * getter method for username
+     * @return inputted username
+     */
     public String getUsername () {
         return nameInput.getText();
     }
 
+    /**
+     * getter method for password
+     * @return password
+     */
     public String getPassword () {
         return password.getText();
     }

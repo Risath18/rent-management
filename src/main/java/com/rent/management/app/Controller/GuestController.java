@@ -16,17 +16,27 @@ public class GuestController implements GeneralPropController,ActionListener{
     private ArrayList<Property> searchResults = null;
     private String [][]dataa;
     private RenterPropView renterPropView;
-
+    
+    /**
+     * Guest Controller default constructor
+     */
     public GuestController(){
         renterMenuView = new RenterMenuView();
         renterMenuView.setVisible(true);
         addListeners();
     }
+
+    /**
+     * Adds a listener to the view 
+     */
     public void addListeners(){
         renterMenuView.exitListener(this);
         renterMenuView.searchListener(this);
     }
 
+    /**
+     * action performed function definitions.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("exit")){
@@ -39,12 +49,21 @@ public class GuestController implements GeneralPropController,ActionListener{
             System.out.println("Inside here for guest");
         }
     }
+
+    /**
+     * Searching properties based on property
+     * @param p property to be used in search
+     */
     public void getSearchData(Property p) {
         //Search Properties based onp
         renterPropView = new RenterPropView(dataa);
         renterPropView.setGuestController(this);
         renterPropView.setDisplay(searchResults);
     }
+
+    /**
+     * sets data according to property search.
+     */
     public void setData(){
         //Set things according to search data
     }

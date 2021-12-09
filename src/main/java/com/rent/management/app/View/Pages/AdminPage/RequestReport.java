@@ -17,6 +17,9 @@ public class RequestReport extends  JFrame{
     private final JComboBox monthEnd = new JComboBox(month);
     private final JComboBox dateEnd = new JComboBox(date);
 
+    /**
+     * default constructor to report request
+     */
     public RequestReport(){
         getContentPane().setBackground(new Color(230, 230, 250));
         getContentPane().setLayout(null);
@@ -55,31 +58,59 @@ public class RequestReport extends  JFrame{
         setTitle("Summary Report Request Form");
     }
 
+    /**
+     * adding a listener to generate a report
+     * @param al action listener
+     */
     public void addGenerateReportListener(ActionListener al)  {
         generateReport.addActionListener(al);
         generateReport.setActionCommand("generateReport");
     }
 
+    /**
+     * get year of start date
+     * @return String value start year
+     */
     public String getStartYear()  {
         return (String) yearStart.getSelectedItem();
     }
 
+    /**
+     * getter of month of start date
+     * @return string month value
+     */
     public String getStartMonth() {
         return (String) monthStart.getSelectedItem();
     }
 
+    /**
+     * getter for start date
+     * @param string value of start date
+     */
     public String getStartDate() {
         return (String) dateStart.getSelectedItem();
     }
-
+    
+    /**
+     * getter for end date year
+     * @return string end year
+     */
     public String getEndYear() {
         return (String) yearEnd.getSelectedItem();
     }
 
+    /**
+     * getter for end date month
+     * @return string end date month
+     */
     public String getEndMonth() {
         return (String) monthEnd.getSelectedItem();
     }
 
+    /**
+     * getter for end date
+     * @return end date
+     */
     public String getEndDate() {
         return (String) dateEnd.getSelectedItem();
     }

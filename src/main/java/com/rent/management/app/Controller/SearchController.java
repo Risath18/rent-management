@@ -7,18 +7,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SearchController implements ActionListener {
-
     private SearchView searchView;
     private GeneralPropController genConroller;
+
+    /**
+     * search controller constructor
+     * @param controller General property controller object
+     */
     public SearchController(GeneralPropController controller){
         searchView = new SearchView();
         searchView.setVisible(true);
         genConroller=controller;
         addListeners();
     }
+
+    /**
+     * add listeners to view
+     */
     public void addListeners(){
         searchView.submitListener(this);
     }
+
+    /**
+     * functionality in response to an action event
+     * @param e action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("searchSubmit")){

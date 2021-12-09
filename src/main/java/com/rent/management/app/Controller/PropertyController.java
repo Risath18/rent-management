@@ -2,6 +2,7 @@ package com.rent.management.app.Controller;
 
 import java.util.ArrayList;
 
+import javax.security.auth.Subject;
 
 import com.rent.management.app.Model.Property.*;
 import com.rent.management.app.Model.Util.*;
@@ -24,11 +25,17 @@ public class PropertyController implements ActionListener {
     private RenterPropView renterPropView;
     private SearchView searchView;
     private PersonController pc;
-    
-    
-    public PropertyController(DBCore db,PersonController pc){
+    private UtilController uc;
+    /**
+     * Constructor for property controller
+     * @param db database connection
+     * @param pc person controller
+     * @param uc utility controller
+     */
+    public PropertyController(DBCore db,PersonController pc, UtilController uc){
         this.db = db;
         this.pc = pc;
+        this.uc = uc;
         properties = new ArrayList<Property>();
        // setAllProperties(db.getAllProperties());
         renterMenuView=new RenterMenuView();
@@ -36,6 +43,9 @@ public class PropertyController implements ActionListener {
         addListernersToClass();
     }
     
+    /**
+     * sets search metrics
+     */
     void setSearchMetrics(){
 
         //Call Getters of Search
@@ -49,11 +59,18 @@ public class PropertyController implements ActionListener {
         setAllProperties(db.search(type, num_bed, num_bath, furnishedString, cityQuadrant));
     }
 
+    /**
+     * add's listeners to classes
+     */
     private void addListernersToClass(){
         renterMenuView.searchListener(this);
         renterMenuView.exitListener(this);
     }
 
+    /**
+     * functionality in response to action event
+     * @param e action event
+     */
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getActionCommand().equals("exit")){
@@ -68,16 +85,30 @@ public class PropertyController implements ActionListener {
         }
         else if(e.getActionCommand().equals("sendEmail")){
             System.out.println("Email Working!!!");
-            //sending email logic
+            String sender = renterPropView.getEmailView().getFrom();
+            String landlord = renterPropView.getEmailView().getLandlordEmail();
+            String subject =  renterPropView.getEmailView().getSubject();
+            String message = renterPropView.getEmailView().getMessage();
+            uc.sendEmail(sender, landlord, subject, message);
         }
         else if(e.getActionCommand().equals("searchSubmit")){
             setSearchMetrics();
             renterPropView =new RenterPropView (getAllProperties());
             renterPropView.setDisplay(properties);
             renterPropView.setPropertyController(this);
+
+            //If not a unregistered user
+            if(pc.getPerson()!=null){
+                renterPropView.setRenterEmail(pc.getPerson().getEmail());
+            }
+            
         }
     }
 
+    /**
+     * generates a property
+     * @param obj JSONObject containing all required information to generate a property
+     */
     public static Property generateProperty(JSONObject obj){
         String propertyId = obj.get("pid").toString();
         PropertyType pt = PropertyType.fromString(obj.get("type").toString());
@@ -103,19 +134,34 @@ public class PropertyController implements ActionListener {
         return property;
     }
     
+    /**
+     * sets property
+     * @param obj JSONObject with all property information
+     */
     public void setProperty(JSONObject obj){
         properties.add(generateProperty(obj));
     }
 
+    /**
+     * setter for propert
+     * @param property Property object
+     */
     public void setProperty(Property property){
         properties.add(property);
     }
 
+    /**
+     * getter for properties
+     * @return ArrayList of Properties
+     */
     public ArrayList<Property> getProperty(){
         return properties;
     }
     
-
+    /**
+     * edits a property
+     * @param property property containing the edits
+     */
     public void editProperty(Property property){
         String pid = property.getPropertyId();
         String type = property.getPropertyType().toString();
@@ -137,10 +183,17 @@ public class PropertyController implements ActionListener {
         db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
     }
 
+    /**
+     * updates a listing status
+     */
     public void updateListingStatus(){
         //also updates fee paid (possibly) and the dates
     }
 
+    /**
+     * getter for properties
+     * @return 2D String array with all property information
+     */
     public String [][] getAllProperties() {
         // turn array list into 2D array for view
         // "Property Type", "Beds","Baths","Furnished","Status","Address", "Quadrant"
@@ -158,7 +211,10 @@ public class PropertyController implements ActionListener {
         return result;
     }
 
-
+    /**
+     * setter for all properties
+     * @param arr JSONArray with property JSONObjects
+     */
     public void setAllProperties (JSONArray arr) {
         // use the setProperty method and loops to populate properties array list
         properties.clear();
@@ -172,7 +228,11 @@ public class PropertyController implements ActionListener {
         // }
     }
 
-
+    /**
+     * modifying string to a date time object
+     * @param str_date string to be converted
+     * @return LocalDateTime object
+     */
     private LocalDateTime stringToDateTime (String str_date) { // input must be month in words, days in numbers, 
         String [] split_date = str_date.split(" ");
         

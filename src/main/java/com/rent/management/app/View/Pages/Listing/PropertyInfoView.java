@@ -18,6 +18,7 @@ public class PropertyInfoView extends JFrame {
     private JTextArea furnished = new JTextArea();
     private JTextArea status = new JTextArea();
     private Property property;
+    private String emailRenter;
 
     /**
      * Constructor for property information view
@@ -140,5 +141,7 @@ public class PropertyInfoView extends JFrame {
      * */
     public void setFurnished(){
         furnished.setText(Boolean.toString(property.isFurnished()));
-   } 
+   }
+
+
 }

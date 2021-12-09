@@ -53,6 +53,10 @@ public class LandlordProperty extends PropertyView {
         llc.updateStatus(temp);
     }
 
+    /**
+     * setter for landlord controller
+     * @param lc landlord controller
+     */
     public void setLandlordController ( LandlordController lc){
         this.llc = lc;
     }

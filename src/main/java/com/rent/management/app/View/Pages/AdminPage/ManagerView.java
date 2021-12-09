@@ -87,6 +87,10 @@ public class ManagerView extends JFrame {
         exit.setActionCommand("exit");
     }
 
+    /**
+     * setter for manager controller
+     * @param cont manager controller
+     */
     public void setManagerController(ManagerController cont){
         this.managerController = cont;
     }

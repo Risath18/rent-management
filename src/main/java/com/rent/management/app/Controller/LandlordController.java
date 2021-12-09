@@ -33,11 +33,10 @@ public class LandlordController implements ActionListener{
      * @param db DBCore object
      * @param pc PersonController object
      */
-    public LandlordController (DBCore db, PersonController pc){
+    public LandlordController (DBCore db, PersonController pc, UtilController uc){
         this.db = db;
         this.pc =pc;
-        this.uc= new UtilController(db, pc);
-       // uc.sendEmail("libergood@gmail.com", "radarrisat@gmail.com", "Renters Messaging You!", "Hello World");
+        this.uc = uc;
         landLordView = new LandlordView();
         landLordView.setVisible(true);
         addListeners();
@@ -78,7 +77,6 @@ public class LandlordController implements ActionListener{
 
     /**
      * getter for properties belonging to landlord 
-     * 
      */ 
     private void getLandLordProperties(){
         setData();
@@ -114,6 +112,9 @@ public class LandlordController implements ActionListener{
 
     }
 
+    /**
+     * creates a new property listing
+     */
     private void propertyPage(){
         createProperty = new CreateListing();
         JSONObject obj = uc.getRate();
