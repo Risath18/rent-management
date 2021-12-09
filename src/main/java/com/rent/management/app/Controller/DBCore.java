@@ -1,6 +1,7 @@
 package com.rent.management.app.Controller;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -678,25 +679,24 @@ public class DBCore {
         }
     }
 
-    public void changeListingStatus(int pid, String newStatus){
+    /**
+     * changes the status of a listing
+     * @param pid String for property ID
+     * @param newStatus String for the new status
+     */
+    public void changeListingStatus(String pid, String newStatus){
         String query = "UPDATE Property SET Status = '" + newStatus + "' WHERE PID = '" + pid + "'";
         try{
-            Statement stmt =  dbConnect.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            
-            rs = stmt.executeQuery(query);
-        
+            System.out.println(newStatus);
+            PreparedStatement stmt =  dbConnect.prepareStatement(query);
+            stmt.executeUpdate();
             stmt.close();
-            rs.close();
 
         } catch(SQLException e){
             System.out.println("listing status error");
+            e.printStackTrace();
         }
     } 
-
-    // public boolean checkAddress(String address){
-        
-    // }
 
     /**
      * getter for fee table in SQL
@@ -768,12 +768,35 @@ public class DBCore {
             if (rs.next()) {
                 name = rs.getString("Name");
             }
+            stmt.close();
+            rs.close();
         } catch (SQLException e) {
             System.err.println("Error in retrieving landlord name.");
             e.printStackTrace();
         }
 
         return name;
+    }
+
+    /**
+     * updates property's end date to the date it was rented
+     * @param pid String for property ID
+     */
+    public void updateDateRented(String pid){
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String query = "UPDATE Property SET End_Date = '" + LocalDate.now().format(formatter).toString() + "' WHERE PID = '" + pid + "'";
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+
+            System.out.println(LocalDate.now().format(formatter));
+            stmt.executeUpdate();
+
+            stmt.close();
+
+        } catch (SQLException ex){
+            System.err.println("Error in 'update date rented' sql");
+            throw new IllegalQueryException();
+        }
     }
 
     /**

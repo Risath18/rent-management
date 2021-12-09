@@ -46,14 +46,10 @@ public class UtilController {
      * @param days period to change to, 0 for no change.
      * @param price cost for period duration, 0 for no change.
      */
-    public void changeFees(){
-        
-        // temporary values until connected to GUI
-        int days = 60;
-        int price = 40;
-        
+    public void changeFees(int days, int price){
+
         if (price != payment.getPrice()) db.changeFeeAmount(price);
-        
+        System.out.println("WACK: " +  days);
         if (days != payment.getDays()) db.changeFeePeriod(days);
     }
     
@@ -105,7 +101,6 @@ public class UtilController {
      */
     public void sendEmail(String sender, String to_email, String subject, String message) {
         String from_email = "radarrisat@gmail.com";
-        //to = "libergood@gmail.com"; // hardcode for testing
         Email to = new Email (to_email);
         Email from = new Email (from_email);
         message = "Email Sent By: <" + sender + ">\n" + message;
@@ -127,5 +122,4 @@ public class UtilController {
             e.printStackTrace();
         }
     }
-
 }

@@ -49,13 +49,13 @@ public class MainController implements ActionListener {
              this.propc = new PropertyController(db, pc, uc);
         }else if (e.getActionCommand().equals("Landlord")){
             viewMain.setVisible(false);
-            login= new LoginController(db, uc, 2);
+            login= new LoginController(db, uc, 2, propc);
             } else if(e.getActionCommand().equals("Renter")){
             viewMain.setVisible(false);
-            login= new LoginController(db, uc, 3);
+            login= new LoginController(db, uc, 3, propc);
         } else if(e.getActionCommand().equals("Manager")){
             viewMain.setVisible(false);
-            login= new LoginController(db, uc, 1);
+            login= new LoginController(db, uc, 1, propc);
         }
     }
 }

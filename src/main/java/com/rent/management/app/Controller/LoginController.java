@@ -26,7 +26,7 @@ public class LoginController implements ActionListener{
     private PersonController pc;
     private Login loginView;
     private UnRegRenterView unRegRenterView;
-    private PropertyController propertyController;
+    private PropertyController propc;
     private String userType;
     private LandlordController landlordController;
     private ManagerController managerController;
@@ -39,7 +39,8 @@ public class LoginController implements ActionListener{
      * @param db DBcore to access database
      * @param accessLevel access level of user
      */
-    public LoginController(DBCore db, UtilController uc, int accessLevel){
+    public LoginController(DBCore db, UtilController uc, int accessLevel, PropertyController propc){
+        this.propc = propc;
         System.out.println("Login controller "+accessLevel);
         this.accessLevel = accessLevel;
         this.uc = uc;
@@ -176,18 +177,19 @@ public class LoginController implements ActionListener{
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 pc.setManager(obj);
-                managerController = new ManagerController(db,pc);
+                managerController = new ManagerController(db,pc, uc, propc);
             } else if(accessLevel == 2){ //Landlord
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 pc.setLandlord(obj);
-                landlordController = new LandlordController(db, pc, uc);
+                propc = new PropertyController(db,pc, uc);
+                landlordController = new LandlordController(db, pc, uc, propc);
             } else{ //Renter
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 obj = db.findRenter(obj);                
                 pc.setRenter(obj);
-                propertyController = new PropertyController(db,pc, uc);
+                propc = new PropertyController(db,pc, uc);
             }
             this.pc.getPerson().setEmail(username);
 

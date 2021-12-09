@@ -22,12 +22,13 @@ import java.awt.event.*;
 //when listing status changed to rented, change end date to today's date PLEASE DO THIS!!!!!!!!!!!!!!!!!!
 public class ManagerController implements ActionListener {
     private PersonController pc;
-    private PropertyController propertyController;
+    private PropertyController propc;
     private ManagerView managerView;
     private ChangeFeesView changeFeesView;
     private SummaryReportView reportView;
     private RequestReport requestReport;
     private DBCore db;
+    private UtilController uc;
     private ArrayList<Property> allProps= new ArrayList<>();
 
     /**
@@ -35,9 +36,11 @@ public class ManagerController implements ActionListener {
      * @param db DBCore object
      * @param pc PersonController object
      */
-    public ManagerController(DBCore db, PersonController pc){
+    public ManagerController(DBCore db, PersonController pc, UtilController uc, PropertyController propc){
         this.db = new DBCore();
         this.pc = pc;
+        this.uc=uc;
+        this.propc = propc;
         managerView = new ManagerView();
         managerView.setVisible(true);
         addListeners();
@@ -66,7 +69,7 @@ public class ManagerController implements ActionListener {
      */
     public void showFeesWindow(){
         changeFeesView = new ChangeFeesView();
-        changeFeesView.setFee(changeFeesView.getChangedFees());
+        changeFeesView.setPeriod(uc.getRate());
         changeFeesView.setVisible(true);
         changeFeesView.addSubmitListener(this);
     }
@@ -79,7 +82,7 @@ public class ManagerController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
-            case "changeFee":
+            case "fessChanged":
                 showFeesWindow();
                 break;
             case "changeStatus":
@@ -97,21 +100,26 @@ public class ManagerController implements ActionListener {
                 //Close it
                 break;
             case "submitFee":
-               // changeFees();
+                changeFees();
                break;
             case "exit":
                 System.exit(1);
         }
         
     }
+    public void changeStatus(){
+
+     //  propc.changeStatus(status, pid);
+    }
+
 
     /**
-     * changes a property's status
+     * changes the fees or period of a property
      */
-    public void changeStatus(){
-        // setPropertyData();
-        // managerView = new ManagerView();
-        // //Continue code ((JAYYYY))
+    private void changeFees() {
+        int fees = Integer.parseInt(changeFeesView.getChangedFees());
+        int period = changeFeesView.getChangedPeriod();
+        uc.changeFees(period, fees);
     }
 
     /**
@@ -121,9 +129,7 @@ public class ManagerController implements ActionListener {
         requestReport = new RequestReport();
         requestReport.setVisible(true);
         requestReport.addGenerateReportListener(this);
-    }
-
-    
+    }    
 
     /**
      * retrieves a manager's periodical summary. Includes: 

@@ -100,24 +100,35 @@ public class EmailView extends JFrame {
     }
 
     /**
-     * setter for reveiving address
-     * @param ll 
+     * setter for reveiving address (debugging function only)
+     * @param ll print out
      */
-    // The receiving address
     public void setTo(String ll) {
         System.out.println("HEY: " + ll);
         from.setText(ll);
         from.setEditable(false);
     }
 
+    /**
+     * setter for property controller
+     * @param arg property controller
+     */
     public void setPropertyController(PropertyController arg){
         this.propController = arg;
     }
 
+    /**
+     * setter for guest controller
+     * @param arg guest controller
+     */
     public void setGuestController(GuestController arg){
         this.gc = arg;
     }
 
+    /**
+     * getter for landlord email
+     * @return landlord's email
+     */
     public String getLandlordEmail(){
         return landLord;
     }

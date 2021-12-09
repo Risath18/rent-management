@@ -11,7 +11,7 @@ public enum CityQuadrant{
     SE,
     SW,
     AL;
-
+        
     /**
      * @return string of name
      */

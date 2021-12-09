@@ -93,13 +93,4 @@ public class PersonController {
         return person;
     }
 
-    /**
-     * updates listing
-     */
-    public void updateListing(){
-        String status = "RENTED";
-        int pid = 0;
-        db.changeListingStatus(pid, status);
-    }
-
 }

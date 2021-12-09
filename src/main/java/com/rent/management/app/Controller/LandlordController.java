@@ -26,6 +26,7 @@ public class LandlordController implements ActionListener{
     private DBCore db;
     private PersonController pc;
     private UtilController uc;
+    private PropertyController propc;
     String [][]data;
 
     /**
@@ -33,7 +34,8 @@ public class LandlordController implements ActionListener{
      * @param db DBCore object
      * @param pc PersonController object
      */
-    public LandlordController (DBCore db, PersonController pc, UtilController uc){
+    public LandlordController (DBCore db, PersonController pc, UtilController uc, PropertyController propc){
+        this.propc = propc;
         this.db = db;
         this.pc =pc;
         this.uc = uc;
@@ -56,7 +58,7 @@ public class LandlordController implements ActionListener{
      */
 	@Override   
 	public void actionPerformed(ActionEvent e) {
-
+        System.out.println("AFJIFAOKOPAFPFP");
 		switch (e.getActionCommand()){
             case "createProperty":
                 propertyPage();
@@ -66,6 +68,9 @@ public class LandlordController implements ActionListener{
                 break;
             case "addSubmit":
                 addNewProperty();
+                break;
+            case  "saveEditedProperty":
+                submitChanges();
                 break;
             case "exit":
                 System.exit(1);
@@ -80,10 +85,19 @@ public class LandlordController implements ActionListener{
      */ 
     private void getLandLordProperties(){
         setData();
+
         landlordPropertyView = new LandlordProperty(data,landLordProps);
         landlordPropertyView.setLandlordController(this);
+
     }
 
+
+    public void submitChanges(){
+        String status = landlordPropertyView.getEditView().getStatus().toString();
+        System.out.println("LOOK: " + status);
+        String pid = landlordPropertyView.getEditView().getID();
+        propc.changeStatus(status, pid, landLordProps);
+    }
 
 
     /**
@@ -96,7 +110,8 @@ public class LandlordController implements ActionListener{
         data = new String [arr.size()] [7];
         for(int i = 0; i < arr.size(); i++) {
             JSONObject obj = (JSONObject)arr.get(i);
-            Property property = PropertyController.generateProperty (obj);
+            Property property = PropertyController.generateProperty(obj);
+            landLordProps.add(property);
             data[i][0] = property.getPropertyId();
             data[i][1] = property.getPropertyType().toString();
             data[i][2] = Integer.toString(property.getNumOfBed());
@@ -152,20 +167,6 @@ public class LandlordController implements ActionListener{
         } catch(Exception e){
                 e.printStackTrace();
             }
-    }
-
-    /**
-     * adds a new property to the database
-     */
-    public void addProperty(){
-        //Add a new property to the database
-    }
-
-    /**
-     * updates the status of a property
-     */
-	public void updateStatus(Property temp) {
-    
     }
 
 }

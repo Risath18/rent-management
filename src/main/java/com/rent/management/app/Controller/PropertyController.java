@@ -37,7 +37,7 @@ public class PropertyController implements ActionListener {
         this.pc = pc;
         this.uc = uc;
         properties = new ArrayList<Property>();
-       // setAllProperties(db.getAllProperties());
+        //setAllProperties(db.getAllProperties());
         renterMenuView=new RenterMenuView();
         renterMenuView.setVisible(true);
         addListernersToClass();
@@ -286,5 +286,25 @@ public class PropertyController implements ActionListener {
         LocalDateTime date = LocalDateTime.of(year, month, day, 0, 0);
 
         return date;
+    }
+
+    /**
+     * updates listing
+     */
+    public void changeStatus(String status, String pid, ArrayList<Property> properties){
+        System.out.println(properties.size());
+
+        for(int i = 0; i < properties.size(); i++){
+            System.out.println(pid);
+            if(properties.get(i).getPropertyId().equals(pid)){
+                properties.get(i).setPropertyStatus(PropertyStatus.fromString(status));
+                db.changeListingStatus(pid, status);
+
+                if(status.equals("RENTED") || status.equals("CANCELLED") || status.equals("SUSPENDED")){
+                    db.updateDateRented(pid);
+                }
+                break;
+            }
+        }
     }
 }
