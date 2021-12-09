@@ -33,7 +33,6 @@ public class RenterPropView extends PropertyView{
         int index = getTable().getSelectedRow();
 		if (properties.size() > 0) {
 			selectedProperty = properties.get(index);
-            System.out.println(" test: " + properties.get(index).getNumOfBath());
 			propInfo = new PropertyInfoView(selectedProperty);
 		} else {
 			selectedProperty = null;

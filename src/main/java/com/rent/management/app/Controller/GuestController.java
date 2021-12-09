@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class GuestController implements GeneralPropController,ActionListener{
+public class GuestController implements GeneralPropController, ActionListener{
     private RenterMenuView renterMenuView;
     private PropertyController propContoller;
     private SearchController searchController;
@@ -45,9 +45,7 @@ public class GuestController implements GeneralPropController,ActionListener{
         else if(e.getActionCommand().equals("search")){
             searchController = new SearchController(this);
         }
-        else if(e.getActionCommand().equals("sendEmail")){
-            System.out.println("Inside here for guest");
-        }
+        else if(e.getActionCommand().equals("sendEmail")){ }
     }
 
     /**
@@ -59,12 +57,5 @@ public class GuestController implements GeneralPropController,ActionListener{
         renterPropView = new RenterPropView(dataa);
         renterPropView.setGuestController(this);
         renterPropView.setDisplay(searchResults);
-    }
-
-    /**
-     * sets data according to property search.
-     */
-    public void setData(){
-        //Set things according to search data
     }
 }
