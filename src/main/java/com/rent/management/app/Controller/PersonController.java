@@ -80,9 +80,8 @@ public class PersonController {
     public void setRenter(JSONObject obj){
         String myName = obj.get("Name").toString();
         Name name = new Name(myName.split("[ ]")[0], myName.split("[ ]")[1]);
-        boolean notificationsOn = false;
-        SearchCriteria searchCriteria = new SearchCriteria(obj);
-        this.person = new Renter(name, obj.get("Email").toString(), notificationsOn, searchCriteria);
+        boolean notificationsOn = Boolean.parseBoolean(obj.get("Notifications_on").toString());
+        this.person = new Renter(name, obj.get("Email").toString(), notificationsOn, null);
     }
     
     /**
