@@ -35,8 +35,8 @@ public class GuestController implements GeneralPropController,ActionListener{
         else if(e.getActionCommand().equals("search")){
             searchController = new SearchController(this);
         }
-        else if(e.getActionCommand().equals("send email")){
-            //Email Logic
+        else if(e.getActionCommand().equals("sendEmail")){
+            System.out.println("Inside here for guest");
         }
     }
     public void getSearchData(Property p) {

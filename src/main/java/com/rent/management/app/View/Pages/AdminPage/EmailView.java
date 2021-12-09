@@ -16,12 +16,13 @@ public class EmailView extends JFrame {
     private JTextField from;
     private JTextField to;
     private JTextArea email = new JTextArea();
-    private JButton btnSend = new JButton("send");
+    private JButton btnSend = new JButton("Send");
     private GuestController gc;
     private PropertyController propController;
     //This is a default constructor for the email view 
     //Takes in a string to send that email to as a parameter
     public EmailView(String to){
+        System.out.println("To received is "+to);
         setSize(452, 450);
         getContentPane().setBackground(new Color(230, 230, 250));
         setTitle("Send Email");
@@ -61,7 +62,7 @@ public class EmailView extends JFrame {
     // A Listener to send that email
     public void addSendListener(ActionListener al)  {
         btnSend.addActionListener(al);
-        btnSend.setActionCommand("send email");
+        btnSend.setActionCommand("sendEmail");
     }
     //Get the sender address
     public String getFrom() {
