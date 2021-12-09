@@ -162,9 +162,9 @@ public class LandlordController implements ActionListener{
 
             //Add to Model and DB
             Property property = new Property(Integer.toString(pid), pt, num_bed, num_bath, isFurnished, address, ps);
-            db.registerProperty(pid, email, pt.toString(), num_bed, num_bath, furnishedString, qt.toString(), address.getFormattedAddress(), 1, ps.toString(), rateJson.get("current-date").toString(), rateJson.get("end-date").toString());
+            db.registerProperty(pid, email, pt.toString(), num_bed, num_bath, furnished, qt.toString(), address.getFormattedAddress(), 1, ps.toString(), rateJson.get("current-date").toString(), rateJson.get("end-date").toString());
            
-            notifyRenters(pt.toString(), num_bed, num_bath, furnishedString, qt.toString());
+            notifyRenters(pt.toString(), num_bed, num_bath, furnished, qt.toString());
            
             System.out.println("Congrats!");   
         } catch(Exception e){
