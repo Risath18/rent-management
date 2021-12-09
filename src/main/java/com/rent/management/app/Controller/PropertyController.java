@@ -77,14 +77,12 @@ public class PropertyController implements ActionListener {
             System.exit(1);
         }
         else if(e.getActionCommand().equals("search")){
-            System.out.println("Search Button Working!");
             searchView = new SearchView();
             searchView.setVisible(true);
             searchView.submitListener(this);
 
         }
         else if(e.getActionCommand().equals("sendEmail")){
-            System.out.println("Email Working!!!");
             String sender = renterPropView.getEmailView().getFrom();
             String landlord = renterPropView.getEmailView().getLandlordEmail();
             String subject =  renterPropView.getEmailView().getSubject();
@@ -114,12 +112,17 @@ public class PropertyController implements ActionListener {
         PropertyType pt = PropertyType.fromString(obj.get("type").toString());
         int num_bed = Integer.parseInt(obj.get("num_bed").toString());
         int num_bath = Integer.parseInt(obj.get("num_bath").toString());
-        boolean isFurnished = Boolean.parseBoolean(obj.get("furnished").toString());
-        CityQuadrant qt = CityQuadrant.fromString(obj.get("type").toString());
+        String furnished = obj.get("furnished").toString();
+        boolean isFurnished;
+        if(furnished.equals("Yes")){
+            isFurnished = true;
+        } else{
+            isFurnished = false;
+        }
+        CityQuadrant qt = CityQuadrant.fromString(obj.get("quadrant").toString());
         String adr = obj.get("address").toString();
         String email = obj.get("l_email").toString();
-        
-        Address address = new Address(adr.substring(adr.indexOf(" ", 0), adr.length()-1), qt, Integer.parseInt(adr.split("[ ]")[0]));
+        Address address = new Address(adr, qt);
         PropertyStatus ps = PropertyStatus.fromString(obj.get("status").toString());
         boolean paid;
         String paidFee = obj.get("fee_paid").toString();
@@ -202,7 +205,12 @@ public class PropertyController implements ActionListener {
             result[i][0] = properties.get(i).getPropertyType().toString();
             result[i][1] = Integer.toString(properties.get(i).getNumOfBed());
             result[i][2] = Integer.toString(properties.get(i).getNumOfBath());
-            result[i][3] = Boolean.toString(properties.get(i).isFurnished());
+            boolean furnished = properties.get(i).isFurnished();
+            if (furnished) {
+                result[i][3] = "Yes";
+            } else{
+                result[i][3] = "No";
+            }
             result[i][4] = properties.get(i).getPropertyStatus().toString();
             result[i][5] = properties.get(i).getAddress().getFormattedAddress();
             result[i][6] = properties.get(i).getAddress().getCityQuadrant().toString();
@@ -292,10 +300,7 @@ public class PropertyController implements ActionListener {
      * updates listing
      */
     public void changeStatus(String status, String pid, ArrayList<Property> properties){
-        System.out.println(properties.size());
-
         for(int i = 0; i < properties.size(); i++){
-            System.out.println(pid);
             if(properties.get(i).getPropertyId().equals(pid)){
                 properties.get(i).setPropertyStatus(PropertyStatus.fromString(status));
                 db.changeListingStatus(pid, status);

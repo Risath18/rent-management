@@ -10,7 +10,6 @@ public class App
 {
     public static void main( String[] args )
     {
-        String a="";
         System.out.println("Application Starting");
         MainController mainController= new MainController();
         App myApp = new App();

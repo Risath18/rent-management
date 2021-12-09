@@ -63,7 +63,7 @@ public class PropertyInfoView extends JFrame {
         getContentPane().add(ID);
 
         address.setEditable(false);
-        address.setBounds(99, 50, 314, 24);
+        address.setBounds(99, 50, 500, 24);
         getContentPane().add(address);
 
         numOfBeds.setEditable(false);
@@ -87,7 +87,7 @@ public class PropertyInfoView extends JFrame {
         setNumOfBedField();
         setNumOfBathField();
         setFurnished();
-        setStatus();
+        setQuadrant();
     }
 
     /**
@@ -104,7 +104,6 @@ public class PropertyInfoView extends JFrame {
      * Setter for ID from property id
      * */
     public void setIDField(){
-        System.out.println("LOOKA TT THIS: " + property.getPropertyId());
         ID.setText(property.getPropertyId());
    }
 
@@ -123,10 +122,10 @@ public class PropertyInfoView extends JFrame {
    }
 
     /**
-     * Setter of property status from property status
+     * Setter of property quadrant from property quadrant
      * */
-    public void setStatus(){
-        status.setText(property.getPropertyStatus().toString());
+    public void setQuadrant(){
+        status.setText(property.getAddress().getCityQuadrant().toString());
    }
 
     /**
@@ -140,7 +139,12 @@ public class PropertyInfoView extends JFrame {
      * Setter of furnished status from property furnished status
      * */
     public void setFurnished(){
-        furnished.setText(Boolean.toString(property.isFurnished()));
+        boolean isFurnished = property.isFurnished();
+        if (isFurnished) {
+            furnished.setText("Yes");
+        } else {
+            furnished.setText("No");
+        }
    }
 
 

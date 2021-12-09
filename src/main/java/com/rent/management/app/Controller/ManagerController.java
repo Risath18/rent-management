@@ -93,11 +93,9 @@ public class ManagerController implements ActionListener {
                 getAllProperties();
                 break;
             case "reportRequested":
-                System.out.println("Report Requested!");
                 openReportForm();
                 break;
             case "generateReport":
-                System.out.println("Generating Report");
                retrieveSummary();
                 break;
             case "closeReport":
@@ -110,7 +108,6 @@ public class ManagerController implements ActionListener {
                submitChanges();
                break;
             case "viewPeople":
-              System.out.println("GEYADGAEGDC");
                 viewPeople();
                 break;
             case "exit":
@@ -129,8 +126,6 @@ public class ManagerController implements ActionListener {
      * getter for properties belonging to all 
      */ 
     private void getAllProperties(){
-
-        System.out.println("Inside getAllProperties");
         managerPropertyView = new ManagerPropertyView(data, allProps);
         managerPropertyView.setManagerController(this);
     }
@@ -284,7 +279,6 @@ public class ManagerController implements ActionListener {
                     //Case 1: startDate of Property is after start date of Period. End date of property is before end date of period
                     if(propertyStart.compareTo(userStart) > 0 && propertyEnd.compareTo(userEnd) < 0){
                         //if the requested dates are in the range, 
-                        System.out.println("Case 1: " + data[i][2]);
                         housesRentedActive++;
                         if(data[i][2].equals("RENTED")){
                             rented++;
@@ -301,7 +295,6 @@ public class ManagerController implements ActionListener {
                         //Case 2: Property end date is after report start date.
                     } else if(propertyEnd.compareTo(userStart) > 0 && propertyStart.compareTo(userStart) < 0){
                         housesRentedActive++;
-                        System.out.println("Case 2: " + data[i][2]);
 
                         if(data[i][2].equals("RENTED")){
                             rented++;
@@ -318,7 +311,6 @@ public class ManagerController implements ActionListener {
                         //Case 3: Property start date is before reporty end date.
                     } else if(propertyStart.compareTo(userEnd) < 0 && propertyEnd.compareTo(userEnd) > 0){
                         housesRentedActive++;
-                        System.out.println("Case 3: " + data[i][2]);
 
                         if(data[i][2].equals("RENTED")){
                             rented++;
@@ -335,7 +327,6 @@ public class ManagerController implements ActionListener {
                         //Case 4: Property Start is before Period start and Property end is after Period end
                     } else if(propertyStart.compareTo(userStart) < 0 && propertyEnd.compareTo(userEnd) > 0){
                         housesRentedActive++;
-                        System.out.println("Case 4: " + data[i][2]);
 
                         if(data[i][2].equals("RENTED")){
                             rented++;
@@ -358,12 +349,9 @@ public class ManagerController implements ActionListener {
 
             String[][] houses = new String[table.size()][];
             for (int i = 0; i < table.size(); i++) {
-                System.out.println(table.get(i).get(2));
                 ArrayList<String> row = table.get(i);
                 houses[i] = row.toArray(new String[row.size()]);
             }
-
-            // System.out.println("Creating a report");
             reportView = new SummaryReportView(houses);
             reportView.setVisible(true);
             reportView.setNumActiveList(active);

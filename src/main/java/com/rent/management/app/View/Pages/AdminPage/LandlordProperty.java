@@ -30,10 +30,10 @@ public class LandlordProperty extends PropertyView {
      * */
     @Override
     public void actionMouse(MouseEvent e) {
-        int index=getTable().getSelectedRow();
+        int index = getTable().getSelectedRow();
         if(properties.size() > 0){
-            Property sendData=properties.get(index);
-            editView=new EditPropertyView(sendData);
+            Property sendData = properties.get(index);
+            editView = new EditPropertyView(sendData);
             editView.saveListener(this);
             editView.setID();
             editView.setStatus();
@@ -64,7 +64,7 @@ public class LandlordProperty extends PropertyView {
      * setter for landlord controller
      * @param lc landlord controller
      */
-    public void setLandlordController ( LandlordController lc){
+    public void setLandlordController(LandlordController lc){
         this.llc = lc;
     }
 

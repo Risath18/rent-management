@@ -97,7 +97,6 @@ public class Property {
      * @return returns int corresponding to property ID
      */
     public String getPropertyId() {
-        System.out.println("inside PropertyID getter");
         return propertyId;
     }
 

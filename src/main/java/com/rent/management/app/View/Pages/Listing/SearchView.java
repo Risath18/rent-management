@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class SearchView  extends JFrame {
-    private String [] propertyType={"Any", "APPARTMENT", "ATTACHED", "TOWNHOUSE ", "OTHER"};
+    private String [] propertyType={"Any", "APARTMENT", "ATTACHED", "TOWNHOUSE ", "DETACHED", "OTHER"};
     private String []cityQuadrant={"Any", "SW","NW","SE","NE"};
     private String[] numbers={"Any","1","2","3","4","5"};
     private String[] furnish={"Any", "Furnished","Not Furnished"};
@@ -59,11 +59,11 @@ public class SearchView  extends JFrame {
         bathBox.setBounds(157, 88, 36, 26);
         getContentPane().add(bathBox);
 
-        quadrantBox.setBounds(157, 115, 56, 26);
-        getContentPane().add(quadrantBox);
-
-        furnished.setBounds(157, 160, 56, 26);
+        furnished.setBounds(157, 120, 56, 26);
         getContentPane().add(furnished);
+
+        quadrantBox.setBounds(157, 160, 56, 26);
+        getContentPane().add(quadrantBox);
 
         submit.setBounds(144, 441, 115, 29);
         getContentPane().add(submit);

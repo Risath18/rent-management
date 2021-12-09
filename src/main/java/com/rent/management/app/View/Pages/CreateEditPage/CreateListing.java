@@ -162,8 +162,7 @@ public class CreateListing extends JFrame{
      * */
     public JSONObject getAddress() throws IllegalClassFormatException {
         JSONObject obj = new JSONObject();
-        obj.put("house_number", houseNumber.getText());
-        obj.put("street", street.getText());
+        obj.put("address", houseNumber.getText() + street.getText());
         return obj;
     }
 
