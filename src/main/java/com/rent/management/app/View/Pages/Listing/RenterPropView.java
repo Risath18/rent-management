@@ -30,9 +30,10 @@ public class RenterPropView extends PropertyView{
 			selectedProperty = null;
 			propInfo = new PropertyInfoView(selectedProperty);
 		}
-        System.out.println("Trying to create a propView");
+
 		propInfo.setVisible(true);
-		propInfo.addingSendEmailListener(this);
+
+            propInfo.addingSendEmailListener(this);
     }
 
     public void setPropertyController(PropertyController pc){
@@ -54,6 +55,7 @@ public class RenterPropView extends PropertyView{
         ev = new EmailView(selectedProperty.getEmail());
         ev.setPropertyController(propController);
         ev.setGuestController(gc);
+
         ev.addSendListener(propController);
         ev.addSendListener(gc);
         ev.setVisible(true);

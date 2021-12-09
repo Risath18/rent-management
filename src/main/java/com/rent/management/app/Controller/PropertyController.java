@@ -1,13 +1,11 @@
 package com.rent.management.app.Controller;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
-import com.rent.management.app.Model.*;
+
 import com.rent.management.app.Model.Property.*;
 import com.rent.management.app.Model.Util.*;
-import com.rent.management.app.View.Pages.AdminPage.LandlordView;
-import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
+
 import com.rent.management.app.View.Pages.Listing.RenterMenuView;
 import com.rent.management.app.View.Pages.Listing.RenterPropView;
 import com.rent.management.app.View.Pages.Listing.SearchView;
@@ -15,8 +13,7 @@ import com.rent.management.app.View.Pages.Listing.SearchView;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.swing.*;
-import java.awt.*;
+
 import java.awt.event.*;
 import java.time.LocalDateTime;
 
@@ -49,7 +46,7 @@ public class PropertyController implements ActionListener {
         String cityQuadrant = searchView.getCityQuadrant();
 
         //Based on Search Metrics
-        setAllProperties(db.search(type.toString(), num_bed, num_bath, furnishedString, cityQuadrant.toString()));
+        setAllProperties(db.search(type, num_bed, num_bath, furnishedString, cityQuadrant));
     }
 
     private void addListernersToClass(){
@@ -67,15 +64,17 @@ public class PropertyController implements ActionListener {
             searchView = new SearchView();
             searchView.setVisible(true);
             searchView.submitListener(this);
+
         }
-        else if(e.getActionCommand().equals("send email")){
+        else if(e.getActionCommand().equals("sendEmail")){
             System.out.println("Email Working!!!");
             //sending email logic
         }
         else if(e.getActionCommand().equals("searchSubmit")){
-            System.out.println("SAVED SEARCH YAY");
             setSearchMetrics();
             renterPropView =new RenterPropView (getAllProperties());
+            renterPropView.setDisplay(properties);
+            renterPropView.setPropertyController(this);
         }
     }
 
