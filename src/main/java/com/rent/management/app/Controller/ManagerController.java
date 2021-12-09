@@ -158,23 +158,23 @@ public class ManagerController implements ActionListener {
      * setter for data in properties
      */
       public void setData(){
-        JSONArray arr = db.getAllProperties(); // get all  properties
-        data = new String [arr.size()] [7];
+        JSONArray arr = db.getAllProperties();
+        data = new String [arr.size()][7];
         for(int i = 0; i < arr.size(); i++) {
             JSONObject obj = (JSONObject)arr.get(i);
             Property property = PropertyController.generateProperty(obj);
             allProps.add(property);
-            data[i][0] = property.getPropertyId();
-            data[i][1] = property.getPropertyType().toString();
-            data[i][2] = Integer.toString(property.getNumOfBed());
-            data[i][3] = Integer.toString(property.getNumOfBath());
+            data[i][0] = property.getPropertyType().toString();
+            data[i][1] = Integer.toString(property.getNumOfBed());
+            data[i][2] = Integer.toString(property.getNumOfBath());
             if (property.isFurnished()) {
-                data[i][4] = "Yes";
+                data[i][3] = "Yes";
             } else {
-                data[i][4] = "No";
+                data[i][3] = "No";
             }
-            data[i][5] = property.getAddress().getFormattedAddress();
-            data[i][6] = property.getPropertyStatus().toString();
+            data[i][4] = property.getAddress().getFormattedAddress();
+            data[i][5] = property.getPropertyStatus().toString();
+            data[i][6] = property.getAddress().getCityQuadrant().toString();
         }
 
     }

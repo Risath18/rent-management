@@ -147,7 +147,7 @@ public class LoginController implements ActionListener{
         } else{ //Renter
             pc.setRenter(fName, lName, username, false);
             try{
-                db.registerRenter(username, 0, "NULL");
+                db.registerRenter(username, 0, null);
             } catch(IllegalQueryException e){
                 return false;
             }

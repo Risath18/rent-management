@@ -50,7 +50,7 @@ public class LandlordProperty extends PropertyView {
      * */
     @Override
     public void actionPerformed(ActionEvent e) {
-        Property temp=editView.getSelectedProperty();
+        Property temp = editView.getSelectedProperty();
         temp.setPropertyStatus(editView.getStatus());
         editView.saveListener(llc);
         //llc.updateStatus(temp);

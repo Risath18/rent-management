@@ -16,10 +16,10 @@ import java.util.Objects;
 
 public class CreateListing extends JFrame{
     private static final long serialVersionUID = 1L;
-    private String [] propertyType={"Apartment", "Attached", "Townhouse ", "Other"};
+    private String [] propertyType={"Apartment", "Attached", "Detached", "Townhouse ", "Other"};
     private String []cityQuadrant={"SW","NW","SE","NE"};
-    private String[] numbers={"1","2","3","4","5"};
-    private String[] furnish={"Furnished","Not Furnished"};
+    private String[] numbers={"1","2","3","4","5", "6"};
+    private String[] furnish={"Yes","No"};
 
     private JComboBox typeBox=new JComboBox(propertyType);
     private JComboBox bedBox=new JComboBox(numbers);
@@ -30,14 +30,12 @@ public class CreateListing extends JFrame{
     private final JLabel cardNumLbl = new JLabel("Card Number");
     private final JLabel expiryDateLbl = new JLabel("Expiry Date");
     private final JLabel cvvLbl = new JLabel("CVV");
-    private final JLabel streetLbl = new JLabel("Street");
-    private final JLabel houseNumberLal = new JLabel("House Number");
+    private final JLabel addressLbl = new JLabel("Address");
     private JTextField holderName = new JTextField();
     private JTextField cardNum = new JTextField();
     private JTextField cvv = new JTextField();
     private JTextArea currentFee = new JTextArea();
-    private JTextField street;
-    private JTextField houseNumber;
+    private JTextField address;
 
     private String[] year = {"2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
     private String[] month = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
@@ -82,17 +80,17 @@ public class CreateListing extends JFrame{
         typeBox.setBounds(157, 16, 196, 26);
         getContentPane().add(typeBox);
 
-        bedBox.setBounds(157, 52, 36, 26);
+        bedBox.setBounds(157, 52, 150, 26);
         getContentPane().add(bedBox);
 
-        bathBox.setBounds(157, 88, 36, 26);
+        bathBox.setBounds(157, 88, 150, 26);
         getContentPane().add(bathBox);
 
-        quadrantBox.setBounds(157, 115, 56, 26);
-        getContentPane().add(quadrantBox);
-
-        furnished.setBounds(157, 160, 56, 26);
+        furnished.setBounds(157, 120, 150, 26);
         getContentPane().add(furnished);
+
+        quadrantBox.setBounds(157, 160, 150, 26);
+        getContentPane().add(quadrantBox);
 
         submit.setBounds(144, 441, 115, 29);
         getContentPane().add(submit);
@@ -111,19 +109,15 @@ public class CreateListing extends JFrame{
         expiryDateLbl.setBounds(41, 370, 96, 20);
 
         getContentPane().add(expiryDateLbl);
-        cvvLbl.setBounds(41, 407, 42, 20);
+        cvvLbl.setBounds(41, 407, 100, 20);
 
         getContentPane().add(cvvLbl);
 
-        street = new JTextField();
-        street.setBounds(157, 196, 256, 26);
-        getContentPane().add(street);
-        street.setColumns(10);
-
-        houseNumber = new JTextField();
-        houseNumber.setBounds(157, 220, 256, 26);
-        getContentPane().add(houseNumber);
-        houseNumber.setColumns(10);
+        address = new JTextField();
+        address.setBounds(157, 200, 256, 26);
+        getContentPane().add(address);
+        address.setColumns(10);
+        addressLbl.setBounds(41, 200, 69, 20);
 
         getContentPane().add(holderName);
 
@@ -132,24 +126,23 @@ public class CreateListing extends JFrame{
         getContentPane().add(cvv);
 
         JLabel currentFeeLbl = new JLabel("Current Fee: $");
-        currentFeeLbl.setBounds(41, 246, 107, 20);
+        currentFeeLbl.setBounds(41, 240, 107, 20);
         getContentPane().add(currentFeeLbl);
 
         currentFee.setEditable(false);
-        currentFee.setBounds(144, 246, 69, 24);
+        currentFee.setBounds(157, 240, 69, 24);
         getContentPane().add(currentFee);
-        streetLbl.setBounds(41, 199, 69, 20);
 
-        getContentPane().add(streetLbl);
+        getContentPane().add(addressLbl);
 
-        houseNumberLal.setBounds(41, 210, 69, 20);
-        getContentPane().add(houseNumberLal);
+        // houseNumberLal.setBounds(41, 210, 69, 20);
+        // getContentPane().add(houseNumberLal);
 
 
-        yearEx.setBounds(176, 367, 61, 26);
+        yearEx.setBounds(176, 367, 80, 26);
 
         getContentPane().add(yearEx);
-        monthEx.setBounds(247, 367, 48, 26);
+        monthEx.setBounds(260, 367, 70, 26);
 
         getContentPane().add(monthEx);
 
@@ -162,7 +155,7 @@ public class CreateListing extends JFrame{
      * */
     public JSONObject getAddress() throws IllegalClassFormatException {
         JSONObject obj = new JSONObject();
-        obj.put("address", houseNumber.getText() + street.getText());
+        obj.put("address", address.getText());
         return obj;
     }
 
@@ -202,8 +195,8 @@ public class CreateListing extends JFrame{
      * Getter function for furnished status
      * @return boolean value of furnished status
      * */
-    public boolean isFurnished(){
-        return Boolean.parseBoolean( furnished.getSelectedItem().toString());
+    public String isFurnished(){
+        return furnished.getSelectedItem().toString();
    }
 
 

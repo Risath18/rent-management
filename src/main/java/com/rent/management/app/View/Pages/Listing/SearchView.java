@@ -53,16 +53,16 @@ public class SearchView  extends JFrame {
         typeBox.setBounds(157, 16, 196, 26);
         getContentPane().add(typeBox);
 
-        bedBox.setBounds(157, 52, 36, 26);
+        bedBox.setBounds(157, 52, 100, 26);
         getContentPane().add(bedBox);
 
-        bathBox.setBounds(157, 88, 36, 26);
+        bathBox.setBounds(157, 88, 100, 26);
         getContentPane().add(bathBox);
 
-        furnished.setBounds(157, 120, 56, 26);
+        furnished.setBounds(157, 120, 100, 26);
         getContentPane().add(furnished);
 
-        quadrantBox.setBounds(157, 160, 56, 26);
+        quadrantBox.setBounds(157, 160, 100, 26);
         getContentPane().add(quadrantBox);
 
         submit.setBounds(144, 441, 115, 29);

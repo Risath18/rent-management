@@ -37,7 +37,6 @@ public class PropertyController implements ActionListener {
         this.pc = pc;
         this.uc = uc;
         properties = new ArrayList<Property>();
-        //setAllProperties(db.getAllProperties());
         renterMenuView=new RenterMenuView();
         renterMenuView.setVisible(true);
         addListernersToClass();
@@ -91,7 +90,7 @@ public class PropertyController implements ActionListener {
         }
         else if(e.getActionCommand().equals("searchSubmit")){
             setSearchMetrics();
-            renterPropView =new RenterPropView (getAllProperties());
+            renterPropView = new RenterPropView (getAllPropertiesFiltered());
             renterPropView.setDisplay(properties);
             renterPropView.setPropertyController(this);
 
@@ -220,6 +219,42 @@ public class PropertyController implements ActionListener {
     }
 
     /**
+     * getter for properties
+     * @return 2D String array with all property information
+     */
+    public String [][] getAllPropertiesFiltered() {
+        // turn array list into 2D array for view
+        // "Property Type", "Beds","Baths","Furnished","Status","Address", "Quadrant"
+        int count = 0;
+        for (int i = 0; i < properties.size(); i++) {
+            if(properties.get(i).getPropertyStatus().toString().equals("ACTIVE")) {
+                count++;
+            }
+        }
+        String [][] result = new String [count][7];
+        int j = 0;
+        for (int i = 0 ; i< properties.size(); i++) {
+            if(properties.get(i).getPropertyStatus().toString().equals("ACTIVE")) {
+                result[j][0] = properties.get(i).getPropertyType().toString();
+                result[j][1] = Integer.toString(properties.get(i).getNumOfBed());
+                result[j][2] = Integer.toString(properties.get(i).getNumOfBath());
+                boolean furnished = properties.get(i).isFurnished();
+                if (furnished) {
+                    result[j][3] = "Yes";
+                } else{
+                    result[j][3] = "No";
+                }
+                result[j][4] = properties.get(i).getPropertyStatus().toString();
+                result[j][5] = properties.get(i).getAddress().getFormattedAddress();
+                result[j][6] = properties.get(i).getAddress().getCityQuadrant().toString();
+                j++;
+            }
+        }
+        
+        return result;
+    }
+
+    /**
      * setter for all properties
      * @param arr JSONArray with property JSONObjects
      */
@@ -228,12 +263,8 @@ public class PropertyController implements ActionListener {
         properties.clear();
         for (int i = 0; i < arr.size(); i++) {
              JSONObject obj = (JSONObject)arr.get(i);
-          //  JSONObject obj = arr.getJSONObject(i);
             setProperty(obj);
         }
-        // for (JSONObject obj : arr) {
-        //     setProperty(obj); // pass object to set property
-        // }
     }
 
     /**

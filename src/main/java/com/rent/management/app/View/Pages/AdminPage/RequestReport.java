@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class RequestReport extends  JFrame{
-    private String[] year = {"2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019","2020","2021","2022"};
+    private String[] year = {"2016", "2017", "2018", "2019","2020","2021","2022"};
     private String[] month = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
     private String[] date = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
@@ -23,7 +23,7 @@ public class RequestReport extends  JFrame{
     public RequestReport(){
         getContentPane().setBackground(new Color(230, 230, 250));
         getContentPane().setLayout(null);
-        setSize(375, 230);
+        setSize(450, 250);
         JLabel lblStartDate = new JLabel("Start Date");
         lblStartDate.setBounds(33, 16, 78, 20);
         getContentPane().add(lblStartDate);
@@ -32,28 +32,27 @@ public class RequestReport extends  JFrame{
         lblEndDate.setBounds(33, 69, 69, 20);
         getContentPane().add(lblEndDate);
 
-        generateReport.setBounds(99, 129, 147, 29);
+        generateReport.setBounds(150, 120, 175, 29);
         getContentPane().add(generateReport);
 
-        yearStart.setBounds(108, 13, 69, 26);
+        yearStart.setBounds(108, 13, 120, 26);
         getContentPane().add(yearStart);
 
 
-        monthStart.setBounds(192, 13, 54, 26);
+        monthStart.setBounds(235, 13, 80, 26);
         getContentPane().add(monthStart);
 
-
-        dateStart.setBounds(261, 13, 54, 26);
+        dateStart.setBounds(325, 13, 80, 26);
         getContentPane().add(dateStart);
-        yearEnd.setBounds(108, 63, 69, 26);
 
         getContentPane().add(yearEnd);
-        monthEnd.setBounds(192, 63, 54, 26);
+        yearEnd.setBounds(108, 63, 120, 26);
 
         getContentPane().add(monthEnd);
-        dateEnd.setBounds(261, 63, 54, 26);
+        monthEnd.setBounds(235, 63, 80, 26);
 
         getContentPane().add(dateEnd);
+        dateEnd.setBounds(325, 63, 80, 26);
 
         setTitle("Summary Report Request Form");
     }
