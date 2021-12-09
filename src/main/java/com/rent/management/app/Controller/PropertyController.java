@@ -62,7 +62,10 @@ public class PropertyController implements ActionListener {
         } catch(Exception e){
             return;
         }
-        saveSearch(type, num_bed, num_bath, furnishedString, cityQuadrant);
+
+        if(pc.getPerson() != null){
+            saveSearch(type, num_bed, num_bath, furnishedString, cityQuadrant);
+        }
     }
 
     private void saveSearch(String type, int num_bed, int num_bath, String furnishedString, String cityQuadrant){
