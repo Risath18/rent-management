@@ -4,6 +4,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
@@ -640,6 +641,49 @@ public class DBCore {
             System.out.println("Error in checking notification search results");
             ex.printStackTrace();
         }
+    }
+
+    public JSONArray rentersWithSearch(String type, int num_bed, int num_bath, String furnished, String quadrant){
+        JSONArray arr = new JSONArray();
+        ArrayList<String> savedIds = new ArrayList<>();
+        System.out.println("HEYadadd");
+        try{
+            String query = "SELECT * FROM SavedSearch WHERE ('" + type + "'='NULL' or type='" + type + "') OR (" + num_bed + "=0 or num_bed=" + num_bed + ") OR (" + num_bath + "=0 or num_bath=" + num_bath + ") OR ('" + furnished + "'='NULL' or furnished='" + furnished + "') OR ('" + quadrant + "'='NULL' or quadrant='" + quadrant + "')";
+            Statement stmt = dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while(rs.next()) {
+                savedIds.add(rs.getString("savedsearch_id"));
+            }
+
+            stmt.close();
+            rs.close();
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        //Get all renters with that search ID
+        try{
+            for(int i =0; i<savedIds.size(); i++){
+                String query = "SELECT * FROM RENTER WHERE savedsearch_id='" + savedIds.get(i) +"'";
+                Statement stmt = dbConnect.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+
+                while(rs.next()) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("email", rs.getString("r_email"));
+                    arr.add(obj);
+                }
+
+                stmt.close();
+                rs.close();
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        return arr;
     }
 
     /**

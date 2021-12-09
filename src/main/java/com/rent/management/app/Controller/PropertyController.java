@@ -66,6 +66,10 @@ public class PropertyController implements ActionListener {
     }
 
     private void saveSearch(String type, int num_bed, int num_bath, String furnishedString, String cityQuadrant){
+        if(cityQuadrant.equals("NULL")){
+            cityQuadrant = "AL";
+        }
+        System.out.println("whats up: " + cityQuadrant);
         String searchID = db.saveSearchCriteria(type, num_bed, num_bath, furnishedString, cityQuadrant);
         String email = pc.getPerson().getEmail();
         db.updateRenterSearch(email, searchID);
