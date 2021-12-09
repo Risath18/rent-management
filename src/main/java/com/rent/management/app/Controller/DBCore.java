@@ -807,7 +807,7 @@ public class DBCore {
      * getter for all people in database
      * @return JSONArray of all people
      */
-    public JSONArray getAllPersons(){
+    public JSONArray getAllPeople(){
         JSONArray arr = new JSONArray(); // array of properties to be returned
         try {
             String query = "SELECT * FROM Person"; // select all properties query

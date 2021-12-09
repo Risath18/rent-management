@@ -29,6 +29,9 @@ public class ManagerView extends JFrame {
         changeStatus.setBounds(106, 16, 199, 29);
         getContentPane().add(changeStatus);
 
+        getUserInfo.setBounds(106, 100, 199, 29);
+        getContentPane().add(getUserInfo);
+
         changeFee.setBounds(149, 61, 115, 29);
         getContentPane().add(changeFee);
 
@@ -66,7 +69,7 @@ public class ManagerView extends JFrame {
      * */
     public void getUserInfo(ActionListener al){
         getUserInfo.addActionListener(al);
-        getUserInfo.setActionCommand("getUserInfo");
+        getUserInfo.setActionCommand("viewPeople");
     }
 
     /**

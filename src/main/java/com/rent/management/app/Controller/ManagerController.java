@@ -29,6 +29,8 @@ public class ManagerController implements ActionListener {
     private UtilController uc;
     private ArrayList<Property> allProps= new ArrayList<>();
     private String [][]data;
+    private String [][]peopleTable;
+    private ManagerUserInfo managerUserInfo;
 
     /**
      * constructor for ManagerController class
@@ -44,6 +46,7 @@ public class ManagerController implements ActionListener {
         managerView.setVisible(true);
         addListeners();
         setData();
+        setPeople();
     }
 
     /**
@@ -62,6 +65,7 @@ public class ManagerController implements ActionListener {
         managerView.changeStatusListner(this);
         managerView.exitListener(this);
         managerView.createReportListener(this);
+        managerView.getUserInfo(this);
     }
 
     /**
@@ -105,12 +109,22 @@ public class ManagerController implements ActionListener {
             case  "saveEditedProperty":
                submitChanges();
                break;
+            case "viewPeople":
+              System.out.println("GEYADGAEGDC");
+                viewPeople();
+                break;
             case "exit":
                 System.exit(1);
         }
         
     }
 
+
+    public void viewPeople(){
+        managerUserInfo = new ManagerUserInfo(peopleTable);
+        managerUserInfo.setVisible(true);
+    }
+    
       /**
      * getter for properties belonging to all 
      */ 
@@ -127,16 +141,31 @@ public class ManagerController implements ActionListener {
         propc.changeStatus(status, pid, allProps);
     }
 
+
+    public void setPeople(){
+        JSONArray arr = db.getAllPeople();
+        peopleTable =new String [arr.size()] [3];
+        for(int i = 0; i < arr.size(); i++) {
+            JSONObject obj = (JSONObject)arr.get(i);
+            peopleTable[i][0] = obj.get("email").toString();
+            peopleTable[i][1] = obj.get("name").toString();
+            String accessLevel = obj.get("access_level").toString();
+            if(accessLevel.equals("1")){
+                peopleTable[i][2] = "Manager";
+            } else if(accessLevel.equals("2")){
+                peopleTable[i][2] = "Landlord";
+            } else {
+                peopleTable[i][2] = "Renter";
+            }
+        }
+    }
      /**
      * setter for data in properties
      */
       public void setData(){
-        System.out.println("ho");
         JSONArray arr = db.getAllProperties(); // get all  properties
-        System.out.println("hey");
         data = new String [arr.size()] [7];
         for(int i = 0; i < arr.size(); i++) {
-            System.out.println("death");
             JSONObject obj = (JSONObject)arr.get(i);
             Property property = PropertyController.generateProperty(obj);
             allProps.add(property);
