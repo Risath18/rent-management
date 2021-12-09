@@ -2,10 +2,7 @@ package com.rent.management.app.Controller;
 
 import com.rent.management.app.Controller.PersonController;
 import com.rent.management.app.Controller.PropertyController;
-import com.rent.management.app.View.Pages.AdminPage.ChangeFeesView;
-import com.rent.management.app.View.Pages.AdminPage.ManagerView;
-import com.rent.management.app.View.Pages.AdminPage.RequestReport;
-import com.rent.management.app.View.Pages.AdminPage.SummaryReportView;
+import com.rent.management.app.View.Pages.AdminPage.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,28 +16,37 @@ import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-//when listing status changed to rented, change end date to today's date PLEASE DO THIS!!!!!!!!!!!!!!!!!!
+
 public class ManagerController implements ActionListener {
     private PersonController pc;
-    private PropertyController propertyController;
+    private PropertyController propc;
     private ManagerView managerView;
+    private ManagerPropertyView managerPropertyView;
     private ChangeFeesView changeFeesView;
     private SummaryReportView reportView;
     private RequestReport requestReport;
     private DBCore db;
+    private UtilController uc;
     private ArrayList<Property> allProps= new ArrayList<>();
+    private String [][]data;
+    private String [][]peopleTable;
+    private ManagerUserInfo managerUserInfo;
 
     /**
      * constructor for ManagerController class
      * @param db DBCore object
      * @param pc PersonController object
      */
-    public ManagerController(DBCore db, PersonController pc){
+    public ManagerController(DBCore db, PersonController pc, UtilController uc, PropertyController propc){
         this.db = new DBCore();
         this.pc = pc;
+        this.uc=uc;
+        this.propc = propc;
         managerView = new ManagerView();
         managerView.setVisible(true);
         addListeners();
+        setData();
+        setPeople();
     }
 
     /**
@@ -59,6 +65,7 @@ public class ManagerController implements ActionListener {
         managerView.changeStatusListner(this);
         managerView.exitListener(this);
         managerView.createReportListener(this);
+        managerView.getUserInfo(this);
     }
 
     /**
@@ -66,7 +73,7 @@ public class ManagerController implements ActionListener {
      */
     public void showFeesWindow(){
         changeFeesView = new ChangeFeesView();
-        changeFeesView.setFee(changeFeesView.getChangedFees());
+        changeFeesView.setPeriod(uc.getRate());
         changeFeesView.setVisible(true);
         changeFeesView.addSubmitListener(this);
     }
@@ -79,11 +86,11 @@ public class ManagerController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
-            case "changeFee":
+            case "fessChanged":
                 showFeesWindow();
                 break;
             case "changeStatus":
-                changeStatus();
+                getAllProperties();
                 break;
             case "reportRequested":
                 System.out.println("Report Requested!");
@@ -97,30 +104,104 @@ public class ManagerController implements ActionListener {
                 //Close it
                 break;
             case "submitFee":
-               // changeFees();
+                changeFees();
                break;
+            case  "saveEditedProperty":
+               submitChanges();
+               break;
+            case "viewPeople":
+              System.out.println("GEYADGAEGDC");
+                viewPeople();
+                break;
             case "exit":
                 System.exit(1);
         }
         
     }
 
-    /**
-     * changes a property's status
-     */
-    public void changeStatus(){
-        // setPropertyData();
-        // managerView = new ManagerView();
-        // //Continue code ((JAYYYY))
+
+    public void viewPeople(){
+        managerUserInfo = new ManagerUserInfo(peopleTable);
+        managerUserInfo.setVisible(true);
+    }
+    
+      /**
+     * getter for properties belonging to all 
+     */ 
+    private void getAllProperties(){
+
+        System.out.println("Inside getAllProperties");
+        managerPropertyView = new ManagerPropertyView(data, allProps);
+        managerPropertyView.setManagerController(this);
+    }
+    
+    public void submitChanges(){
+        String status = managerPropertyView.getEditView().getStatus().toString();
+        String pid = managerPropertyView.getEditView().getID();
+        propc.changeStatus(status, pid, allProps);
     }
 
+
+    public void setPeople(){
+        JSONArray arr = db.getAllPeople();
+        peopleTable =new String [arr.size()] [3];
+        for(int i = 0; i < arr.size(); i++) {
+            JSONObject obj = (JSONObject)arr.get(i);
+            peopleTable[i][0] = obj.get("email").toString();
+            peopleTable[i][1] = obj.get("name").toString();
+            String accessLevel = obj.get("access_level").toString();
+            if(accessLevel.equals("1")){
+                peopleTable[i][2] = "Manager";
+            } else if(accessLevel.equals("2")){
+                peopleTable[i][2] = "Landlord";
+            } else {
+                peopleTable[i][2] = "Renter";
+            }
+        }
+    }
+     /**
+     * setter for data in properties
+     */
+      public void setData(){
+        JSONArray arr = db.getAllProperties(); // get all  properties
+        data = new String [arr.size()] [7];
+        for(int i = 0; i < arr.size(); i++) {
+            JSONObject obj = (JSONObject)arr.get(i);
+            Property property = PropertyController.generateProperty(obj);
+            allProps.add(property);
+            data[i][0] = property.getPropertyId();
+            data[i][1] = property.getPropertyType().toString();
+            data[i][2] = Integer.toString(property.getNumOfBed());
+            data[i][3] = Integer.toString(property.getNumOfBath());
+            if (property.isFurnished()) {
+                data[i][4] = "Yes";
+            } else {
+                data[i][4] = "No";
+            }
+            data[i][5] = property.getAddress().getFormattedAddress();
+            data[i][6] = property.getPropertyStatus().toString();
+        }
+
+    }
+
+
+    /**
+     * changes the fees or period of a property
+     */
+    private void changeFees() {
+        int fees = Integer.parseInt(changeFeesView.getChangedFees());
+        int period = changeFeesView.getChangedPeriod();
+        uc.changeFees(period, fees);
+    }
+
+    /**
+     * opens report form
+     */
     public void openReportForm(){
         requestReport = new RequestReport();
         requestReport.setVisible(true);
         requestReport.addGenerateReportListener(this);
-    }
-
-    
+    }    
 
     /**
      * retrieves a manager's periodical summary. Includes: 

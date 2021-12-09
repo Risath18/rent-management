@@ -12,6 +12,7 @@ import com.rent.management.app.View.Pages.CreateEditPage.EditPropertyView;
 
 public class LandlordProperty extends PropertyView {
     private LandlordController llc;
+    private EditPropertyView editView;
 
     /**
      * Constructor for LandLordProperty View
@@ -39,6 +40,7 @@ public class LandlordProperty extends PropertyView {
         }else{
             editView=new EditPropertyView(null);
         }
+
         editView.setVisible(true);
     }
 
@@ -50,9 +52,18 @@ public class LandlordProperty extends PropertyView {
     public void actionPerformed(ActionEvent e) {
         Property temp=editView.getSelectedProperty();
         temp.setPropertyStatus(editView.getStatus());
-        llc.updateStatus(temp);
+        editView.saveListener(llc);
+        //llc.updateStatus(temp);
     }
 
+    public EditPropertyView getEditView(){
+        return editView;
+    }
+
+    /**
+     * setter for landlord controller
+     * @param lc landlord controller
+     */
     public void setLandlordController ( LandlordController lc){
         this.llc = lc;
     }

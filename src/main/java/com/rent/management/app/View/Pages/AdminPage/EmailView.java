@@ -19,9 +19,15 @@ public class EmailView extends JFrame {
     private JButton btnSend = new JButton("Send");
     private GuestController gc;
     private PropertyController propController;
+    private String landLord;
     //This is a default constructor for the email view 
     //Takes in a string to send that email to as a parameter
+    /**
+     * constructor for email view
+     * @param to to email address
+     */
     public EmailView(String to){
+        landLord = to;
         System.out.println("To received is "+to);
         setSize(452, 450);
         getContentPane().setBackground(new Color(230, 230, 250));
@@ -59,34 +65,72 @@ public class EmailView extends JFrame {
         from.setColumns(10);
         setLocationRelativeTo ( null );
     }
-    // A Listener to send that email
+    
+    /**
+     * action listener to send an email
+     * @param al action listener
+     */
     public void addSendListener(ActionListener al)  {
         btnSend.addActionListener(al);
         btnSend.setActionCommand("sendEmail");
     }
-    //Get the sender address
+
+    /**
+     * getter for the sender address
+     * @return sender address
+     */
     public String getFrom() {
         return from.getText();
     }
-    //Get the email body
-    public String getEmail() {
+
+    /**
+     * getter for email message
+     * @return message
+     */
+    public String getMessage() {
         return email.getText();
     }
-    //Get the email subject
+
+    /**
+     * getter for the email subject
+     * @return email subject
+     */
     public String getSubject() {
         return subject.getText();
     }
-    // The receiving address
+
+    /**
+     * setter for reveiving address (debugging function only)
+     * @param ll print out
+     */
     public void setTo(String ll) {
-        to.setText(ll);
+        System.out.println("HEY: " + ll);
+        from.setText(ll);
+        from.setEditable(false);
     }
 
+    /**
+     * setter for property controller
+     * @param arg property controller
+     */
     public void setPropertyController(PropertyController arg){
         this.propController = arg;
     }
 
+    /**
+     * setter for guest controller
+     * @param arg guest controller
+     */
     public void setGuestController(GuestController arg){
         this.gc = arg;
+    }
+
+    /**
+     * getter for landlord email
+     * @return landlord's email
+     */
+    public String getLandlordEmail(){
+        return landLord;
     }
 
 //    public static void main(String[] args) {

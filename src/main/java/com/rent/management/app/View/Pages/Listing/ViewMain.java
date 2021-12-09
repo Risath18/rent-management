@@ -66,6 +66,10 @@ public class ViewMain  extends JFrame {
         manager.addActionListener(al);
     }
 
+    /**
+     * action listener for adding a guest
+     * @param al action listener
+     */
     public void addGuest(ActionListener al){
         unReg.addActionListener(al);
     }

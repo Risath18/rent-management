@@ -63,6 +63,7 @@ public class UnRegRenterView extends JFrame {
         password.setBounds(116, 121, 146, 26);
         getContentPane().add(password);
     }
+
     /**
      * Setter for action listener for submission
      * @param al action listener for submition action
@@ -95,8 +96,6 @@ public class UnRegRenterView extends JFrame {
     public String getPassword(){
         return String.copyValueOf(password.getPassword());
     }
-
-
 
     /**
      * Getter for email address

@@ -1,6 +1,7 @@
 package com.rent.management.app.Controller;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -299,7 +300,7 @@ public class DBCore {
     }
 
     /**
-     * getter function to retriev all properties
+     * getter function to retrieve all properties
      * @return JSONArray containing all properties with each object being an individual property
      */
     public JSONArray getAllProperties() {
@@ -494,11 +495,6 @@ public class DBCore {
      * @return JSONArray of search results with each object being a property
      */
     public JSONArray search(String type, int num_bed, int num_bath, String furnished, String quadrant){
-        // String type = searchCriteria.get("type").toString();
-        // String num_bed = Integer.parseInt(searchCriteria.get("num_bed").toString());
-        // String num_bath = Integer.parseInt(searchCriteria.get("num_bath").toString());
-        // String furnished = searchCriteria.get("furnished").toString();
-        // String quadrant = searchCriteria.get("quadrant").toString();
         String query = "SELECT * FROM Property WHERE ('" + type + "'='NULL' or Type='" + type + "') AND (" + num_bed + "=0 or Num_bed=" + num_bed + ") AND (" + num_bath + "=0 or Num_bath=" + num_bath + ") AND ('" + furnished + "'='NULL' or Furnished='" + furnished + "') AND ('" + quadrant + "'='NULL' or Quadrant='" + quadrant + "')";
         JSONArray arr = new JSONArray ();
 
@@ -539,8 +535,6 @@ public class DBCore {
         try{
             Statement stmt =  dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-
-
             while(rs.next()){
                 notif = rs.getInt("Notifications_on");
             }
@@ -611,18 +605,18 @@ public class DBCore {
                 searchID = set.getString("SavedSearch_ID");
             }
 
-        // check for notifications turned on
+            // check for notifications turned on
             if (notifications == 0) {
-        //  return null if notifications are turned off
+                //  return null if notifications are turned off
                 return; 
             }
         } catch (SQLException ex) {
             System.out.println("Error in checking notification search results");
             ex.printStackTrace();
         }
-        //  else continue to find search information
+            //  else continue to find search information
         try {
-        // use saved search id to find saved search
+            // use saved search id to find saved search
             String query = "Select * FROM SavedSearch WHERE SavedSearch_ID = '" + searchID + "''";
             Statement statement = dbConnect.createStatement();
             ResultSet rs = statement.executeQuery(query);
@@ -636,10 +630,7 @@ public class DBCore {
                 obj.put("furnished", rs.getString("Furnished").toString());
                 obj.put("quadrant", rs.getString("Quadrant").toString());
             }
-        // pass JSON object to Risat's function
-        // return the results
-            return;// search(obj);
-
+            
         } catch (SQLException ex) {
             System.out.println("Error in checking notification search results");
             ex.printStackTrace();
@@ -664,6 +655,10 @@ public class DBCore {
         }
     }
 
+    /**
+     * function to change the fee amount
+     * @param fee int for new fee price
+     */
     public void changeFeeAmount(int fee){
         try {
             String query = "UPDATE Fees SET Price = ?";
@@ -678,25 +673,24 @@ public class DBCore {
         }
     }
 
-    public void changeListingStatus(int pid, String newStatus){
+    /**
+     * changes the status of a listing
+     * @param pid String for property ID
+     * @param newStatus String for the new status
+     */
+    public void changeListingStatus(String pid, String newStatus){
         String query = "UPDATE Property SET Status = '" + newStatus + "' WHERE PID = '" + pid + "'";
         try{
-            Statement stmt =  dbConnect.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            
-            rs = stmt.executeQuery(query);
-        
+            System.out.println(newStatus);
+            PreparedStatement stmt =  dbConnect.prepareStatement(query);
+            stmt.executeUpdate();
             stmt.close();
-            rs.close();
 
         } catch(SQLException e){
             System.out.println("listing status error");
+            e.printStackTrace();
         }
     } 
-
-    // public boolean checkAddress(String address){
-        
-    // }
 
     /**
      * getter for fee table in SQL
@@ -726,7 +720,12 @@ public class DBCore {
         return obj;
     }
 
-    JSONArray getLandlordProperties (String email) {
+    /**
+     * getter for landlord's properties
+     * @param email String for the landlord who we want to retrieve their properties
+     * @return JSONArray of properties
+     */
+    public JSONArray getLandlordProperties (String email) {
         JSONArray arr = new JSONArray ();
 
         try {
@@ -734,7 +733,7 @@ public class DBCore {
             Statement stmt = dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()) {
-                JSONObject obj = new JSONObject ();
+                JSONObject obj = new JSONObject();
                 obj.put("pid", Integer.toString(rs.getInt("PID")));
                 obj.put("l_email", rs.getString("L_Email"));
                 obj.put("type", rs.getString("Type"));
@@ -757,7 +756,12 @@ public class DBCore {
         return arr;
     }
 
-    String getLandlordName (String email) {
+    /**
+     * getter for landlord name matching an email
+     * @param email String for landlord's email
+     * @return String for landlord's name
+     */
+    public String getLandlordName (String email) {
         String name = "";
 
         try {
@@ -768,12 +772,65 @@ public class DBCore {
             if (rs.next()) {
                 name = rs.getString("Name");
             }
+            stmt.close();
+            rs.close();
         } catch (SQLException e) {
             System.err.println("Error in retrieving landlord name.");
             e.printStackTrace();
         }
 
         return name;
+    }
+
+    /**
+     * updates property's end date to the date it was rented
+     * @param pid String for property ID
+     */
+    public void updateDateRented(String pid){
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String query = "UPDATE Property SET End_Date = '" + LocalDate.now().format(formatter).toString() + "' WHERE PID = '" + pid + "'";
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+
+            System.out.println(LocalDate.now().format(formatter));
+            stmt.executeUpdate();
+
+            stmt.close();
+
+        } catch (SQLException ex){
+            System.err.println("Error in 'update date rented' sql");
+            throw new IllegalQueryException();
+        }
+    }
+
+    /**
+     * getter for all people in database
+     * @return JSONArray of all people
+     */
+    public JSONArray getAllPeople(){
+        JSONArray arr = new JSONArray(); // array of properties to be returned
+        try {
+            String query = "SELECT * FROM Person"; // select all properties query
+
+            Statement stmt =  dbConnect.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+            while(rs.next()){
+                JSONObject obj = new JSONObject(); // json object to be returned with all properties
+                obj.put("email", rs.getString("email"));
+                obj.put("name", rs.getString("name"));
+                obj.put("access_level", rs.getString("accessLevel"));
+                arr.add(obj); // adding the object to the json array
+            }
+
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex){
+            System.err.println("Error in getting all persons sql");
+            ex.printStackTrace();
+        }
+        return arr;
     }
 
     /**

@@ -4,11 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import com.rent.management.app.Controller.ManagerController;
 import com.rent.management.app.Model.Property.Property;
 import com.rent.management.app.View.Pages.CreateEditPage.EditPropertyView;
 import com.rent.management.app.View.Pages.Listing.PropertyView;
 
 public class ManagerPropertyView extends PropertyView {
+    private ManagerController managerContoller;
     /**
      * ManagerPropertyView constructor
      * @param addToTable double string array of property listing information
@@ -27,26 +29,35 @@ public class ManagerPropertyView extends PropertyView {
     public void actionMouse(MouseEvent e) {
         int index=getTable().getSelectedRow();
         if(properties.size() > 0){
-            Property toSend=properties.get(index);
-            editView=new EditPropertyView(toSend);
+            Property sendData=properties.get(index);
+            editView=new EditPropertyView(sendData);
             editView.saveListener(this);
             editView.setID();
             editView.setStatus();
-        }else
+        }else{
             editView=new EditPropertyView(null);
+        }
+
         editView.setVisible(true);
+    }
+
+    public EditPropertyView getEditView(){
+        return editView;
     }
 
     /**
      * Override of action performed to set the property status
      * @param e Action event triggering the listener.
      * */
-    @Override
+  @Override
     public void actionPerformed(ActionEvent e) {
         Property temp=editView.getSelectedProperty();
         temp.setPropertyStatus(editView.getStatus());
-        //Manager controller code
+        editView.saveListener(managerContoller);
+        //llc.updateStatus(temp);
     }
-    //Set this once we have a working controller
-    //public void setManagerController()
+    
+    public void setManagerController(ManagerController arg){
+        this.managerContoller = arg;
+    }
 }

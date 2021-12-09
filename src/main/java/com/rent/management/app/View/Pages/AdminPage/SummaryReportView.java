@@ -14,6 +14,10 @@ public class SummaryReportView {
     private JTextArea activeListing = new JTextArea();
     private JButton btnClose = new JButton("Close");
 
+    /**
+     * summary report view constructor
+     * @param data 2D array of string containing report data
+     */
     public SummaryReportView(String [][]data){
         frame.setSize(551, 483);
         frame.getContentPane().setBackground(new Color(230, 230, 250));
@@ -88,23 +92,43 @@ public class SummaryReportView {
         frame.setVisible(true);
     }
 
+    /**
+     * setter for close functionality action listener
+     * @param al action listener
+     */
     public void addCloseListener(ActionListener al)  {
         btnClose.addActionListener(al);
         btnClose.setActionCommand("closeReport");
     }
 
+    /**
+     * setter for number house list
+     * @param n number of houses listed
+     */
     public void setNumHouseList(int n) {
         houseList.setText(Integer.toString(n));
     }
 
+    /**
+     * setter for number of houses rented
+     * @param n number of houses rented
+     */
     public void setNumHouseRent(int n) {
         houseRent.setText(Integer.toString(n));
     }
 
+    /**
+     * setter for number of active listings
+     * @param n number of active listing
+     */
     public void setNumActiveList(int n) {
         activeListing.setText(Integer.toString(n));
     }
 
+    /**
+     * setter of visibility
+     * @param v view status
+     */
     public void setVisible(boolean v) {
         if (!v) {
             frame.setVisible(false);

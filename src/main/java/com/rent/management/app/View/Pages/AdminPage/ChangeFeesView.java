@@ -1,6 +1,9 @@
 package com.rent.management.app.View.Pages.AdminPage;
 
 import javax.swing.*;
+
+import org.json.simple.JSONObject;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -85,6 +88,15 @@ public class ChangeFeesView extends JFrame {
     }
 
     /**
+     * setter for period
+     * @param obj JSONObject containing all period information
+     */
+    public void setPeriod(JSONObject obj){
+        currentPeriod.setText(obj.get("Days").toString());
+        currentFee.setText(obj.get("price").toString());
+    }
+
+    /**
      * Getter for fees
      * @return a double which holds the current fee value
      * */
@@ -105,6 +117,6 @@ public class ChangeFeesView extends JFrame {
      * @return returning an integer value of the current period.
      * */
     public int getChangedPeriod(){
-        return Integer.parseInt(currentPeriod.getText());
+        return Integer.parseInt(changePeriod.getText());
     }
 }

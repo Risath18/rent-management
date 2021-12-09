@@ -52,6 +52,7 @@ public class EditPropertyView extends JFrame {
      * @param al action listener to trigger saving property
      * */
     public void saveListener(ActionListener al){
+        System.out.println("Here");
         saveButton.addActionListener(al);
         saveButton.setActionCommand("saveEditedProperty");
 
@@ -61,7 +62,12 @@ public class EditPropertyView extends JFrame {
      * Setter for property ID using getPropertyID
      * */
     public void setID(){
+        System.out.println("CHECK: " + property.getPropertyId());
         id.setText(property.getPropertyId());
+    }
+
+    public String getID(){
+        return id.getText();
     }
 
     /**

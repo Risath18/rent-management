@@ -19,14 +19,12 @@ public class UtilController {
     DBCore db;
     Payment payment;
     Dotenv env;
-    PersonController pc;
 
     /**
      * constructor for UtilController class
      * @param db DBCore object
      */
-    public UtilController(DBCore db, PersonController pc){
-        this.pc=pc;
+    public UtilController(DBCore db){
         this.db = db;
         this.payment = new Payment();
         this.env = Dotenv.load();
@@ -34,6 +32,9 @@ public class UtilController {
     
     }
 
+    /**
+     * setter for fees
+     */
     protected void setFees(){
         JSONObject obj = db.getFormattedFees();
         this.payment.setDays(Integer.parseInt(obj.get("Days").toString()));
@@ -45,17 +46,17 @@ public class UtilController {
      * @param days period to change to, 0 for no change.
      * @param price cost for period duration, 0 for no change.
      */
-    public void changeFees(){
-        
-        // temporary values until connected to GUI
-        int days = 60;
-        int price = 40;
-        
+    public void changeFees(int days, int price){
+
         if (price != payment.getPrice()) db.changeFeeAmount(price);
-        
+        System.out.println("WACK: " +  days);
         if (days != payment.getDays()) db.changeFeePeriod(days);
     }
     
+    /**
+     * makes a payment
+     * @return JSONObject with payement information
+     */
     public JSONObject makePayment(){
         JSONObject obj = new JSONObject();
 
@@ -81,6 +82,7 @@ public class UtilController {
 
     /**
      * gets rate of a fee
+     * @return JSONObject with rate information
      */
     public JSONObject getRate(){
         JSONObject obj = db.getFormattedFees();
@@ -97,12 +99,12 @@ public class UtilController {
      * @param subject message subject.
      * @param message message content.
      */
-
-    public void sendEmail(String to_email, String subject, String message) {
+    public void sendEmail(String sender, String to_email, String subject, String message) {
         String from_email = "radarrisat@gmail.com";
-        //to = "libergood@gmail.com"; // hardcode for testing
         Email to = new Email (to_email);
         Email from = new Email (from_email);
+        message = "Email Sent By: <" + sender + ">\n" + message;
+        subject = "Rent Management System - ENSF 480: " + subject;
         Content content = new Content("text/plain", message);
         Mail mail = new Mail(from, subject, to, content);
         SendGrid sg = new SendGrid(env.get("SENDGRID_API_KEY")); // retrieve API key from environment variables
@@ -120,5 +122,4 @@ public class UtilController {
             e.printStackTrace();
         }
     }
-
 }

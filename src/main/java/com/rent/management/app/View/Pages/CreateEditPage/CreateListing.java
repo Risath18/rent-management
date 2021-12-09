@@ -219,7 +219,7 @@ public class CreateListing extends JFrame{
 
 
     /**
-    Setter for fees
+     * Setter for fees
      */
     public void setCurrentFee(String fee) {
 		currentFee.setText(fee);

@@ -3,9 +3,11 @@ package com.rent.management.app.Controller;
 import com.rent.management.app.Model.Role.Person;
 import com.rent.management.app.Model.Util.Name;
 import com.rent.management.app.Model.Util.SearchCriteria;
-import com.rent.management.app.View.Pages.Listing.RenterMenuView;
-import com.rent.management.app.View.Pages.Listing.UnRegRenterView;
+import com.rent.management.app.View.Pages.Listing.*;
+// import com.rent.management.app.View.Pages.Listing.RenterMenuView;
+// import com.rent.management.app.View.Pages.Listing.UnRegRenterView;
 import com.rent.management.app.View.Pages.LoginPage.Login;
+
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import javax.swing.JFrame;
+import javax.swing.text.Utilities;
 
 import com.rent.management.app.Exceptions.*;
 public class LoginController implements ActionListener{
@@ -25,15 +28,24 @@ public class LoginController implements ActionListener{
     private PersonController pc;
     private Login loginView;
     private UnRegRenterView unRegRenterView;
-    private PropertyController propertyController;
+    private PropertyController propc;
     private String userType;
     private LandlordController landlordController;
     private ManagerController managerController;
     private int accessLevel;
+    private UtilController uc;
+    private String emailAddress;
 
-    public LoginController(DBCore db, int accessLevel){
+    /**
+     * Login Controller constructor
+     * @param db DBcore to access database
+     * @param accessLevel access level of user
+     */
+    public LoginController(DBCore db, UtilController uc, int accessLevel, PropertyController propc){
+        this.propc = propc;
         System.out.println("Login controller "+accessLevel);
         this.accessLevel = accessLevel;
+        this.uc = uc;
         loginView=new Login();
         unRegRenterView = new UnRegRenterView();
         loginView.Login();
@@ -47,11 +59,18 @@ public class LoginController implements ActionListener{
 
     }
 
+    /**
+     * Adds a listener to view
+     */
     public void addListernersToView(){
         loginView.addLoginListener(this);
         loginView.addNewListener(this);
     }
-
+    
+    /**
+     * Action performed based on passed action event
+     * @param e event 
+     */
     @Override
     public void actionPerformed(ActionEvent e){
         String username=loginView.getUsername();
@@ -89,11 +108,17 @@ public class LoginController implements ActionListener{
 
     
 
-
+    /**
+     * Opens a home page based on user type and access level
+     * @param userType type of user to determing home page
+     */
     public void openHomePage(String userType){
         //Open the page to view depending on renter, landlord or other stuff
     }
 
+    /**
+     * Ends program
+     */
     public void endProgram(){
         db.close();
     }
@@ -130,15 +155,21 @@ public class LoginController implements ActionListener{
                 return false;
             }
         }
+        this.pc.getPerson().setEmail(username);
         return true;
     }
 
+    /**
+     * logs user in
+     * @param username user username
+     * @param password user password
+     */
     public boolean login(String username, String password){
         //See if user exists
         //String formattedQuery;
         JSONObject obj;
         this.pc = new PersonController(db);
-
+        emailAddress=username;
         int accessLevel;
         try{
            accessLevel = db.validateLogin(username, password);
@@ -148,19 +179,23 @@ public class LoginController implements ActionListener{
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 pc.setManager(obj);
-                managerController = new ManagerController(db,pc);
+                propc = new PropertyController(db,pc, uc);
+                managerController = new ManagerController(db,pc, uc, propc);
             } else if(accessLevel == 2){ //Landlord
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 pc.setLandlord(obj);
-                landlordController = new LandlordController(db, pc);
+                propc = new PropertyController(db,pc, uc);
+                landlordController = new LandlordController(db, pc, uc, propc);
             } else{ //Renter
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 obj = db.findRenter(obj);                
                 pc.setRenter(obj);
-                propertyController = new PropertyController(db,pc);
+                propc = new PropertyController(db,pc, uc);
             }
+            this.pc.getPerson().setEmail(username);
+
         } catch(IllegalQueryException e){
             e.printStackTrace();
             return false; //registration Failed
