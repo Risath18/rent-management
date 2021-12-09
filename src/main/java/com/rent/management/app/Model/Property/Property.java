@@ -10,8 +10,9 @@ public class Property {
     private boolean isFurnished; //whether property is furnished (true) or not (false)
     private PropertyStatus propertyStatus; //enum value for the status of the property
     private Address address; //address of property
-    private Payment payment; //payment for property
-
+    private Payment payment; //payment for propert
+    private String email;
+    
     public Property(){
         
     }
@@ -96,6 +97,7 @@ public class Property {
      * @return returns int corresponding to property ID
      */
     public String getPropertyId() {
+        System.out.println("inside PropertyID getter");
         return propertyId;
     }
 
@@ -187,7 +189,20 @@ public class Property {
         return this.payment;
     }
 
+    /**
+     * getter for email
+     */
+    public String getEmail(){
+        return this.email;
+    }
 
+    /**
+     * setter for email
+     * @param email String argument for email
+     */
+    public void setEmail(String email){
+        this.email = email;
+    }
 }
 
 

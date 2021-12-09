@@ -29,7 +29,7 @@ public class MainController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Guest")){
             viewMain.setVisible(false);
-            PersonController pc = new PersonController();
+            PersonController pc = new PersonController(db);
              this.propc = new PropertyController(db, pc);
         }else if (e.getActionCommand().equals("Landlord")){
             viewMain.setVisible(false);

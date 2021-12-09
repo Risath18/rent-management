@@ -56,7 +56,12 @@ public class DBCore {
             System.err.println("Error connecting to database");
         }
     }
-
+    /**
+     * Validation function for user log in.
+     * @param email username input
+     * @param password password input
+     * @throws IllegalQueryException if the SQL query is invalid
+     */
     public int validateLogin(String email, String password) throws IllegalQueryException{
         int accessLevel=0;
         try{
@@ -110,6 +115,11 @@ public class DBCore {
         return obj;
     }
 
+    /**
+     * Finder function for renter.
+     * @param obj a JSONObject which provides search criteria for renter
+     * @return JSONObject of found renter
+     */
     public JSONObject findRenter(JSONObject obj){
         String search = "";
         try{
@@ -158,7 +168,14 @@ public class DBCore {
         }
         return obj;
     }
-    
+
+    /**
+     * Function to register a persion.
+     * @param email person email
+     * @param password new person password
+     * @param access access level to information
+     * @param name person name
+     */
     public void registerPerson(String email, String password, int access, String name) throws IllegalQueryException{
         try{
             String query = "INSERT INTO Person (Email, Name, Password, AccessLevel) VALUES (?,?,?,?)";
@@ -179,9 +196,10 @@ public class DBCore {
         }
     }
 
-    /*
+    /**
     * Generates Property Id based on current MAX value PID in db
-    **/
+    * @return the new property result
+    */
     public int generatePropertyId(){
         int result = 0;
         try{
@@ -203,9 +221,21 @@ public class DBCore {
         return ++result;
     }
 
-    /*
+    /**
     * Adds Property based on NULL Start & End Date Values
-    **/
+    * @param pid property identification
+    * @param lEmail landlord email associated with property
+    * @param type property type
+    * @param numBed number of bedrooms in the property
+    * @param numBath number of bathrooms in the property
+    * @param furnished whether or not the property is furnished
+    * @param quadrant city quadrant in which the property is located
+    * @param address streed address of property
+    * @param isPaid fee paid status
+    * @param status property status
+    * @param start active date start (for property posting)
+    * @param end end active date based on fees
+    */
     public void registerProperty(int pid, String lEmail, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
         try{
             String query = "INSERT INTO Property (PID, L_Email, Type, Num_Bed, Num_Bath, Furnished, Quadrant, Address, Fee_Paid, Status, Active_Date, End_Date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -232,6 +262,21 @@ public class DBCore {
         }
     }
 
+    /**
+    * Updates property based on PID with the new inputs
+    * @param pid property identification
+    * @param lEmail landlord email associated with property
+    * @param type property type
+    * @param numBed number of bedrooms in the property
+    * @param numBath number of bathrooms in the property
+    * @param furnished whether or not the property is furnished
+    * @param quadrant city quadrant in which the property is located
+    * @param address streed address of property
+    * @param isPaid fee paid status
+    * @param status property status
+    * @param start active date start (for property posting)
+    * @param end end active date based on fees
+    */
     public boolean updateProperty(String pid, String type, int numBed, int numBath, String furnished, String quadrant, String address, int feePaid, String status, String start, String end){
         try{
             String query = "UPDATE Property SET Type = ?,  Num_Bed = ?, Num_Bath = ?, Furnished = ?, Quadrant = ?, Address = ?, Fee_Paid = ?, Status = ?, Active_Date = ?, End_Date = ? WHERE PID = '" + pid + "'";
@@ -253,6 +298,10 @@ public class DBCore {
         return true;
     }
 
+    /**
+     * getter function to retriev all properties
+     * @return JSONArray containing all properties with each object being an individual property
+     */
     public JSONArray getAllProperties() {
         JSONArray arr = new JSONArray(); // array of properties to be returned
         try {
@@ -276,7 +325,6 @@ public class DBCore {
                 obj.put("status", rs.getString("status"));
                 obj.put("active_date", rs.getString("active_date"));
                 obj.put("end_date", rs.getString("end_date"));
-
                 arr.add(obj); // adding the object to the json array
             }
 
@@ -290,6 +338,12 @@ public class DBCore {
         return arr;
     }
 
+    /**
+     * function to register a renter
+     * @param rEmail renter email
+     * @param notifications notifications status for saved searches
+     * @param searchID id for saved searches
+     */
     public void registerRenter(String rEmail, int notifications, String searchID){
         try{
             String query = "INSERT INTO Renter(R_Email, Notifications_on, SavedSearch_ID) VALUES (?,?,?)";
@@ -308,7 +362,15 @@ public class DBCore {
         }
     }
 
-
+    /**
+     * save a renter search
+     * @param searchID id of saved search
+     * @param type property type
+     * @param numBed number of bedrooms in property
+     * @param numBath number of baths in a property
+     * @param furnished whether or not the property is furnished
+     * @param quadrant the quadrant of the city the property is registered in
+     */
     public void saveSearch(String searchID, String type, int numBed, int numBath, String furnished, String quadrant){
         try{
             String query = "INSERT INTO SavedSearch(SavedSearch_ID, Type, Num_Bed, Num_Bath, Furnished, Quadrant) VALUES (?,?,?,?,?,?)";
@@ -330,6 +392,13 @@ public class DBCore {
         }
     }
 
+    /**
+     * setter for fee period in a property
+     * @param PID property id
+     * @param from start time
+     * @param to end time
+     * @param cost cost of the fee
+     */
     public void setFeePeriod(int PID, String from, String to, int cost){
         try{
             String query = "INSERT INTO Period(PID, From_Date, To_Date, Cost) VALUES (?,?,?,?)";
@@ -349,6 +418,13 @@ public class DBCore {
         }
     }
 
+    /**
+     * updating the period of a property fee
+     * @param PID property id
+     * @param from start time
+     * @param to end time
+     * @param cost cost of the fee
+     */
     public boolean updatePeriod(int PID, String from, String to, int cost){
         try{
             String query = "UPDATE Period SET From_Date = ?, To_Date = ?, Cost = ? WHERE PID = '" + PID + "'";
@@ -368,6 +444,10 @@ public class DBCore {
         return true;
     }
 
+    /**
+     * paying the fees for a property
+     * @param property_id property id for property fees to be paid
+     */
     public void payFee(String property_id) {
         try {
             // get fee days
@@ -404,11 +484,15 @@ public class DBCore {
         }
     }
 
-
-    // //RISAT WORKING ON THIS
-    // //USE SQL TO FIGURE OUT LOGIC
-    //    public JSONArray search(JSONObject searchCriteria){
-
+    /**
+     * function to search properties
+     * @param type property type
+     * @param num_bed number of beds in the property
+     * @param num_bath number of baths in the property
+     * @param furnished whether or not the property is furnished
+     * @param quadrant city quadrant where the property is located
+     * @return JSONArray of search results with each object being a property
+     */
     public JSONArray search(String type, int num_bed, int num_bath, String furnished, String quadrant){
         // String type = searchCriteria.get("type").toString();
         // String num_bed = Integer.parseInt(searchCriteria.get("num_bed").toString());
@@ -445,7 +529,10 @@ public class DBCore {
         return arr;
     }
 
-    //alexis
+    /**
+     * function to change the notification status to on or off based on current state
+     * @param email renter email to change the notification status of
+     */
     public void changeNotificationStatus(String email){
         String query = "SELECT * FROM Renter WHERE R_Email = '" + email + "'";
         int notif=-1;
@@ -473,9 +560,16 @@ public class DBCore {
         } catch(SQLException e){
             System.out.println("Notification status error");
         }
-    } //done
+    }
 
-    //alexis
+    /**
+     * saving the search of a renter
+     * @param type type of property
+     * @param numBed number of beds in property
+     * @param numBath number of baths on the property
+     * @param furnished whether or not a property is furnished
+     * @param quadrant city quadrant
+     */
     public void saveSearchCriteria(String type, int numBed, int numBath, String furnished, String quadrant){
         String query = "INSERT INTO Saved_Search (SavedSearch_ID, Type, Num_Bed, Num_Bath, Furnished, Quadrant) VALUES (?,?,?,?,?,?)";
         
@@ -497,9 +591,12 @@ public class DBCore {
         } catch(SQLException e){
             System.out.println("Error inside save search criteria");
         }
-    }//done?? may need to figure out nulls 
+    }
 
-    // Liana
+    /**
+     * get the search results from a renter email
+     * @param renter_email renter email to check  search results
+     */
     public void checkSearchResults(String renter_email) {
         String searchID = "";
         // select appropriate renter
@@ -549,6 +646,10 @@ public class DBCore {
         }
     }
 
+    /**
+     * change the fee period
+     * @param days number of days for the e
+     */
     public void changeFeePeriod(int days){
         try {
             String query = "UPDATE Fees SET Days = ?";

@@ -2,17 +2,25 @@ package com.rent.management.app.View.Pages.AdminPage;
 
 import java.awt.*;
 import javax.swing.*;
+
+import com.rent.management.app.Controller.GuestController;
+import com.rent.management.app.Controller.PropertyController;
+
 import java.awt.event.*;
 
-
-
+/*
+ An emailView for a registered/unregistered renter to email the landlord
+*/
 public class EmailView extends JFrame {
     private JTextField subject;
     private JTextField from;
     private JTextField to;
     private JTextArea email = new JTextArea();
     private JButton btnSend = new JButton("send");
-
+    private GuestController gc;
+    private PropertyController propController;
+    //This is a default constructor for the email view 
+    //Takes in a string to send that email to as a parameter
     public EmailView(String to){
         setSize(452, 450);
         getContentPane().setBackground(new Color(230, 230, 250));
@@ -50,25 +58,34 @@ public class EmailView extends JFrame {
         from.setColumns(10);
         setLocationRelativeTo ( null );
     }
+    // A Listener to send that email
     public void addSendListener(ActionListener al)  {
         btnSend.addActionListener(al);
         btnSend.setActionCommand("send email");
     }
-
+    //Get the sender address
     public String getFrom() {
         return from.getText();
     }
-
+    //Get the email body
     public String getEmail() {
         return email.getText();
     }
-
+    //Get the email subject
     public String getSubject() {
         return subject.getText();
     }
-
+    // The receiving address
     public void setTo(String ll) {
         to.setText(ll);
+    }
+
+    public void setPropertyController(PropertyController arg){
+        this.propController = arg;
+    }
+
+    public void setGuestController(GuestController arg){
+        this.gc = arg;
     }
 
 //    public static void main(String[] args) {

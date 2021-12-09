@@ -36,7 +36,7 @@ public class LandlordController implements ActionListener{
     public LandlordController (DBCore db, PersonController pc){
         this.db = db;
         this.pc =pc;
-        this.uc= new UtilController(db);
+        this.uc= new UtilController(db, pc);
        // uc.sendEmail("libergood@gmail.com", "radarrisat@gmail.com", "Renters Messaging You!", "Hello World");
         landLordView = new LandlordView();
         landLordView.setVisible(true);

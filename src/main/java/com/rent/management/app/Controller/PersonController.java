@@ -9,8 +9,11 @@ import org.json.simple.JSONObject;
 
 public class PersonController {
     Person person;
+    DBCore db;
 
-    public PersonController(){ }
+    public PersonController(DBCore db){ 
+        this.db = db;
+    }
 
     public void setLandlord(String fName, String lName, String email){
         Name name = new Name(fName, lName);
@@ -49,6 +52,12 @@ public class PersonController {
     
     public Person getPerson(){
         return person;
+    }
+
+    public void updateListing(){
+        String status = "RENTED";
+        int pid = 0;
+        db.changeListingStatus(pid, status);
     }
 
 }
