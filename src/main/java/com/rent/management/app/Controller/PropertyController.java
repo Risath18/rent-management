@@ -26,6 +26,7 @@ public class PropertyController implements ActionListener {
     private SearchView searchView;
     private PersonController pc;
     private UtilController uc;
+    ArrayList<Property>propsToPass = new ArrayList<>();
     /**
      * Constructor for property controller
      * @param db database connection
@@ -90,8 +91,8 @@ public class PropertyController implements ActionListener {
         }
         else if(e.getActionCommand().equals("searchSubmit")){
             setSearchMetrics();
-            renterPropView = new RenterPropView (getAllPropertiesFiltered());
-            renterPropView.setDisplay(properties);
+            renterPropView = new RenterPropView(getAllPropertiesFiltered());
+            renterPropView.setDisplay(propsToPass);
             renterPropView.setPropertyController(this);
 
             //If not a unregistered user
@@ -184,14 +185,7 @@ public class PropertyController implements ActionListener {
         Date endDate = payment.getPeriod().getEndDate();
         db.updateProperty(pid, type, numBed, numBath, furnishedStatus, quadrant, address.getFormattedAddress(), 1, status, startDate.getFormattedDate(), endDate.getFormattedDate());
     }
-
-    /**
-     * updates a listing status
-     */
-    public void updateListingStatus(){
-        //also updates fee paid (possibly) and the dates
-    }
-
+    
     /**
      * getter for properties
      * @return 2D String array with all property information
@@ -214,7 +208,6 @@ public class PropertyController implements ActionListener {
             result[i][5] = properties.get(i).getAddress().getFormattedAddress();
             result[i][6] = properties.get(i).getAddress().getCityQuadrant().toString();
         }
-        
         return result;
     }
 
@@ -234,7 +227,8 @@ public class PropertyController implements ActionListener {
         String [][] result = new String [count][7];
         int j = 0;
         for (int i = 0 ; i< properties.size(); i++) {
-            if(properties.get(i).getPropertyStatus().toString().equals("ACTIVE")) {
+            if(properties.get(i).getPropertyStatus().toString().equals("ACTIVE")) { 
+                propsToPass.add(properties.get(i));
                 result[j][0] = properties.get(i).getPropertyType().toString();
                 result[j][1] = Integer.toString(properties.get(i).getNumOfBed());
                 result[j][2] = Integer.toString(properties.get(i).getNumOfBath());
