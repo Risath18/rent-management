@@ -193,6 +193,7 @@ public class DBCore {
 
         } catch (SQLException ex){
             System.err.println("Error in register person sql");
+            ex.printStackTrace();
             throw new IllegalQueryException();
         }
     }
@@ -359,6 +360,7 @@ public class DBCore {
 
         } catch(SQLException ex){
             System.err.println("Error in renter sql");
+            ex.printStackTrace();
             throw new IllegalQueryException();
         }
     }
@@ -564,14 +566,15 @@ public class DBCore {
      * @param furnished whether or not a property is furnished
      * @param quadrant city quadrant
      */
-    public void saveSearchCriteria(String type, int numBed, int numBath, String furnished, String quadrant){
-        String query = "INSERT INTO Saved_Search (SavedSearch_ID, Type, Num_Bed, Num_Bath, Furnished, Quadrant) VALUES (?,?,?,?,?,?)";
-        
+    public String saveSearchCriteria(String type, int numBed, int numBath, String furnished, String quadrant){
+        String query = "INSERT INTO SavedSearch (SavedSearch_ID, Type, Num_Bed, Num_Bath, Furnished, Quadrant) VALUES (?,?,?,?,?,?)";
+        String searchID ="";
         try{
             PreparedStatement stmt = dbConnect.prepareStatement(query);
 
-            String searchID = UUID.randomUUID().toString();
-
+            searchID = UUID.randomUUID().toString();
+            searchID = searchID.substring(0,5);
+            System.out.println(searchID);
             stmt.setString(1, searchID);
             stmt.setString(2, type);
             stmt.setInt(3, numBed);
@@ -583,8 +586,10 @@ public class DBCore {
             stmt.close();
 
         } catch(SQLException e){
+            e.printStackTrace();
             System.out.println("Error inside save search criteria");
         }
+        return searchID;
     }
 
     /**
@@ -800,6 +805,18 @@ public class DBCore {
         } catch (SQLException ex){
             System.err.println("Error in 'update date rented' sql");
             throw new IllegalQueryException();
+        }
+    }
+
+    public void updateRenterSearch(String email, String searchID){
+        try{
+            String query = "UPDATE RENTER SET savedsearch_id = '" + searchID +"' WHERE r_email='" + email + "'";
+            PreparedStatement stmt = dbConnect.prepareStatement(query);
+            stmt.executeUpdate();
+            stmt.close();
+
+        }catch(SQLException ex){
+            ex.printStackTrace();
         }
     }
 

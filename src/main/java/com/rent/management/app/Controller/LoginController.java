@@ -138,6 +138,8 @@ public class LoginController implements ActionListener{
         try{
             db.registerPerson(username, password, accessLevel, (fName + " " + lName));
         } catch(IllegalQueryException e){
+            System.out.println("Look at this!");
+            e.printStackTrace();
             return false; //registration Failed
         }
         //If successfully, Add to Model
@@ -150,7 +152,7 @@ public class LoginController implements ActionListener{
         } else{ //Renter
             pc.setRenter(fName, lName, username, false);
             try{
-                db.registerRenter(username, 0, "NULL");
+                db.registerRenter(username, 0, null);
             } catch(IllegalQueryException e){
                 return false;
             }
