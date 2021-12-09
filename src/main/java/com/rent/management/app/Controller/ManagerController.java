@@ -2,10 +2,7 @@ package com.rent.management.app.Controller;
 
 import com.rent.management.app.Controller.PersonController;
 import com.rent.management.app.Controller.PropertyController;
-import com.rent.management.app.View.Pages.AdminPage.ChangeFeesView;
-import com.rent.management.app.View.Pages.AdminPage.ManagerView;
-import com.rent.management.app.View.Pages.AdminPage.RequestReport;
-import com.rent.management.app.View.Pages.AdminPage.SummaryReportView;
+import com.rent.management.app.View.Pages.AdminPage.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,17 +16,19 @@ import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-//when listing status changed to rented, change end date to today's date PLEASE DO THIS!!!!!!!!!!!!!!!!!!
+
 public class ManagerController implements ActionListener {
     private PersonController pc;
     private PropertyController propc;
     private ManagerView managerView;
+    private ManagerPropertyView managerPropertyView;
     private ChangeFeesView changeFeesView;
     private SummaryReportView reportView;
     private RequestReport requestReport;
     private DBCore db;
     private UtilController uc;
     private ArrayList<Property> allProps= new ArrayList<>();
+    private String [][]data;
 
     /**
      * constructor for ManagerController class
@@ -44,6 +43,7 @@ public class ManagerController implements ActionListener {
         managerView = new ManagerView();
         managerView.setVisible(true);
         addListeners();
+        setData();
     }
 
     /**
@@ -86,7 +86,7 @@ public class ManagerController implements ActionListener {
                 showFeesWindow();
                 break;
             case "changeStatus":
-                changeStatus();
+                getAllProperties();
                 break;
             case "reportRequested":
                 System.out.println("Report Requested!");
@@ -102,14 +102,57 @@ public class ManagerController implements ActionListener {
             case "submitFee":
                 changeFees();
                break;
+            case  "saveEditedProperty":
+               submitChanges();
+               break;
             case "exit":
                 System.exit(1);
         }
         
     }
-    public void changeStatus(){
 
-     //  propc.changeStatus(status, pid);
+      /**
+     * getter for properties belonging to all 
+     */ 
+    private void getAllProperties(){
+
+        System.out.println("Inside getAllProperties");
+        managerPropertyView = new ManagerPropertyView(data, allProps);
+        managerPropertyView.setManagerController(this);
+    }
+    
+    public void submitChanges(){
+        String status = managerPropertyView.getEditView().getStatus().toString();
+        String pid = managerPropertyView.getEditView().getID();
+        propc.changeStatus(status, pid, allProps);
+    }
+
+     /**
+     * setter for data in properties
+     */
+      public void setData(){
+        System.out.println("ho");
+        JSONArray arr = db.getAllProperties(); // get all  properties
+        System.out.println("hey");
+        data = new String [arr.size()] [7];
+        for(int i = 0; i < arr.size(); i++) {
+            System.out.println("death");
+            JSONObject obj = (JSONObject)arr.get(i);
+            Property property = PropertyController.generateProperty(obj);
+            allProps.add(property);
+            data[i][0] = property.getPropertyId();
+            data[i][1] = property.getPropertyType().toString();
+            data[i][2] = Integer.toString(property.getNumOfBed());
+            data[i][3] = Integer.toString(property.getNumOfBath());
+            if (property.isFurnished()) {
+                data[i][4] = "Yes";
+            } else {
+                data[i][4] = "No";
+            }
+            data[i][5] = property.getAddress().getFormattedAddress();
+            data[i][6] = property.getPropertyStatus().toString();
+        }
+
     }
 
 

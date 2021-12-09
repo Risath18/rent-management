@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import com.rent.management.app.Model.Property.Address;
-import com.rent.management.app.Model.Property.CityQuadrant;
-import com.rent.management.app.Model.Property.Property;
-import com.rent.management.app.Model.Property.PropertyStatus;
-import com.rent.management.app.Model.Property.PropertyType;
+import com.rent.management.app.Model.Property.*;
+// import com.rent.management.app.Model.Property.Address;
+// import com.rent.management.app.Model.Property.CityQuadrant;
+// import com.rent.management.app.Model.Property.Property;
+// import com.rent.management.app.Model.Property.PropertyStatus;
+// import com.rent.management.app.Model.Property.PropertyType;
 import com.rent.management.app.View.Pages.AdminPage.LandlordProperty;
 import com.rent.management.app.View.Pages.AdminPage.LandlordView;
 import com.rent.management.app.View.Pages.CreateEditPage.CreateListing;
@@ -58,7 +59,6 @@ public class LandlordController implements ActionListener{
      */
 	@Override   
 	public void actionPerformed(ActionEvent e) {
-        System.out.println("AFJIFAOKOPAFPFP");
 		switch (e.getActionCommand()){
             case "createProperty":
                 propertyPage();
@@ -94,7 +94,6 @@ public class LandlordController implements ActionListener{
 
     public void submitChanges(){
         String status = landlordPropertyView.getEditView().getStatus().toString();
-        System.out.println("LOOK: " + status);
         String pid = landlordPropertyView.getEditView().getID();
         propc.changeStatus(status, pid, landLordProps);
     }

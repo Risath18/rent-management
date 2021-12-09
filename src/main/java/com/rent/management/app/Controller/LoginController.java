@@ -3,9 +3,11 @@ package com.rent.management.app.Controller;
 import com.rent.management.app.Model.Role.Person;
 import com.rent.management.app.Model.Util.Name;
 import com.rent.management.app.Model.Util.SearchCriteria;
-import com.rent.management.app.View.Pages.Listing.RenterMenuView;
-import com.rent.management.app.View.Pages.Listing.UnRegRenterView;
+import com.rent.management.app.View.Pages.Listing.*;
+// import com.rent.management.app.View.Pages.Listing.RenterMenuView;
+// import com.rent.management.app.View.Pages.Listing.UnRegRenterView;
 import com.rent.management.app.View.Pages.LoginPage.Login;
+
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -177,6 +179,7 @@ public class LoginController implements ActionListener{
                 obj = db.findPerson(username);
                 obj.put("Email", username);
                 pc.setManager(obj);
+                propc = new PropertyController(db,pc, uc);
                 managerController = new ManagerController(db,pc, uc, propc);
             } else if(accessLevel == 2){ //Landlord
                 obj = db.findPerson(username);
