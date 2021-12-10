@@ -13,13 +13,7 @@
 **Semester:** Fall 2021
 
 ---
-
-| **Name**      | **UCID** |
-| ------------- | -------- |
-| Liana Goodman | 30089196 |
-| Jay Gurjar    | 30096042 |
-| Alexis Hamrak | 30065648 |
-| Risat Haque   | 30094174 |
+**Authors:** Liana Goodman, Jay Gurjar, Alexis Hamrak & Risat Haque
 
 ---
 
