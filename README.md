@@ -40,6 +40,13 @@ For development purposes, you must have the latest version of Maven and Java ins
 
 To run the program, make sure you have unzipped the provided file with **.jar** and **.env**. Then, double click on the **.jar** file and it should run normally.
 
+If this does not work, after unzipping, please run the following command:
+
+```
+java -jar rent-management-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+```
+
 ---
 
 ### **Installation (Development)**
