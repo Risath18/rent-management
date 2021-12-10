@@ -50,7 +50,7 @@ public class MainController implements ActionListener {
         }else if (e.getActionCommand().equals("Landlord")){
             viewMain.setVisible(false);
             login= new LoginController(db, uc, 2, propc);
-            } else if(e.getActionCommand().equals("Renter")){
+        } else if(e.getActionCommand().equals("Renter")){
             viewMain.setVisible(false);
             login= new LoginController(db, uc, 3, propc);
         } else if(e.getActionCommand().equals("Manager")){

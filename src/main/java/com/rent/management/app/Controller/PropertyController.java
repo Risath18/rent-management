@@ -55,8 +55,27 @@ public class PropertyController implements ActionListener {
         String furnishedString = searchView.isFurnished();
         String cityQuadrant = searchView.getCityQuadrant();
 
+
         //Based on Search Metrics
-        setAllProperties(db.search(type, num_bed, num_bath, furnishedString, cityQuadrant));
+        try{
+             setAllProperties(db.search(type, num_bed, num_bath, furnishedString, cityQuadrant));
+        } catch(Exception e){
+            return;
+        }
+
+        if(pc.getPerson() != null){
+            saveSearch(type, num_bed, num_bath, furnishedString, cityQuadrant);
+        }
+    }
+
+    private void saveSearch(String type, int num_bed, int num_bath, String furnishedString, String cityQuadrant){
+        if(cityQuadrant.equals("NULL")){
+            cityQuadrant = "AL";
+        }
+        System.out.println("whats up: " + cityQuadrant);
+        String searchID = db.saveSearchCriteria(type, num_bed, num_bath, furnishedString, cityQuadrant);
+        String email = pc.getPerson().getEmail();
+        db.updateRenterSearch(email, searchID);
     }
 
     /**

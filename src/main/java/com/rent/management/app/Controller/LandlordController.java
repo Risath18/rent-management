@@ -163,9 +163,33 @@ public class LandlordController implements ActionListener{
             //Add to Model and DB
             Property property = new Property(Integer.toString(pid), pt, num_bed, num_bath, isFurnished, address, ps);
             db.registerProperty(pid, email, pt.toString(), num_bed, num_bath, furnished, qt.toString(), address.getFormattedAddress(), 1, ps.toString(), rateJson.get("current-date").toString(), rateJson.get("end-date").toString());
+           
+            notifyRenters(pt.toString(), num_bed, num_bath, furnished, qt.toString());
+           
+            System.out.println("Congrats!");   
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void notifyRenters(String propertyType, int num_bed, int num_bath, String furnishedString, String cityQuadrant){
+        //Get renters with matching properties
+        JSONArray arr = db.rentersWithSearch(propertyType, num_bed, num_bath, furnishedString, cityQuadrant);
+        System.out.println("Renters with Matching Properties");
+        for(int i =0; i<arr.size(); i++){
+            JSONObject obj = (JSONObject)arr.get(i);
+            System.out.println(obj.get("email").toString());
+            sendNotifToRenter(obj.get("email").toString(), propertyType, num_bed, num_bath, furnishedString, cityQuadrant);
+        }
+    }
+
+            //send a formatted email to all of them
+    private void sendNotifToRenter(String email, String propertyType, int num_bed, int num_bath, String furnishedString, String cityQuadrant ){
+        String subject = "New Property Available with Your Search Criteria!";
+        String body = "The following property is available for renting: \n" + "Type: " + propertyType + "\nNumber of Bedrooms: " + num_bed + "\nNumber of Bedrooms: " + num_bath + "\nIs it Furnished: " + furnishedString + "\nCity Quadrant: " + cityQuadrant;
+        body+="\nThank you for using Rent Management System!";
+
+        uc.sendEmail("Saved Search Notifier", email, subject, body);
     }
 
 }
