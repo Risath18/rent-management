@@ -145,14 +145,4 @@ public class SearchCriteria {
         return propertyType + ":" + numOfBed + ":" + numOfBath + ":" + isFurnished + ":" + cityQuadrant;
     }
 
-    //INCOMPLETE, PARSE DATA
-    /**
-     * setSearchCriteria creates a search
-     * @param data String argument being read in that will need to be parsed into a search
-     */
-    public void setSearchCriteria(String data){
-
-
-    }
-
 }

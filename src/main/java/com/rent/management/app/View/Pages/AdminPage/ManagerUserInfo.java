@@ -12,6 +12,11 @@ public class ManagerUserInfo extends JFrame{
 
     protected JFrame frame;
     private JTable table;
+
+    /**
+     * parses manager user info
+     * @param data 2D String array of data
+     */
     public ManagerUserInfo(String [][]data){
         Dimension dim=new Dimension(1000,200);
         frame = new JFrame("User Information");

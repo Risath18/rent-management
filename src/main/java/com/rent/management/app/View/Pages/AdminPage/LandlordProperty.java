@@ -53,9 +53,12 @@ public class LandlordProperty extends PropertyView {
         Property temp = editView.getSelectedProperty();
         temp.setPropertyStatus(editView.getStatus());
         editView.saveListener(llc);
-        //llc.updateStatus(temp);
     }
 
+    /**
+     * getter for edit view
+     * @return returns an EditPropertyView object
+     */
     public EditPropertyView getEditView(){
         return editView;
     }

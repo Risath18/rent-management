@@ -115,9 +115,11 @@ public class Renter implements Person{
         this.email = email;
     }
 
+    /**
+     * overrides parent method
+     */
     @Override
     public Name name() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

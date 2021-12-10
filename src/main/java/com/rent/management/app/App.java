@@ -2,19 +2,22 @@ package com.rent.management.app;
 
 import com.rent.management.app.Controller.*;
 
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
+    /**
+     * main function to be run at start time
+     * @param args String[] argyment
+     */
     public static void main( String[] args )
     {
-        System.out.println("Application Starting");
         MainController mainController= new MainController();
         App myApp = new App();
     }
 
+    /**
+     * constructor for app class
+     */
     public App(){
     }
 }

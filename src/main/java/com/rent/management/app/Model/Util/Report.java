@@ -93,13 +93,4 @@ public class Report {
     public String getFormattedReport(){
         return period + ":" + totalHousesListed + ":" + totalHousesRented  + ":" + totalActiveListing;
     }
-
-    //INCOMPLETE, PARSE DATA
-    /**
-     * setReport creates a report
-     * @param data String argument being read in that will need to be parsed into a report
-     */
-    public void setReport(String data){
-
-    }
 }

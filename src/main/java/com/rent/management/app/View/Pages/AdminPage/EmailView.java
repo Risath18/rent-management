@@ -20,6 +20,7 @@ public class EmailView extends JFrame {
     private GuestController gc;
     private PropertyController propController;
     private String landLord;
+    
     //This is a default constructor for the email view 
     //Takes in a string to send that email to as a parameter
     /**

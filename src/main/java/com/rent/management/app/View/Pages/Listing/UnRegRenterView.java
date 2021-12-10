@@ -105,12 +105,5 @@ public class UnRegRenterView extends JFrame {
         return email.getText();
     }
 
-//    public static void main(String[] args) {
-//        UnRegRenterView unReg = new UnRegRenterView();
-//        unReg.createView();
-//        unReg.setVisible(true);
-//
-//    }
-
 }
 

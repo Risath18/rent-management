@@ -7,7 +7,6 @@ public class Manager implements Person{
     private String email; //manager email from Person
     private Report report; //Report object
 
-
     /**
      * default constructor
      */

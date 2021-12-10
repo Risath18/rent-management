@@ -56,6 +56,7 @@ public class DBCore {
             dbConnect = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         } catch (SQLException ex) {
             System.err.println("Error connecting to database");
+            ex.printStackTrace();
         }
     }
     /**
@@ -67,7 +68,6 @@ public class DBCore {
     public int validateLogin(String email, String password) throws IllegalQueryException{
         int accessLevel=0;
         try{
-            System.out.println(password);
             String query = "SELECT AccessLevel FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "'";
 
             Statement stmt =  dbConnect.createStatement();
@@ -156,7 +156,6 @@ public class DBCore {
                 obj.put("num_bed", rs.getInt("num_bed"));
                 obj.put("num_bath", rs.getInt("num_bath"));
                 obj.put("furnished", Boolean.parseBoolean(rs.getString("furnished")));
-                System.out.println(rs.getString("quadrant"));
                 obj.put("quadrant", rs.getString("quadrant"));
             }
 
@@ -313,7 +312,6 @@ public class DBCore {
             Statement stmt =  dbConnect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-
             while(rs.next()){
                 JSONObject obj = new JSONObject(); // json object to be returned with all properties
                 obj.put("pid", rs.getString("pid"));
@@ -337,7 +335,6 @@ public class DBCore {
             System.err.println("Error in getting all properties sql");
             ex.printStackTrace();
         }
-
         return arr;
     }
 
@@ -391,7 +388,7 @@ public class DBCore {
             stmt.close();
 
         } catch(SQLException ex){
-            System.out.println("Error in saved search sql");
+            System.err.println("Error in saved search sql");
             ex.printStackTrace();
         }
     }
@@ -417,7 +414,7 @@ public class DBCore {
             stmt.close();
 
         } catch(SQLException ex){
-            System.out.println("Error in set fee period sql");
+            System.err.println("Error in set fee period sql");
             ex.printStackTrace();
         }
     }
@@ -442,7 +439,7 @@ public class DBCore {
             stmt.close();
 
         } catch(SQLException ex){
-            System.out.println("Error in  set fee period sql");
+            System.err.println("Error in  set fee period sql");
             ex.printStackTrace();
         }
         return true;
@@ -483,7 +480,7 @@ public class DBCore {
             stmt.close();
             
         } catch (SQLException ex) {
-            System.out.println("Error in paying fees");
+            System.err.println("Error in paying fees");
             ex.printStackTrace();
         }
     }
@@ -555,7 +552,8 @@ public class DBCore {
             rs.close();
 
         } catch(SQLException e){
-            System.out.println("Notification status error");
+            System.err.println("Notification status error");
+            e.printStackTrace();
         }
     }
 
@@ -575,7 +573,6 @@ public class DBCore {
 
             searchID = UUID.randomUUID().toString();
             searchID = searchID.substring(0,5);
-            System.out.println(searchID);
             stmt.setString(1, searchID);
             stmt.setString(2, type);
             stmt.setInt(3, numBed);
@@ -587,8 +584,8 @@ public class DBCore {
             stmt.close();
 
         } catch(SQLException e){
+            System.err.println("Error inside save search criteria");
             e.printStackTrace();
-            System.out.println("Error inside save search criteria");
         }
         return searchID;
     }
@@ -617,7 +614,7 @@ public class DBCore {
                 return; 
             }
         } catch (SQLException ex) {
-            System.out.println("Error in checking notification search results");
+            System.err.println("Error in checking notification search results");
             ex.printStackTrace();
         }
             //  else continue to find search information
@@ -638,15 +635,23 @@ public class DBCore {
             }
             
         } catch (SQLException ex) {
-            System.out.println("Error in checking notification search results");
+            System.err.println("Error in checking notification search results");
             ex.printStackTrace();
         }
     }
 
+    /**
+     * function to find renters who have the search saved
+     * @param type String for house type
+     * @param num_bed int for numebr of bedrooms
+     * @param num_bath int for number of bathrooms
+     * @param furnished String for furnished status
+     * @param quadrant String for quadrant
+     * @return
+     */
     public JSONArray rentersWithSearch(String type, int num_bed, int num_bath, String furnished, String quadrant){
         JSONArray arr = new JSONArray();
         ArrayList<String> savedIds = new ArrayList<>();
-        System.out.println("HEYadadd");
         try{
             String query = "SELECT * FROM SavedSearch WHERE ('" + type + "'='NULL' or type='" + type + "') OR (" + num_bed + "=0 or num_bed=" + num_bed + ") OR (" + num_bath + "=0 or num_bath=" + num_bath + ") OR ('" + furnished + "'='NULL' or furnished='" + furnished + "') OR ('" + quadrant + "'='NULL' or quadrant='" + quadrant + "')";
             Statement stmt = dbConnect.createStatement();
@@ -699,7 +704,7 @@ public class DBCore {
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException ex) {
-            System.out.println("Error in setting fees period");
+            System.err.println("Error in setting fees period");
             ex.printStackTrace();
         }
     }
@@ -717,7 +722,7 @@ public class DBCore {
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException ex) {
-            System.out.println("Error in setting price");
+            System.err.println("Error in setting price");
             ex.printStackTrace();
         }
     }
@@ -730,13 +735,12 @@ public class DBCore {
     public void changeListingStatus(String pid, String newStatus){
         String query = "UPDATE Property SET Status = '" + newStatus + "' WHERE PID = '" + pid + "'";
         try{
-            System.out.println(newStatus);
             PreparedStatement stmt =  dbConnect.prepareStatement(query);
             stmt.executeUpdate();
             stmt.close();
 
         } catch(SQLException e){
-            System.out.println("listing status error");
+            System.err.println("listing status error");
             e.printStackTrace();
         }
     } 
@@ -754,7 +758,6 @@ public class DBCore {
             ResultSet rs = stmt.executeQuery(query);
     
             while(rs.next()){
-                System.out.println( rs.getInt("Days"));
                 obj.put("Days", rs.getInt("Days"));
                 obj.put("price", rs.getInt("price"));
             }
@@ -840,8 +843,6 @@ public class DBCore {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String query = "UPDATE Property SET End_Date = '" + LocalDate.now().format(formatter).toString() + "' WHERE PID = '" + pid + "'";
             PreparedStatement stmt = dbConnect.prepareStatement(query);
-
-            System.out.println(LocalDate.now().format(formatter));
             stmt.executeUpdate();
 
             stmt.close();
@@ -852,6 +853,11 @@ public class DBCore {
         }
     }
 
+    /**
+     * updates the renter's search
+     * @param email String for renter email
+     * @param searchID String for search ID
+     */
     public void updateRenterSearch(String email, String searchID){
         try{
             String query = "UPDATE RENTER SET savedsearch_id = '" + searchID +"' WHERE r_email='" + email + "'";
