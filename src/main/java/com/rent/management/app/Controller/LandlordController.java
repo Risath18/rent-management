@@ -86,7 +86,9 @@ public class LandlordController implements ActionListener{
 
     }
 
-
+    /**
+     * submits changes
+     */
     public void submitChanges(){
         String status = landlordPropertyView.getEditView().getStatus().toString();
         String pid = landlordPropertyView.getEditView().getID();
@@ -100,7 +102,6 @@ public class LandlordController implements ActionListener{
     public void setData(){
         String email = pc.getPerson().getEmail(); // get landlord's email
         JSONArray arr = db.getLandlordProperties(email); // get all landlord properties
-        System.out.println(arr.size());
 
         data = new String [arr.size()][7];
         for(int i = 0; i < arr.size(); i++) {
@@ -166,24 +167,37 @@ public class LandlordController implements ActionListener{
            
             notifyRenters(pt.toString(), num_bed, num_bath, furnished, qt.toString());
            
-            System.out.println("Congrats!");   
         } catch(Exception e){
             e.printStackTrace();
         }
     }
 
+    /**
+     * notifies renters with search criteria
+     * @param propertyType String for property type
+     * @param num_bed int for number of bedrooms
+     * @param num_bath int for number of bathrooms
+     * @param furnishedString String for furnished status
+     * @param cityQuadrant String for city quadrant
+     */
     private void notifyRenters(String propertyType, int num_bed, int num_bath, String furnishedString, String cityQuadrant){
         //Get renters with matching properties
         JSONArray arr = db.rentersWithSearch(propertyType, num_bed, num_bath, furnishedString, cityQuadrant);
-        System.out.println("Renters with Matching Properties");
         for(int i =0; i<arr.size(); i++){
             JSONObject obj = (JSONObject)arr.get(i);
-            System.out.println(obj.get("email").toString());
             sendNotifToRenter(obj.get("email").toString(), propertyType, num_bed, num_bath, furnishedString, cityQuadrant);
         }
     }
 
-            //send a formatted email to all of them
+    /**
+     * sends a formatted email to all of them
+     * @param email String for email to send to
+     * @param propertyType String for property type
+     * @param num_bed int for number of bedrooms
+     * @param num_bath int for number of bathrooms
+     * @param furnishedString String for furnished status
+     * @param cityQuadrant String for city quadrant
+     */
     private void sendNotifToRenter(String email, String propertyType, int num_bed, int num_bath, String furnishedString, String cityQuadrant ){
         String subject = "New Property Available with Your Search Criteria!";
         String body = "The following property is available for renting: \n" + "Type: " + propertyType + "\nNumber of Bedrooms: " + num_bed + "\nNumber of Bedrooms: " + num_bath + "\nIs it Furnished: " + furnishedString + "\nCity Quadrant: " + cityQuadrant;

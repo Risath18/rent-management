@@ -112,7 +112,7 @@ public class UtilController {
             request.setBody(mail.build());
 
             Response response = sg.api(request); // can use response functions to print information
-            // getStatusCode(), getHeaders(), getBody()
+            
         }catch(Exception e){
             System.err.println("Error sending email.");
             e.printStackTrace();

@@ -13,6 +13,9 @@ public class Property {
     private Payment payment; //payment for propert
     private String email;
     
+    /**
+     * default constructor for property
+     */
     public Property(){
         
     }

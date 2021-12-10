@@ -116,13 +116,15 @@ public class ManagerController implements ActionListener {
         
     }
 
-
+    /**
+     * allows manager to view all people in database
+     */
     public void viewPeople(){
         managerUserInfo = new ManagerUserInfo(peopleTable);
         managerUserInfo.setVisible(true);
     }
     
-      /**
+    /**
      * getter for properties belonging to all 
      */ 
     private void getAllProperties(){
@@ -130,6 +132,9 @@ public class ManagerController implements ActionListener {
         managerPropertyView.setManagerController(this);
     }
     
+    /**
+     * submits changes
+     */
     public void submitChanges(){
         String status = managerPropertyView.getEditView().getStatus().toString();
         String pid = managerPropertyView.getEditView().getID();
@@ -137,6 +142,9 @@ public class ManagerController implements ActionListener {
     }
 
 
+    /**
+     * stores all people
+     */
     public void setPeople(){
         JSONArray arr = db.getAllPeople();
         peopleTable =new String [arr.size()] [3];
@@ -154,6 +162,7 @@ public class ManagerController implements ActionListener {
             }
         }
     }
+
      /**
      * setter for data in properties
      */
@@ -178,7 +187,6 @@ public class ManagerController implements ActionListener {
         }
 
     }
-
 
     /**
      * changes the fees or period of a property
@@ -271,10 +279,6 @@ public class ManagerController implements ActionListener {
                     propertyEnd.set(Calendar.DAY_OF_MONTH, day);
                     propertyEnd.set(Calendar.MONTH, month);
                     propertyEnd.set(Calendar.YEAR, year);
-                    //0 == equal
-                    // < 0 -> property.compareTo(report) -> property is Before report Start
-                    // > 0 -> property.compareTo(report) -> property is After report Start
-
                     
                     //Case 1: startDate of Property is after start date of Period. End date of property is before end date of period
                     if(propertyStart.compareTo(userStart) > 0 && propertyEnd.compareTo(userEnd) < 0){
@@ -343,12 +347,8 @@ public class ManagerController implements ActionListener {
                 }
             }
 
-            //count the number of active houses in period
-            //count the number of rented houses in the period
-            int counter =0;
-
             String[][] houses = new String[table.size()][];
-            for (int i = 0; i < table.size(); i++) {
+            for(int i = 0; i < table.size(); i++) {
                 ArrayList<String> row = table.get(i);
                 houses[i] = row.toArray(new String[row.size()]);
             }

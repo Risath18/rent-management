@@ -73,9 +73,11 @@ public class Landlord implements Person{
         this.email = email;
     }
 
+    /**
+     * instantiates name
+     */
     @Override
     public Name name() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

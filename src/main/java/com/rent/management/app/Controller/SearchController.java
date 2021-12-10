@@ -41,20 +41,4 @@ public class SearchController implements ActionListener {
         }
     }
 
-    //turn on/off notifications
-
-    //save a search
-    public void saveSearch(){
-        //call registerRenter
-        //call saveSearch
-    }
-    //add to saved search table
-    //make UI ask user to save their search criteria
-
-    //saved search
-    //public void checkSearch()
-    //call database to see if person's notifications are on
-    //if they are on, check the properties table and return any properties that have been added since the date of last login
-
-    //also need function to store the date the person logged in
 }

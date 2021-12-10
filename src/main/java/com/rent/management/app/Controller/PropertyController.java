@@ -68,11 +68,18 @@ public class PropertyController implements ActionListener {
         }
     }
 
+    /**
+     * saves the search
+     * @param type String for property type
+     * @param num_bed int for number of bedrooms
+     * @param num_bath int for number of bathrooms
+     * @param furnishedString String for furnished status
+     * @param cityQuadrant String for city quadrant
+     */
     private void saveSearch(String type, int num_bed, int num_bath, String furnishedString, String cityQuadrant){
         if(cityQuadrant.equals("NULL")){
             cityQuadrant = "AL";
         }
-        System.out.println("whats up: " + cityQuadrant);
         String searchID = db.saveSearchCriteria(type, num_bed, num_bath, furnishedString, cityQuadrant);
         String email = pc.getPerson().getEmail();
         db.updateRenterSearch(email, searchID);
@@ -342,6 +349,9 @@ public class PropertyController implements ActionListener {
 
     /**
      * updates listing
+     * @param status String for status
+     * @param pid String for property ID
+     * @param properties ArrayList of all properties
      */
     public void changeStatus(String status, String pid, ArrayList<Property> properties){
         for(int i = 0; i < properties.size(); i++){

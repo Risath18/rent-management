@@ -3,7 +3,6 @@ package com.rent.management.app.Controller;
 import com.rent.management.app.Model.Property.Property;
 import com.rent.management.app.View.Pages.Listing.RenterMenuView;
 import com.rent.management.app.View.Pages.Listing.RenterPropView;
-import com.rent.management.app.Controller.GeneralPropController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

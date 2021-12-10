@@ -135,10 +135,6 @@ public class CreateListing extends JFrame{
 
         getContentPane().add(addressLbl);
 
-        // houseNumberLal.setBounds(41, 210, 69, 20);
-        // getContentPane().add(houseNumberLal);
-
-
         yearEx.setBounds(176, 367, 80, 26);
 
         getContentPane().add(yearEx);

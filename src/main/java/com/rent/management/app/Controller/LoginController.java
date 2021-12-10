@@ -23,7 +23,6 @@ import javax.swing.text.Utilities;
 
 import com.rent.management.app.Exceptions.*;
 public class LoginController implements ActionListener{
-    //private ViewCore view;
     private DBCore db;
     private PersonController pc;
     private Login loginView;
@@ -51,10 +50,6 @@ public class LoginController implements ActionListener{
         loginView.setVisible(true);
         this.addListernersToView();
         this.db = db;
-
-        // this.propc = new PropertyController(db);
-        // propc.createProperty();
-
     }
 
     /**
@@ -76,10 +71,9 @@ public class LoginController implements ActionListener{
 
         try{
             if(e.getActionCommand().equals("login")){
-                if(login(username, password)){
-                    System.out.println("Log in Success for: " + username);
-                } else {
-                    System.out.println("Fail!");
+                if(login(username, password)){ } 
+                else {
+                    System.err.println("Fail!");
                 }
             }else if(e.getActionCommand().equals("register")){
                 unRegRenterView.setVisible(true);
@@ -91,11 +85,9 @@ public class LoginController implements ActionListener{
                 String email=unRegRenterView.getEmail();
                 String pass= unRegRenterView.getPassword();
                 if(register(email, pass, accessLevel, fName, lName)){
-                    System.out.println("Registration Success!");
 
                 } else{
-                    System.out.println("Registration Failed! User exist!");
-                    //TODO: FAIL, GO BACK
+                    System.err.println("Registration Failed! User exist!");
                 }
             }
         }catch(Exception exception){
@@ -120,7 +112,6 @@ public class LoginController implements ActionListener{
         db.close();
     }
 
-
     /**
      * registers a user by checking if they already exist in the database. If not, the person gets stored
      * @param username String for username
@@ -135,7 +126,6 @@ public class LoginController implements ActionListener{
         try{
             db.registerPerson(username, password, accessLevel, (fName + " " + lName));
         } catch(IllegalQueryException e){
-            System.out.println("Look at this!");
             e.printStackTrace();
             return false; //registration Failed
         }
@@ -172,7 +162,6 @@ public class LoginController implements ActionListener{
         int accessLevel;
         try{
            accessLevel = db.validateLogin(username, password);
-           System.out.println("al: " + accessLevel);
 
             if(accessLevel == 1){ //Manager
                 obj = db.findPerson(username);

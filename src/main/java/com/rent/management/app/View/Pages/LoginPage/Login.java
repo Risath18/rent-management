@@ -6,12 +6,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 public class Login extends JFrame implements LoginPage{
-    public Login(){}
     static final long serialVersionUID = 1L;
     private JTextField nameInput;
     private JButton login = new JButton("login");
     private JButton signUp = new JButton("Sign Up");
     private JTextField password;
+    
+    /**
+     * default constructor
+     */
+    public Login(){}
 
     /**
      * default constructor for login
@@ -90,12 +94,5 @@ public class Login extends JFrame implements LoginPage{
     public String getPassword () {
         return password.getText();
     }
-
-//    public static void main(String args[]) {
-//        UnRegLoginPage instance = new UnRegLoginPage();
-//        instance.Login();
-//        instance.setVisible(true);
-//        instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    }
     
 }
