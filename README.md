@@ -44,7 +44,6 @@ If this does not work, after unzipping, please run the following command:
 
 ```
 java -jar rent-management-1.0-SNAPSHOT-jar-with-dependencies.jar
-
 ```
 
 ---
